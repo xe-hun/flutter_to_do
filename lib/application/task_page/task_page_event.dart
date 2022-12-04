@@ -7,4 +7,5 @@ class TaskPageEvent with _$TaskPageEvent {
     required TasksCollection tasksCollection,
     required Task task,
   }) = _ToggleTaskStatus;
+  const factory TaskPageEvent.addTask() = _AddTask;
 }

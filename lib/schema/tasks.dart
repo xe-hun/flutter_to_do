@@ -4,8 +4,8 @@ part 'tasks.g.dart';
 
 @collection
 class TasksCollection {
-  TasksCollection({this.tasks, this.dateTime});
-  Id id = Isar.autoIncrement;
+  TasksCollection({required this.tasks, required this.dateTime, this.id});
+  Id? id;
   DateTime? dateTime;
   List<Task>? tasks;
 }

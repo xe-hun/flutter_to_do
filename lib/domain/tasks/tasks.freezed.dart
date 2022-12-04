@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TasksCollection {
   DateTime get dateTime => throw _privateConstructorUsedError;
   List<Task> get tasks => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TasksCollectionCopyWith<TasksCollection> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $TasksCollectionCopyWith<$Res> {
           TasksCollection value, $Res Function(TasksCollection) then) =
       _$TasksCollectionCopyWithImpl<$Res, TasksCollection>;
   @useResult
-  $Res call({DateTime dateTime, List<Task> tasks});
+  $Res call({DateTime dateTime, List<Task> tasks, int? id});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$TasksCollectionCopyWithImpl<$Res, $Val extends TasksCollection>
   $Res call({
     Object? dateTime = null,
     Object? tasks = null,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       dateTime: null == dateTime
@@ -58,25 +60,31 @@ class _$TasksCollectionCopyWithImpl<$Res, $Val extends TasksCollection>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_TasksCopyWith<$Res>
+abstract class _$$_TasksCollectionCopyWith<$Res>
     implements $TasksCollectionCopyWith<$Res> {
-  factory _$$_TasksCopyWith(_$_Tasks value, $Res Function(_$_Tasks) then) =
-      __$$_TasksCopyWithImpl<$Res>;
+  factory _$$_TasksCollectionCopyWith(
+          _$_TasksCollection value, $Res Function(_$_TasksCollection) then) =
+      __$$_TasksCollectionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime dateTime, List<Task> tasks});
+  $Res call({DateTime dateTime, List<Task> tasks, int? id});
 }
 
 /// @nodoc
-class __$$_TasksCopyWithImpl<$Res>
-    extends _$TasksCollectionCopyWithImpl<$Res, _$_Tasks>
-    implements _$$_TasksCopyWith<$Res> {
-  __$$_TasksCopyWithImpl(_$_Tasks _value, $Res Function(_$_Tasks) _then)
+class __$$_TasksCollectionCopyWithImpl<$Res>
+    extends _$TasksCollectionCopyWithImpl<$Res, _$_TasksCollection>
+    implements _$$_TasksCollectionCopyWith<$Res> {
+  __$$_TasksCollectionCopyWithImpl(
+      _$_TasksCollection _value, $Res Function(_$_TasksCollection) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -84,8 +92,9 @@ class __$$_TasksCopyWithImpl<$Res>
   $Res call({
     Object? dateTime = null,
     Object? tasks = null,
+    Object? id = freezed,
   }) {
-    return _then(_$_Tasks(
+    return _then(_$_TasksCollection(
       dateTime: null == dateTime
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
@@ -94,15 +103,21 @@ class __$$_TasksCopyWithImpl<$Res>
           ? _value._tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Tasks implements _Tasks {
-  const _$_Tasks({required this.dateTime, required final List<Task> tasks})
-      : _tasks = tasks;
+class _$_TasksCollection extends _TasksCollection {
+  const _$_TasksCollection(
+      {required this.dateTime, required final List<Task> tasks, this.id})
+      : _tasks = tasks,
+        super._();
 
   @override
   final DateTime dateTime;
@@ -115,43 +130,51 @@ class _$_Tasks implements _Tasks {
   }
 
   @override
+  final int? id;
+
+  @override
   String toString() {
-    return 'TasksCollection(dateTime: $dateTime, tasks: $tasks)';
+    return 'TasksCollection(dateTime: $dateTime, tasks: $tasks, id: $id)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Tasks &&
+            other is _$_TasksCollection &&
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime) &&
-            const DeepCollectionEquality().equals(other._tasks, _tasks));
+            const DeepCollectionEquality().equals(other._tasks, _tasks) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, dateTime, const DeepCollectionEquality().hash(_tasks));
+      runtimeType, dateTime, const DeepCollectionEquality().hash(_tasks), id);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TasksCopyWith<_$_Tasks> get copyWith =>
-      __$$_TasksCopyWithImpl<_$_Tasks>(this, _$identity);
+  _$$_TasksCollectionCopyWith<_$_TasksCollection> get copyWith =>
+      __$$_TasksCollectionCopyWithImpl<_$_TasksCollection>(this, _$identity);
 }
 
-abstract class _Tasks implements TasksCollection {
-  const factory _Tasks(
+abstract class _TasksCollection extends TasksCollection {
+  const factory _TasksCollection(
       {required final DateTime dateTime,
-      required final List<Task> tasks}) = _$_Tasks;
+      required final List<Task> tasks,
+      final int? id}) = _$_TasksCollection;
+  const _TasksCollection._() : super._();
 
   @override
   DateTime get dateTime;
   @override
   List<Task> get tasks;
   @override
+  int? get id;
+  @override
   @JsonKey(ignore: true)
-  _$$_TasksCopyWith<_$_Tasks> get copyWith =>
+  _$$_TasksCollectionCopyWith<_$_TasksCollection> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -237,8 +260,8 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 
 /// @nodoc
 
-class _$_Task implements _Task {
-  const _$_Task({required this.title, this.completed = false});
+class _$_Task extends _Task {
+  const _$_Task({required this.title, this.completed = false}) : super._();
 
   @override
   final String title;
@@ -271,9 +294,10 @@ class _$_Task implements _Task {
       __$$_TaskCopyWithImpl<_$_Task>(this, _$identity);
 }
 
-abstract class _Task implements Task {
+abstract class _Task extends Task {
   const factory _Task({required final String title, final bool completed}) =
       _$_Task;
+  const _Task._() : super._();
 
   @override
   String get title;

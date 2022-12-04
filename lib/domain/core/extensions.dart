@@ -1,5 +1,5 @@
 extension DateTimeX on DateTime {
-  String whichDay() {
+  String get whichDay {
     DateTime today = DateTime.now();
     DateTime tomorrow = today.add(Duration(hours: 24 - today.hour));
     DateTime yesterday = tomorrow.subtract(const Duration(hours: 48));

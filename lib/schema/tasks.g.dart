@@ -88,6 +88,7 @@ TasksCollection _tasksCollectionDeserialize(
 ) {
   final object = TasksCollection(
     dateTime: reader.readDateTimeOrNull(offsets[0]),
+    id: id,
     tasks: reader.readObjectList<Task>(
       offsets[1],
       TaskSchema.deserialize,
@@ -95,7 +96,6 @@ TasksCollection _tasksCollectionDeserialize(
       Task(),
     ),
   );
-  object.id = id;
   return object;
 }
 
@@ -121,7 +121,7 @@ P _tasksCollectionDeserializeProp<P>(
 }
 
 Id _tasksCollectionGetId(TasksCollection object) {
-  return object.id;
+  return object.id ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _tasksCollectionGetLinks(TasksCollection object) {
@@ -290,7 +290,25 @@ extension TasksCollectionQueryFilter
   }
 
   QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
-      idEqualTo(Id value) {
+      idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
+      idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
+      idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -301,7 +319,7 @@ extension TasksCollectionQueryFilter
 
   QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
       idGreaterThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -315,7 +333,7 @@ extension TasksCollectionQueryFilter
 
   QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
       idLessThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -329,8 +347,8 @@ extension TasksCollectionQueryFilter
 
   QueryBuilder<TasksCollection, TasksCollection, QAfterFilterCondition>
       idBetween(
-    Id lower,
-    Id upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {

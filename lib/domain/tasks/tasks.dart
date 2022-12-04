@@ -5,22 +5,43 @@ part 'tasks.freezed.dart';
 
 @freezed
 class TasksCollection with _$TasksCollection {
-  const factory TasksCollection(
-      {required DateTime dateTime, required List<Task> tasks}) = _Tasks;
+  const TasksCollection._();
 
-  factory TasksCollection.fromStore({required pref.TasksCollection prefTask}) {
+  const factory TasksCollection(
+      {required DateTime dateTime,
+      required List<Task> tasks,
+      int? id}) = _TasksCollection;
+
+  factory TasksCollection.fromPref(pref.TasksCollection prefTasksCollection) {
     return TasksCollection(
-        dateTime: prefTask.dateTime!,
-        tasks: prefTask.tasks!.map((e) => Task.fromStore(e)).toList());
+        id: prefTasksCollection.id,
+        dateTime: prefTasksCollection.dateTime!,
+        tasks:
+            prefTasksCollection.tasks!.map((e) => Task.fromStore(e)).toList());
+  }
+
+  pref.TasksCollection toPref() {
+    return pref.TasksCollection(
+        tasks: tasks.map((e) => e.toPref()).toList(),
+        dateTime: dateTime,
+        id: id);
   }
 }
 
 @freezed
 class Task with _$Task {
+  const Task._();
+
   const factory Task({required String title, @Default(false) bool completed}) =
       _Task;
 
   factory Task.fromStore(pref.Task prefTask) {
     return Task(title: prefTask.title!, completed: prefTask.completed!);
+  }
+
+  pref.Task toPref() {
+    return pref.Task()
+      ..title = title
+      ..completed = completed;
   }
 }

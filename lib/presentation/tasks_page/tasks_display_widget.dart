@@ -76,7 +76,7 @@ class TasksDisplayWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 25.0, bottom: 25.0, left: 15),
       child: Text(
-        dateTime.whichDay(),
+        dateTime.whichDay,
         style: Theme.of(context).textTheme.headline6,
       ),
     );
