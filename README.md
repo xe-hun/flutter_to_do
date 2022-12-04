@@ -8,6 +8,7 @@ A todo flutter mobile application.
 - can view all todo tasks.
 - can add todo tasks.
 - show cases a buttom tab navigation.
+- complete and uncomplete todo (tick and untick).
 
 
 
