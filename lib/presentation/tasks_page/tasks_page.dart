@@ -15,7 +15,7 @@ class TasksPage extends StatelessWidget {
       builder: (context, state) {
         return state.map(
             initial: (_) => Container(),
-            loadSuccess: (e) => Column(
+            displayTasksCollections: (e) => Column(
                   children: [
                     Expanded(
                         child: TasksDisplayWidget(

@@ -555,8 +555,13 @@ const TaskSchema = Schema(
   name: r'Task',
   id: 2998003626758701373,
   properties: {
-    r'title': PropertySchema(
+    r'completed': PropertySchema(
       id: 0,
+      name: r'completed',
+      type: IsarType.bool,
+    ),
+    r'title': PropertySchema(
+      id: 1,
       name: r'title',
       type: IsarType.string,
     )
@@ -588,7 +593,8 @@ void _taskSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.title);
+  writer.writeBool(offsets[0], object.completed);
+  writer.writeString(offsets[1], object.title);
 }
 
 Task _taskDeserialize(
@@ -598,7 +604,8 @@ Task _taskDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Task();
-  object.title = reader.readStringOrNull(offsets[0]);
+  object.completed = reader.readBoolOrNull(offsets[0]);
+  object.title = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -610,6 +617,8 @@ P _taskDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -617,6 +626,32 @@ P _taskDeserializeProp<P>(
 }
 
 extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
+  QueryBuilder<Task, Task, QAfterFilterCondition> completedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'completed',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> completedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'completed',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> completedEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completed',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterFilterCondition> titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(

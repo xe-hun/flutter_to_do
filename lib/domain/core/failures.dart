@@ -6,4 +6,6 @@ part 'failures.freezed.dart';
 class Failure<T> with _$Failure<T> {
   const factory Failure.storageFailure({required T failedValue}) =
       _StorageFailure<T>;
+  const factory Failure.noItemInStorage({required T failedValue}) =
+      _NoItemInStorage<T>;
 }

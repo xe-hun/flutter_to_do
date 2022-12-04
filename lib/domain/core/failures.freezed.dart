@@ -20,32 +20,38 @@ mixin _$Failure<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(T failedValue) storageFailure,
+    required TResult Function(T failedValue) noItemInStorage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(T failedValue)? storageFailure,
+    TResult? Function(T failedValue)? noItemInStorage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(T failedValue)? storageFailure,
+    TResult Function(T failedValue)? noItemInStorage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StorageFailure<T> value) storageFailure,
+    required TResult Function(_NoItemInStorage<T> value) noItemInStorage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StorageFailure<T> value)? storageFailure,
+    TResult? Function(_NoItemInStorage<T> value)? noItemInStorage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StorageFailure<T> value)? storageFailure,
+    TResult Function(_NoItemInStorage<T> value)? noItemInStorage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -157,6 +163,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(T failedValue) storageFailure,
+    required TResult Function(T failedValue) noItemInStorage,
   }) {
     return storageFailure(failedValue);
   }
@@ -165,6 +172,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(T failedValue)? storageFailure,
+    TResult? Function(T failedValue)? noItemInStorage,
   }) {
     return storageFailure?.call(failedValue);
   }
@@ -173,6 +181,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(T failedValue)? storageFailure,
+    TResult Function(T failedValue)? noItemInStorage,
     required TResult orElse(),
   }) {
     if (storageFailure != null) {
@@ -185,6 +194,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StorageFailure<T> value) storageFailure,
+    required TResult Function(_NoItemInStorage<T> value) noItemInStorage,
   }) {
     return storageFailure(this);
   }
@@ -193,6 +203,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StorageFailure<T> value)? storageFailure,
+    TResult? Function(_NoItemInStorage<T> value)? noItemInStorage,
   }) {
     return storageFailure?.call(this);
   }
@@ -201,6 +212,7 @@ class _$_StorageFailure<T> implements _StorageFailure<T> {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StorageFailure<T> value)? storageFailure,
+    TResult Function(_NoItemInStorage<T> value)? noItemInStorage,
     required TResult orElse(),
   }) {
     if (storageFailure != null) {
@@ -219,5 +231,146 @@ abstract class _StorageFailure<T> implements Failure<T> {
   @override
   @JsonKey(ignore: true)
   _$$_StorageFailureCopyWith<T, _$_StorageFailure<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_NoItemInStorageCopyWith<T, $Res>
+    implements $FailureCopyWith<T, $Res> {
+  factory _$$_NoItemInStorageCopyWith(_$_NoItemInStorage<T> value,
+          $Res Function(_$_NoItemInStorage<T>) then) =
+      __$$_NoItemInStorageCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$_NoItemInStorageCopyWithImpl<T, $Res>
+    extends _$FailureCopyWithImpl<T, $Res, _$_NoItemInStorage<T>>
+    implements _$$_NoItemInStorageCopyWith<T, $Res> {
+  __$$_NoItemInStorageCopyWithImpl(
+      _$_NoItemInStorage<T> _value, $Res Function(_$_NoItemInStorage<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$_NoItemInStorage<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_NoItemInStorage<T> implements _NoItemInStorage<T> {
+  const _$_NoItemInStorage({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString() {
+    return 'Failure<$T>.noItemInStorage(failedValue: $failedValue)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_NoItemInStorage<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_NoItemInStorageCopyWith<T, _$_NoItemInStorage<T>> get copyWith =>
+      __$$_NoItemInStorageCopyWithImpl<T, _$_NoItemInStorage<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) storageFailure,
+    required TResult Function(T failedValue) noItemInStorage,
+  }) {
+    return noItemInStorage(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? storageFailure,
+    TResult? Function(T failedValue)? noItemInStorage,
+  }) {
+    return noItemInStorage?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? storageFailure,
+    TResult Function(T failedValue)? noItemInStorage,
+    required TResult orElse(),
+  }) {
+    if (noItemInStorage != null) {
+      return noItemInStorage(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_StorageFailure<T> value) storageFailure,
+    required TResult Function(_NoItemInStorage<T> value) noItemInStorage,
+  }) {
+    return noItemInStorage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StorageFailure<T> value)? storageFailure,
+    TResult? Function(_NoItemInStorage<T> value)? noItemInStorage,
+  }) {
+    return noItemInStorage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StorageFailure<T> value)? storageFailure,
+    TResult Function(_NoItemInStorage<T> value)? noItemInStorage,
+    required TResult orElse(),
+  }) {
+    if (noItemInStorage != null) {
+      return noItemInStorage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _NoItemInStorage<T> implements Failure<T> {
+  const factory _NoItemInStorage({required final T failedValue}) =
+      _$_NoItemInStorage<T>;
+
+  @override
+  T get failedValue;
+  @override
+  @JsonKey(ignore: true)
+  _$$_NoItemInStorageCopyWith<T, _$_NoItemInStorage<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -158,6 +158,7 @@ abstract class _Tasks implements TasksCollection {
 /// @nodoc
 mixin _$Task {
   String get title => throw _privateConstructorUsedError;
+  bool get completed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TaskCopyWith<Task> get copyWith => throw _privateConstructorUsedError;
@@ -168,7 +169,7 @@ abstract class $TaskCopyWith<$Res> {
   factory $TaskCopyWith(Task value, $Res Function(Task) then) =
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
-  $Res call({String title});
+  $Res call({String title, bool completed});
 }
 
 /// @nodoc
@@ -185,12 +186,17 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
   @override
   $Res call({
     Object? title = null,
+    Object? completed = null,
   }) {
     return _then(_value.copyWith(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -201,7 +207,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       __$$_TaskCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title});
+  $Res call({String title, bool completed});
 }
 
 /// @nodoc
@@ -214,12 +220,17 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
   @override
   $Res call({
     Object? title = null,
+    Object? completed = null,
   }) {
     return _then(_$_Task(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -227,14 +238,17 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 /// @nodoc
 
 class _$_Task implements _Task {
-  const _$_Task({required this.title});
+  const _$_Task({required this.title, this.completed = false});
 
   @override
   final String title;
+  @override
+  @JsonKey()
+  final bool completed;
 
   @override
   String toString() {
-    return 'Task(title: $title)';
+    return 'Task(title: $title, completed: $completed)';
   }
 
   @override
@@ -242,11 +256,13 @@ class _$_Task implements _Task {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Task &&
-            (identical(other.title, title) || other.title == title));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.completed, completed) ||
+                other.completed == completed));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title);
+  int get hashCode => Object.hash(runtimeType, title, completed);
 
   @JsonKey(ignore: true)
   @override
@@ -256,10 +272,13 @@ class _$_Task implements _Task {
 }
 
 abstract class _Task implements Task {
-  const factory _Task({required final String title}) = _$_Task;
+  const factory _Task({required final String title, final bool completed}) =
+      _$_Task;
 
   @override
   String get title;
+  @override
+  bool get completed;
   @override
   @JsonKey(ignore: true)
   _$$_TaskCopyWith<_$_Task> get copyWith => throw _privateConstructorUsedError;

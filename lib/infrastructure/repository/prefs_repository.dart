@@ -15,7 +15,7 @@ class PrefsRepository implements IPrefsRepository {
     try {
       final result = await datasource.read<Prefs, int>(key: 0);
       if (result == null) {
-        throw Exception('Theme returned null');
+        return const Left(Failure.noItemInStorage(failedValue: null));
       }
       return Right(result);
     } catch (e) {

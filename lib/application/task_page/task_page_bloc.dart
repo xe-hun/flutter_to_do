@@ -14,20 +14,45 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     on<TaskPageEvent>((event, emit) async {
       await event.map(loadTasks: (e) async {
         if (tasksCollections != null) {
-          emit(TaskPageState.loadSuccess(tasksCollections: tasksCollections!));
+          emit(TaskPageState.displayTasksCollections(
+              tasksCollections: tasksCollections!));
         } else {
           final getAllTasksFailureOrSuccess =
               await taskRepository.getAllTasks();
           getAllTasksFailureOrSuccess.fold(
             (l) => emit(const TaskPageState.loadFailure()),
-            (r) => emit(TaskPageState.loadSuccess(
-                tasksCollections: r
-                    .map((e) => TasksCollection.fromStore(prefTask: e))
-                    .toList())),
+            (r) {
+              tasksCollections =
+                  r.map((e) => TasksCollection.fromStore(prefTask: e)).toList();
+              emit(TaskPageState.displayTasksCollections(
+                  tasksCollections: tasksCollections!));
+            },
           );
         }
+      }, toggleTaskStatus: (e) {
+        final tasksCollection =
+            tasksCollections!.firstWhere((el) => el == e.tasksCollection);
+
+        final tasks = tasksCollection.tasks.map((task) {
+          return task == e.task
+              ? e.task.copyWith(completed: !e.task.completed)
+              : task;
+        }).toList();
+
+        final tasksCollectionCopy = tasksCollection.copyWith(tasks: tasks);
+
+        tasksCollections = tasksCollections!
+            .map(((e) => e == tasksCollection ? tasksCollectionCopy : e))
+            .toList();
+
+        emit(TaskPageState.displayTasksCollections(
+            tasksCollections: tasksCollections!));
       });
     });
   }
   List<TasksCollection>? tasksCollections;
+
+  // void toggleCompleted(Task task) {
+  //   task.completed = !task.completed;
+  // }
 }

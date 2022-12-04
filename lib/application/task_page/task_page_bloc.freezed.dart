@@ -19,32 +19,41 @@ mixin _$TaskPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
+    required TResult Function(TasksCollection tasksCollection, Task task)
+        toggleTaskStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
+    TResult? Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
+    TResult Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadTasks value) loadTasks,
+    required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadTasks value)? loadTasks,
+    TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadTasks value)? loadTasks,
+    TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -107,6 +116,8 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
+    required TResult Function(TasksCollection tasksCollection, Task task)
+        toggleTaskStatus,
   }) {
     return loadTasks();
   }
@@ -115,6 +126,8 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
+    TResult? Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
   }) {
     return loadTasks?.call();
   }
@@ -123,6 +136,8 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
+    TResult Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -135,6 +150,7 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadTasks value) loadTasks,
+    required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
   }) {
     return loadTasks(this);
   }
@@ -143,6 +159,7 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadTasks value)? loadTasks,
+    TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
   }) {
     return loadTasks?.call(this);
   }
@@ -151,6 +168,7 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadTasks value)? loadTasks,
+    TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -165,26 +183,196 @@ abstract class _LoadTasks implements TaskPageEvent {
 }
 
 /// @nodoc
+abstract class _$$_ToggleTaskStatusCopyWith<$Res> {
+  factory _$$_ToggleTaskStatusCopyWith(
+          _$_ToggleTaskStatus value, $Res Function(_$_ToggleTaskStatus) then) =
+      __$$_ToggleTaskStatusCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TasksCollection tasksCollection, Task task});
+
+  $TasksCollectionCopyWith<$Res> get tasksCollection;
+  $TaskCopyWith<$Res> get task;
+}
+
+/// @nodoc
+class __$$_ToggleTaskStatusCopyWithImpl<$Res>
+    extends _$TaskPageEventCopyWithImpl<$Res, _$_ToggleTaskStatus>
+    implements _$$_ToggleTaskStatusCopyWith<$Res> {
+  __$$_ToggleTaskStatusCopyWithImpl(
+      _$_ToggleTaskStatus _value, $Res Function(_$_ToggleTaskStatus) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tasksCollection = null,
+    Object? task = null,
+  }) {
+    return _then(_$_ToggleTaskStatus(
+      tasksCollection: null == tasksCollection
+          ? _value.tasksCollection
+          : tasksCollection // ignore: cast_nullable_to_non_nullable
+              as TasksCollection,
+      task: null == task
+          ? _value.task
+          : task // ignore: cast_nullable_to_non_nullable
+              as Task,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TasksCollectionCopyWith<$Res> get tasksCollection {
+    return $TasksCollectionCopyWith<$Res>(_value.tasksCollection, (value) {
+      return _then(_value.copyWith(tasksCollection: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskCopyWith<$Res> get task {
+    return $TaskCopyWith<$Res>(_value.task, (value) {
+      return _then(_value.copyWith(task: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_ToggleTaskStatus implements _ToggleTaskStatus {
+  const _$_ToggleTaskStatus(
+      {required this.tasksCollection, required this.task});
+
+  @override
+  final TasksCollection tasksCollection;
+  @override
+  final Task task;
+
+  @override
+  String toString() {
+    return 'TaskPageEvent.toggleTaskStatus(tasksCollection: $tasksCollection, task: $task)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_ToggleTaskStatus &&
+            (identical(other.tasksCollection, tasksCollection) ||
+                other.tasksCollection == tasksCollection) &&
+            (identical(other.task, task) || other.task == task));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, tasksCollection, task);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ToggleTaskStatusCopyWith<_$_ToggleTaskStatus> get copyWith =>
+      __$$_ToggleTaskStatusCopyWithImpl<_$_ToggleTaskStatus>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadTasks,
+    required TResult Function(TasksCollection tasksCollection, Task task)
+        toggleTaskStatus,
+  }) {
+    return toggleTaskStatus(tasksCollection, task);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadTasks,
+    TResult? Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
+  }) {
+    return toggleTaskStatus?.call(tasksCollection, task);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadTasks,
+    TResult Function(TasksCollection tasksCollection, Task task)?
+        toggleTaskStatus,
+    required TResult orElse(),
+  }) {
+    if (toggleTaskStatus != null) {
+      return toggleTaskStatus(tasksCollection, task);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadTasks value) loadTasks,
+    required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
+  }) {
+    return toggleTaskStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadTasks value)? loadTasks,
+    TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
+  }) {
+    return toggleTaskStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadTasks value)? loadTasks,
+    TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
+    required TResult orElse(),
+  }) {
+    if (toggleTaskStatus != null) {
+      return toggleTaskStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ToggleTaskStatus implements TaskPageEvent {
+  const factory _ToggleTaskStatus(
+      {required final TasksCollection tasksCollection,
+      required final Task task}) = _$_ToggleTaskStatus;
+
+  TasksCollection get tasksCollection;
+  Task get task;
+  @JsonKey(ignore: true)
+  _$$_ToggleTaskStatusCopyWith<_$_ToggleTaskStatus> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$TaskPageState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> tasksCollections)
-        loadSuccess,
+        displayTasksCollections,
     required TResult Function() loadFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult? Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult? Function()? loadFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
   }) =>
@@ -192,21 +380,22 @@ mixin _$TaskPageState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_LoadSuccess value) loadSuccess,
+    required TResult Function(_DisplayTasksCollections value)
+        displayTasksCollections,
     required TResult Function(_LoadFailure value) loadFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_LoadSuccess value)? loadSuccess,
+    TResult? Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult? Function(_LoadFailure value)? loadFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_LoadSuccess value)? loadSuccess,
+    TResult Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult Function(_LoadFailure value)? loadFailure,
     required TResult orElse(),
   }) =>
@@ -270,7 +459,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> tasksCollections)
-        loadSuccess,
+        displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
     return initial();
@@ -280,7 +469,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult? Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
     return initial?.call();
@@ -290,7 +480,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
   }) {
@@ -304,7 +495,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_LoadSuccess value) loadSuccess,
+    required TResult Function(_DisplayTasksCollections value)
+        displayTasksCollections,
     required TResult Function(_LoadFailure value) loadFailure,
   }) {
     return initial(this);
@@ -314,7 +506,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_LoadSuccess value)? loadSuccess,
+    TResult? Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult? Function(_LoadFailure value)? loadFailure,
   }) {
     return initial?.call(this);
@@ -324,7 +516,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_LoadSuccess value)? loadSuccess,
+    TResult Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult Function(_LoadFailure value)? loadFailure,
     required TResult orElse(),
   }) {
@@ -340,20 +532,20 @@ abstract class _Initial implements TaskPageState {
 }
 
 /// @nodoc
-abstract class _$$_LoadSuccessCopyWith<$Res> {
-  factory _$$_LoadSuccessCopyWith(
-          _$_LoadSuccess value, $Res Function(_$_LoadSuccess) then) =
-      __$$_LoadSuccessCopyWithImpl<$Res>;
+abstract class _$$_DisplayTasksCollectionsCopyWith<$Res> {
+  factory _$$_DisplayTasksCollectionsCopyWith(_$_DisplayTasksCollections value,
+          $Res Function(_$_DisplayTasksCollections) then) =
+      __$$_DisplayTasksCollectionsCopyWithImpl<$Res>;
   @useResult
   $Res call({List<TasksCollection> tasksCollections});
 }
 
 /// @nodoc
-class __$$_LoadSuccessCopyWithImpl<$Res>
-    extends _$TaskPageStateCopyWithImpl<$Res, _$_LoadSuccess>
-    implements _$$_LoadSuccessCopyWith<$Res> {
-  __$$_LoadSuccessCopyWithImpl(
-      _$_LoadSuccess _value, $Res Function(_$_LoadSuccess) _then)
+class __$$_DisplayTasksCollectionsCopyWithImpl<$Res>
+    extends _$TaskPageStateCopyWithImpl<$Res, _$_DisplayTasksCollections>
+    implements _$$_DisplayTasksCollectionsCopyWith<$Res> {
+  __$$_DisplayTasksCollectionsCopyWithImpl(_$_DisplayTasksCollections _value,
+      $Res Function(_$_DisplayTasksCollections) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -361,7 +553,7 @@ class __$$_LoadSuccessCopyWithImpl<$Res>
   $Res call({
     Object? tasksCollections = null,
   }) {
-    return _then(_$_LoadSuccess(
+    return _then(_$_DisplayTasksCollections(
       tasksCollections: null == tasksCollections
           ? _value._tasksCollections
           : tasksCollections // ignore: cast_nullable_to_non_nullable
@@ -372,8 +564,9 @@ class __$$_LoadSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoadSuccess implements _LoadSuccess {
-  const _$_LoadSuccess({required final List<TasksCollection> tasksCollections})
+class _$_DisplayTasksCollections implements _DisplayTasksCollections {
+  const _$_DisplayTasksCollections(
+      {required final List<TasksCollection> tasksCollections})
       : _tasksCollections = tasksCollections;
 
   final List<TasksCollection> _tasksCollections;
@@ -387,14 +580,14 @@ class _$_LoadSuccess implements _LoadSuccess {
 
   @override
   String toString() {
-    return 'TaskPageState.loadSuccess(tasksCollections: $tasksCollections)';
+    return 'TaskPageState.displayTasksCollections(tasksCollections: $tasksCollections)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LoadSuccess &&
+            other is _$_DisplayTasksCollections &&
             const DeepCollectionEquality()
                 .equals(other._tasksCollections, _tasksCollections));
   }
@@ -406,40 +599,44 @@ class _$_LoadSuccess implements _LoadSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoadSuccessCopyWith<_$_LoadSuccess> get copyWith =>
-      __$$_LoadSuccessCopyWithImpl<_$_LoadSuccess>(this, _$identity);
+  _$$_DisplayTasksCollectionsCopyWith<_$_DisplayTasksCollections>
+      get copyWith =>
+          __$$_DisplayTasksCollectionsCopyWithImpl<_$_DisplayTasksCollections>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> tasksCollections)
-        loadSuccess,
+        displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
-    return loadSuccess(tasksCollections);
+    return displayTasksCollections(tasksCollections);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult? Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
-    return loadSuccess?.call(tasksCollections);
+    return displayTasksCollections?.call(tasksCollections);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
   }) {
-    if (loadSuccess != null) {
-      return loadSuccess(tasksCollections);
+    if (displayTasksCollections != null) {
+      return displayTasksCollections(tasksCollections);
     }
     return orElse();
   }
@@ -448,45 +645,47 @@ class _$_LoadSuccess implements _LoadSuccess {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_LoadSuccess value) loadSuccess,
+    required TResult Function(_DisplayTasksCollections value)
+        displayTasksCollections,
     required TResult Function(_LoadFailure value) loadFailure,
   }) {
-    return loadSuccess(this);
+    return displayTasksCollections(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_LoadSuccess value)? loadSuccess,
+    TResult? Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult? Function(_LoadFailure value)? loadFailure,
   }) {
-    return loadSuccess?.call(this);
+    return displayTasksCollections?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_LoadSuccess value)? loadSuccess,
+    TResult Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult Function(_LoadFailure value)? loadFailure,
     required TResult orElse(),
   }) {
-    if (loadSuccess != null) {
-      return loadSuccess(this);
+    if (displayTasksCollections != null) {
+      return displayTasksCollections(this);
     }
     return orElse();
   }
 }
 
-abstract class _LoadSuccess implements TaskPageState {
-  const factory _LoadSuccess(
-      {required final List<TasksCollection> tasksCollections}) = _$_LoadSuccess;
+abstract class _DisplayTasksCollections implements TaskPageState {
+  const factory _DisplayTasksCollections(
+          {required final List<TasksCollection> tasksCollections}) =
+      _$_DisplayTasksCollections;
 
   List<TasksCollection> get tasksCollections;
   @JsonKey(ignore: true)
-  _$$_LoadSuccessCopyWith<_$_LoadSuccess> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_DisplayTasksCollectionsCopyWith<_$_DisplayTasksCollections>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -529,7 +728,7 @@ class _$_LoadFailure implements _LoadFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> tasksCollections)
-        loadSuccess,
+        displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
     return loadFailure();
@@ -539,7 +738,8 @@ class _$_LoadFailure implements _LoadFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult? Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
     return loadFailure?.call();
@@ -549,7 +749,8 @@ class _$_LoadFailure implements _LoadFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<TasksCollection> tasksCollections)? loadSuccess,
+    TResult Function(List<TasksCollection> tasksCollections)?
+        displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
   }) {
@@ -563,7 +764,8 @@ class _$_LoadFailure implements _LoadFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_LoadSuccess value) loadSuccess,
+    required TResult Function(_DisplayTasksCollections value)
+        displayTasksCollections,
     required TResult Function(_LoadFailure value) loadFailure,
   }) {
     return loadFailure(this);
@@ -573,7 +775,7 @@ class _$_LoadFailure implements _LoadFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_LoadSuccess value)? loadSuccess,
+    TResult? Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult? Function(_LoadFailure value)? loadFailure,
   }) {
     return loadFailure?.call(this);
@@ -583,7 +785,7 @@ class _$_LoadFailure implements _LoadFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_LoadSuccess value)? loadSuccess,
+    TResult Function(_DisplayTasksCollections value)? displayTasksCollections,
     TResult Function(_LoadFailure value)? loadFailure,
     required TResult orElse(),
   }) {

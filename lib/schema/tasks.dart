@@ -13,4 +13,5 @@ class TasksCollection {
 @embedded
 class Task {
   String? title;
+  bool? completed;
 }

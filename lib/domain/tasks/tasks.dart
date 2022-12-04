@@ -17,9 +17,10 @@ class TasksCollection with _$TasksCollection {
 
 @freezed
 class Task with _$Task {
-  const factory Task({required String title}) = _Task;
+  const factory Task({required String title, @Default(false) bool completed}) =
+      _Task;
 
   factory Task.fromStore(pref.Task prefTask) {
-    return Task(title: prefTask.title!);
+    return Task(title: prefTask.title!, completed: prefTask.completed!);
   }
 }

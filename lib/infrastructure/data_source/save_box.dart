@@ -7,6 +7,8 @@ abstract class SaveBox {
   Future<int> save<T>({required T object});
 
   Future<T?> read<T, X>({required X key});
+
+  Future<List<T>> findAll<T>();
 }
 
 @LazySingleton(as: SaveBox)
@@ -32,6 +34,11 @@ class SaveBoxImpl implements SaveBox {
             object,
           ),
     );
+  }
+
+  @override
+  Future<List<T>> findAll<T>() {
+    return isar.collection<T>().where().findAll();
   }
 } 
 
