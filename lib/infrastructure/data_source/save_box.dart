@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 
 abstract class SaveBox {
+  Future<bool> delete<T, X>({required X key});
   Future<int> save<T>({required T object});
 
   Future<T?> read<T, X>({required X key});
@@ -17,12 +18,20 @@ class SaveBoxImpl implements SaveBox {
   final Isar isar;
 
   @override
-  Future<T?> read<T, X>({required X key}) {
+  Future<bool> delete<T, X>({required X key}) {
     if (X == int) {
       // return (await isar.collection<Prefs>().get(0))?.saveThemeType;
 
-      return isar.collection<T>().get(key as int);
+      return isar.collection<T>().delete(key as int);
       // return at;
+    }
+    throw Exception('required Type:key must be of type int');
+  }
+
+  @override
+  Future<T?> read<T, X>({required X key}) {
+    if (X == int) {
+      return isar.collection<T>().get(key as int);
     }
     throw Exception('required Type:key must be of type int');
   }
@@ -40,25 +49,4 @@ class SaveBoxImpl implements SaveBox {
   Future<List<T>> findAll<T>() {
     return isar.collection<T>().where().findAll();
   }
-} 
-
-// void writeThemePref(
-//       {required Isar isar, required SaveThemeType saveThemeType}) {
-//     isar.writeTxn(
-//       () => isar.prefs.put(
-//         Prefs(saveThemeType),
-//       ),
-//     );
-//   }
-
-//   Future<SaveThemeType?> readThemePref({
-//     required Isar isar,
-//   }) async {
-//     return (await isar.prefs.get(0))?.saveThemeType;
-//   }
-// }
-
-
-
-
-
+}

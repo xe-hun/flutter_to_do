@@ -8,4 +8,8 @@ class TaskPageEvent with _$TaskPageEvent {
     required int taskIndex,
   }) = _ToggleTaskStatus;
   const factory TaskPageEvent.addTask() = _AddTask;
+  const factory TaskPageEvent.deleteTask({
+    required int tasksCollectionId,
+    required int taskIndex,
+  }) = _DeleteTask;
 }

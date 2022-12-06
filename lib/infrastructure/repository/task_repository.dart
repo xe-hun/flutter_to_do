@@ -29,9 +29,18 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Future<Either<Failure, TasksCollection>> getSingleTask() {
-    // TODO: implement getSingleTask
-    throw UnimplementedError();
+  Future<Either<Failure, TasksCollection>> getSingleTasksCollection(
+      {required int tasksCollectionId}) async {
+    try {
+      final tasksCollection = await datasource.read<prefs.TasksCollection, int>(
+          key: tasksCollectionId);
+      if (tasksCollection == null) {
+        return const Left(Failure.noItemInStorage(failedValue: null));
+      }
+      return Right(TasksCollection.fromPref(tasksCollection));
+    } catch (e) {
+      return Left(Failure.storageFailure(failedValue: e.toString()));
+    }
   }
 
   @override
@@ -40,6 +49,22 @@ class TaskRepository implements ITaskRepository {
     try {
       final id = await datasource.save(object: tasksCollection.toPref());
       return Right(tasksCollection.copyWith(id: id));
+    } catch (e) {
+      return Left(Failure.storageFailure(failedValue: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteTasksCollection(
+      {required int tasksCollectionId}) async {
+    try {
+      final success = await datasource.delete(key: tasksCollectionId);
+
+      if (success == true) {
+        return Future.value(const Right(unit));
+      } else {
+        return const Left(Failure.storageFailure(failedValue: null));
+      }
     } catch (e) {
       return Left(Failure.storageFailure(failedValue: e.toString()));
     }

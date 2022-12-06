@@ -79,23 +79,17 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       //build when the individual task is replaced (changed).
 
-      buildWhen: (previous, current) {
-        // return
-
-        final r = current.whenOrNull(
-            displayTasksCollections: (allTasksCollections, _) =>
-                allTasksCollections
-                    .findById(tasksCollection.id!)
-                    .tasks[taskIndex]);
-        final j = previous.whenOrNull(
-            displayTasksCollections: (allTasksCollections, _) =>
-                allTasksCollections
-                    .findById(tasksCollection.id!)
-                    .tasks[taskIndex]);
-        final s = r != j;
-
-        return r != j;
-      },
+      buildWhen: (previous, current) =>
+          current.whenOrNull(
+              displayTasksCollections: (allTasksCollections, _) =>
+                  allTasksCollections
+                      .findById(tasksCollection.id!)
+                      .tasks[taskIndex]) !=
+          previous.whenOrNull(
+              displayTasksCollections: (allTasksCollections, _) =>
+                  allTasksCollections
+                      .findById(tasksCollection.id!)
+                      .tasks[taskIndex]),
 
       builder: (context, state) {
         return state.maybeWhen(
@@ -108,31 +102,83 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Checkbox(
-                  value: task.completed,
-                  onChanged: (e) {
-                    BlocProvider.of<TaskPageBloc>(context).add(
-                        TaskPageEvent.toggleTaskStatus(
-                            tasksCollectionId: tasksCollection.id!,
-                            taskIndex: taskIndex));
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
+              child: IntrinsicHeight(
+                child: Stack(
+                  children: [
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          checkBox(task, context, tasksCollection, taskIndex),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Text(
+                              task.title,
+                              style: TextStyle(
+                                  decoration: task.completed
+                                      ? TextDecoration.lineThrough
+                                      : null),
+                            ),
+                          ))
+                        ]),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        height: double.infinity,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(10)),
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withOpacity(.8),
+                              Theme.of(context).backgroundColor,
+                            ],
+                          ),
+                        ),
+                        child: deleteButton(
+                            context: context,
+                            tasksCollectionId: tasksCollection.id,
+                            taskIndex: taskIndex),
+                      ),
+                    )
+                  ],
                 ),
-                Expanded(
-                    child: Text(
-                  task.title,
-                  style: TextStyle(
-                      decoration:
-                          task.completed ? TextDecoration.lineThrough : null),
-                ))
-              ]),
+              ),
             );
           },
         );
       },
+    );
+  }
+
+  IconButton deleteButton(
+      {required BuildContext context,
+      required tasksCollectionId,
+      required taskIndex}) {
+    return IconButton(
+        onPressed: () {
+          BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.deleteTask(
+              tasksCollectionId: tasksCollectionId, taskIndex: taskIndex));
+        },
+        icon: Icon(
+          Icons.cancel,
+          color: Theme.of(context).errorColor,
+        ));
+  }
+
+  Widget checkBox(Task task, BuildContext context,
+      TasksCollection tasksCollection, int taskIndex) {
+    return Checkbox(
+      value: task.completed,
+      onChanged: (e) {
+        BlocProvider.of<TaskPageBloc>(context).add(
+            TaskPageEvent.toggleTaskStatus(
+                tasksCollectionId: tasksCollection.id!, taskIndex: taskIndex));
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     );
   }
 
@@ -158,3 +204,104 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 }
+
+
+
+
+// AnimatedList(
+//                                           key: myListKey,
+//                                           physics: _initialScrollValue != 0.3 &&
+//                                                   game1Provider.gamePlayCount >=
+//                                                       2
+//                                               ? const BouncingScrollPhysics()
+//                                               : const NeverScrollableScrollPhysics(),
+//                                           controller: cardRowsListController,
+//                                           initialItemCount:
+//                                               initialGamePlayCountSetter,
+//                                           itemBuilder:
+//                                               (context, index, animation) {
+//                                             return rowRemoveAndAddAnimation(
+//                                               animation,
+//                                               _card(
+//                                                 game1Provider
+//                                                     .getPickedNumbersRowAt(
+//                                                   index,
+//                                                 ),
+//                                                 index,
+//                                               ),
+//                                             );
+//                                           },
+//                                         ),
+
+
+
+
+
+
+
+// Widget rowRemoveAndAddAnimation(Animation<double> animation, Widget child) {
+//   return SlideTransition(
+//     position: CurvedAnimation(parent: animation, curve: Curves.easeIn).drive(
+//       Tween<Offset>(
+//         begin: const Offset(-1, 0),
+//         end: Offset.zero,
+//       ),
+//     ),
+//     child: SizeTransition(
+//       sizeFactor: CurvedAnimation(curve: Curves.easeOutQuad, parent: animation),
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(
+//           vertical: 2,
+//         ),
+//         child: child,
+//       ),
+//     ),
+//   );
+// }
+
+
+
+
+// void animateRowInsertion(int index) {
+//     myListKey.currentState
+//         ?.insertItem(index, duration: const Duration(milliseconds: 600));
+//   }
+
+//   void animateRowRemoval(int index) {
+//     // very important to copy these values first
+//     final pickedNumbersRow = List<int>.from(
+//       game1Provider.getPickedNumbersRowAt(
+//         index,
+//       ),
+//     );
+
+//     myListKey.currentState?.removeItem(
+//       index,
+//       duration: const Duration(milliseconds: 600),
+//       (context, animation) => rowRemoveAndAddAnimation(
+//         animation,
+//         _card(
+//           pickedNumbersRow,
+//           0,
+//         ),
+//       ),
+//     );
+//   }
+
+
+
+
+  // void scrollAnimateToBallRow(double index) {
+  //   //delay required for smooth scrolling
+  //   Future.delayed(const Duration(milliseconds: 300)).then(
+  //     (value) => cardRowsListController.animateTo(
+  //       clampDouble(
+  //         index * cardRowHeight,
+  //         0,
+  //         cardRowsListController.position.maxScrollExtent,
+  //       ),
+  //       duration: const Duration(milliseconds: 100),
+  //       curve: Curves.easeInQuad,
+  //     ),
+  //   );
+  // }

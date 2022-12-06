@@ -22,6 +22,7 @@ mixin _$TaskPageEvent {
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
     required TResult Function() addTask,
+    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,6 +30,7 @@ mixin _$TaskPageEvent {
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult? Function()? addTask,
+    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +38,7 @@ mixin _$TaskPageEvent {
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult Function()? addTask,
+    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -44,6 +47,7 @@ mixin _$TaskPageEvent {
     required TResult Function(_LoadTasks value) loadTasks,
     required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
     required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +55,7 @@ mixin _$TaskPageEvent {
     TResult? Function(_LoadTasks value)? loadTasks,
     TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +63,7 @@ mixin _$TaskPageEvent {
     TResult Function(_LoadTasks value)? loadTasks,
     TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -123,6 +129,7 @@ class _$_LoadTasks implements _LoadTasks {
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
     required TResult Function() addTask,
+    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return loadTasks();
   }
@@ -133,6 +140,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult? Function()? addTask,
+    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return loadTasks?.call();
   }
@@ -143,6 +151,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult Function()? addTask,
+    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -157,6 +166,7 @@ class _$_LoadTasks implements _LoadTasks {
     required TResult Function(_LoadTasks value) loadTasks,
     required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
     required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
   }) {
     return loadTasks(this);
   }
@@ -167,6 +177,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult? Function(_LoadTasks value)? loadTasks,
     TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
   }) {
     return loadTasks?.call(this);
   }
@@ -177,6 +188,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult Function(_LoadTasks value)? loadTasks,
     TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -269,6 +281,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
     required TResult Function() addTask,
+    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return toggleTaskStatus(tasksCollectionId, taskIndex);
   }
@@ -279,6 +292,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult? Function()? addTask,
+    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return toggleTaskStatus?.call(tasksCollectionId, taskIndex);
   }
@@ -289,6 +303,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult Function()? addTask,
+    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
     if (toggleTaskStatus != null) {
@@ -303,6 +318,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     required TResult Function(_LoadTasks value) loadTasks,
     required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
     required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
   }) {
     return toggleTaskStatus(this);
   }
@@ -313,6 +329,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult? Function(_LoadTasks value)? loadTasks,
     TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
   }) {
     return toggleTaskStatus?.call(this);
   }
@@ -323,6 +340,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult Function(_LoadTasks value)? loadTasks,
     TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
     required TResult orElse(),
   }) {
     if (toggleTaskStatus != null) {
@@ -385,6 +403,7 @@ class _$_AddTask implements _AddTask {
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
     required TResult Function() addTask,
+    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return addTask();
   }
@@ -395,6 +414,7 @@ class _$_AddTask implements _AddTask {
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult? Function()? addTask,
+    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return addTask?.call();
   }
@@ -405,6 +425,7 @@ class _$_AddTask implements _AddTask {
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
     TResult Function()? addTask,
+    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -419,6 +440,7 @@ class _$_AddTask implements _AddTask {
     required TResult Function(_LoadTasks value) loadTasks,
     required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
     required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
   }) {
     return addTask(this);
   }
@@ -429,6 +451,7 @@ class _$_AddTask implements _AddTask {
     TResult? Function(_LoadTasks value)? loadTasks,
     TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
   }) {
     return addTask?.call(this);
   }
@@ -439,6 +462,7 @@ class _$_AddTask implements _AddTask {
     TResult Function(_LoadTasks value)? loadTasks,
     TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
     TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -450,6 +474,166 @@ class _$_AddTask implements _AddTask {
 
 abstract class _AddTask implements TaskPageEvent {
   const factory _AddTask() = _$_AddTask;
+}
+
+/// @nodoc
+abstract class _$$_DeleteTaskCopyWith<$Res> {
+  factory _$$_DeleteTaskCopyWith(
+          _$_DeleteTask value, $Res Function(_$_DeleteTask) then) =
+      __$$_DeleteTaskCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int tasksCollectionId, int taskIndex});
+}
+
+/// @nodoc
+class __$$_DeleteTaskCopyWithImpl<$Res>
+    extends _$TaskPageEventCopyWithImpl<$Res, _$_DeleteTask>
+    implements _$$_DeleteTaskCopyWith<$Res> {
+  __$$_DeleteTaskCopyWithImpl(
+      _$_DeleteTask _value, $Res Function(_$_DeleteTask) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tasksCollectionId = null,
+    Object? taskIndex = null,
+  }) {
+    return _then(_$_DeleteTask(
+      tasksCollectionId: null == tasksCollectionId
+          ? _value.tasksCollectionId
+          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
+              as int,
+      taskIndex: null == taskIndex
+          ? _value.taskIndex
+          : taskIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_DeleteTask implements _DeleteTask {
+  const _$_DeleteTask(
+      {required this.tasksCollectionId, required this.taskIndex});
+
+  @override
+  final int tasksCollectionId;
+  @override
+  final int taskIndex;
+
+  @override
+  String toString() {
+    return 'TaskPageEvent.deleteTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_DeleteTask &&
+            (identical(other.tasksCollectionId, tasksCollectionId) ||
+                other.tasksCollectionId == tasksCollectionId) &&
+            (identical(other.taskIndex, taskIndex) ||
+                other.taskIndex == taskIndex));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DeleteTaskCopyWith<_$_DeleteTask> get copyWith =>
+      __$$_DeleteTaskCopyWithImpl<_$_DeleteTask>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadTasks,
+    required TResult Function(int tasksCollectionId, int taskIndex)
+        toggleTaskStatus,
+    required TResult Function() addTask,
+    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+  }) {
+    return deleteTask(tasksCollectionId, taskIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadTasks,
+    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function()? addTask,
+    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+  }) {
+    return deleteTask?.call(tasksCollectionId, taskIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadTasks,
+    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function()? addTask,
+    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    required TResult orElse(),
+  }) {
+    if (deleteTask != null) {
+      return deleteTask(tasksCollectionId, taskIndex);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadTasks value) loadTasks,
+    required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
+  }) {
+    return deleteTask(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadTasks value)? loadTasks,
+    TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
+  }) {
+    return deleteTask?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadTasks value)? loadTasks,
+    TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
+    required TResult orElse(),
+  }) {
+    if (deleteTask != null) {
+      return deleteTask(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DeleteTask implements TaskPageEvent {
+  const factory _DeleteTask(
+      {required final int tasksCollectionId,
+      required final int taskIndex}) = _$_DeleteTask;
+
+  int get tasksCollectionId;
+  int get taskIndex;
+  @JsonKey(ignore: true)
+  _$$_DeleteTaskCopyWith<_$_DeleteTask> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
