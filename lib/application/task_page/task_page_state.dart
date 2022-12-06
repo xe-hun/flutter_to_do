@@ -4,7 +4,7 @@ part of 'task_page_bloc.dart';
 class TaskPageState with _$TaskPageState {
   const factory TaskPageState.initial() = _Initial;
   const factory TaskPageState.displayTasksCollections({
-    required List<TasksCollection> tasksCollections,
+    required List<TasksCollection> allTasksCollections,
     required TextEditingController addTaskTEC,
   }) = _DisplayTasksCollections;
   const factory TaskPageState.loadFailure() = _LoadFailure;

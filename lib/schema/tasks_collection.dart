@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'tasks.g.dart';
+part 'tasks_collection.g.dart';
 
 @collection
 class TasksCollection {

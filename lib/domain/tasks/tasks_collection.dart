@@ -1,7 +1,7 @@
-import 'package:flutter_to_do/schema/tasks.dart' as pref;
+import 'package:flutter_to_do/schema/tasks_collection.dart' as pref;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'tasks.freezed.dart';
+part 'tasks_collection.freezed.dart';
 
 @freezed
 class TasksCollection with _$TasksCollection {

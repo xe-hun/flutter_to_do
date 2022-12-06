@@ -1,3 +1,5 @@
+import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+
 extension DateTimeX on DateTime {
   String get whichDay {
     DateTime today = DateTime.now();
@@ -15,6 +17,17 @@ extension DateTimeX on DateTime {
       return 'yesterday';
     } else {
       return toIso8601String();
+    }
+  }
+}
+
+extension ListX<T> on List {
+  T findById(int id) {
+    const TasksCollection? t = null;
+    if (t is T) {
+      return firstWhere((element) => element.id == id);
+    } else {
+      throw 'only Lists storing $TasksCollection can may access this extension';
     }
   }
 }

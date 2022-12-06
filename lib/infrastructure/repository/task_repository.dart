@@ -1,9 +1,9 @@
 import 'package:flutter_to_do/domain/core/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_to_do/domain/i_repository/i_task_repository.dart';
-import 'package:flutter_to_do/domain/tasks/tasks.dart';
+import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
 import 'package:flutter_to_do/infrastructure/data_source/save_box.dart';
-import 'package:flutter_to_do/schema/tasks.dart' as prefs;
+import 'package:flutter_to_do/schema/tasks_collection.dart' as prefs;
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: ITaskRepository)

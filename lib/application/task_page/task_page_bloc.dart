@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/i_repository/i_task_repository.dart';
-import 'package:flutter_to_do/domain/tasks/tasks.dart';
+import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,83 +15,130 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
   TaskPageBloc(ITaskRepository taskRepository) : super(const _Initial()) {
     on<TaskPageEvent>((event, emit) async {
       await event.map(loadTasks: (e) async {
-        if (tasksCollections != null) {
+        if (_allTasksCollections != null) {
           emit(TaskPageState.displayTasksCollections(
-              addTaskTEC: addTaskTEC, tasksCollections: tasksCollections!));
+              addTaskTEC: addTaskTEC,
+              allTasksCollections: _allTasksCollections!));
         } else {
           final getAllTasksFailureOrSuccess =
               await taskRepository.getAllTasks();
           getAllTasksFailureOrSuccess.fold(
             (l) => emit(const TaskPageState.loadFailure()),
             (r) {
-              tasksCollections = r;
+              _allTasksCollections = r;
 
               emit(TaskPageState.displayTasksCollections(
-                  addTaskTEC: addTaskTEC, tasksCollections: tasksCollections!));
+                  addTaskTEC: addTaskTEC,
+                  allTasksCollections: _allTasksCollections!));
             },
           );
         }
-      }, toggleTaskStatus: (e) {
+      }, toggleTaskStatus: (e) async {
         final tasksCollection =
-            tasksCollections!.firstWhere((el) => el == e.tasksCollection);
+            _allTasksCollections!.findById(e.tasksCollectionId);
 
-        final tasks = tasksCollection.tasks.map((task) {
-          return task == e.task
-              ? e.task.copyWith(completed: !e.task.completed)
-              : task;
-        }).toList();
+        final tasks = List.generate(tasksCollection.tasks.length, (i) {
+          Task taskAtIndex = tasksCollection.tasks[i];
+          return i == e.taskIndex
+              ? taskAtIndex.copyWith(completed: !taskAtIndex.completed)
+              : taskAtIndex;
+        });
 
-        final tasksCollectionCopy = tasksCollection.copyWith(tasks: tasks);
+        // final tasks = tasksCollection.tasks.map((task) {
+        //   return task == e.task
+        //       ? e.task.copyWith(completed: !e.task.completed)
+        //       : task;
+        // }).toList();
 
-        tasksCollections = tasksCollections!
-            .map(((e) => e == tasksCollection ? tasksCollectionCopy : e))
-            .toList();
+        final mutatedTasksCollection = tasksCollection.copyWith(tasks: tasks);
+
+        final updateTasksCollectionFailureOrSuccess = await taskRepository
+            .saveTask(tasksCollection: mutatedTasksCollection);
+        updateTasksCollectionFailureOrSuccess
+            .fold((l) => print('failed to save'), (r) {
+          //since we are mutating just the tasks, we dont need to replace
+          //allTasksCollection List, we need to just mutate it without changing it.
+          //so as not to trigger a rebuild of the whole list
+          _allTasksCollections = _replaceInTasksCollectionList(
+              allTasksCollections: _allTasksCollections!,
+              idToReplace: mutatedTasksCollection.id!,
+              whatToReplace: r);
+        });
 
         emit(TaskPageState.displayTasksCollections(
-            addTaskTEC: addTaskTEC, tasksCollections: tasksCollections!));
+            addTaskTEC: addTaskTEC,
+            allTasksCollections: _allTasksCollections!));
       }, addTask: (e) async {
         final todayTasksCollection = getTaskCollectionForToday();
 
         if (todayTasksCollection != null) {
           final updatedTasksCollection =
-              updateTasksCollectionEntry(todayTasksCollection);
+              _addTaskToExistingTasksCollection(todayTasksCollection);
 
-          final updateTaskFailureOrSuccess = await taskRepository.saveTask(
-              tasksCollection: updatedTasksCollection);
-          updateTaskFailureOrSuccess.fold((l) => print('failed to save'), (r) {
-            tasksCollections = tasksCollections!
-                .map((e) => e == todayTasksCollection ? r : e)
-                .toList();
+          final updateTasksCollectionFailureOrSuccess = await taskRepository
+              .saveTask(tasksCollection: updatedTasksCollection);
+          updateTasksCollectionFailureOrSuccess
+              .fold((l) => print('failed to save'), (r) {
+            // adding a new task to an already existing task collection
+            // should just mutate [_allTasksCollection]
+            _allTasksCollections = _replaceInTasksCollectionList(
+                allTasksCollections: _allTasksCollections!,
+                idToReplace: todayTasksCollection.id!,
+                whatToReplace: r);
           });
         } else {
-          final newTasksCollection = addNewTaskCollectionEntry();
-          final saveNewTaskFailureOrSuccess = await taskRepository.saveTask(
-              tasksCollection: newTasksCollection);
-          saveNewTaskFailureOrSuccess.fold((l) => print('failed to save'), (r) {
-            tasksCollections = [...tasksCollections!, r];
+          final newTasksCollection = _createNewTaskCollection();
+          final saveNewTaskCollectionFailureOrSuccess = await taskRepository
+              .saveTask(tasksCollection: newTasksCollection);
+          saveNewTaskCollectionFailureOrSuccess
+              .fold((l) => print('failed to save'), (r) {
+            _allTasksCollections = _addToTasksCollectionList(
+                allTasksCollections: _allTasksCollections!, whatToAdd: r);
           });
         }
 
         addTaskTEC.clear();
 
         emit(TaskPageState.displayTasksCollections(
-            addTaskTEC: addTaskTEC, tasksCollections: tasksCollections!));
+            addTaskTEC: addTaskTEC,
+            allTasksCollections: _allTasksCollections!));
       });
     });
   }
 
-  TasksCollection updateTasksCollectionEntry(
-      TasksCollection todayTasksCollection) {
+  List<TasksCollection> _addToTasksCollectionList(
+      {required List<TasksCollection> allTasksCollections,
+      required TasksCollection whatToAdd}) {
+    return [...allTasksCollections, whatToAdd];
+  }
+
+  //this mutates [_allTasksCollection] instead of relacing it.
+  List<TasksCollection> _replaceInTasksCollectionList(
+      {required int idToReplace,
+      required TasksCollection whatToReplace,
+      required List<TasksCollection> allTasksCollections}) {
+    // final indexToReplace =
+    //     _allTasksCollections!.indexWhere((e) => e.id == idToReplace);
+
+    // _allTasksCollections![indexToReplace] = whatToReplace;
+
+    return allTasksCollections
+        .map((e) => e.id == idToReplace ? whatToReplace : e)
+        .toList();
+  }
+
+  TasksCollection _addTaskToExistingTasksCollection(
+      TasksCollection whatToAddTo) {
     final newTask = Task(
       title: addTaskTEC.text,
     );
-    final modifiedTasksCollection = todayTasksCollection
-        .copyWith(tasks: [...todayTasksCollection.tasks, newTask]);
+    final modifiedTasksCollection =
+        whatToAddTo.copyWith(tasks: [...whatToAddTo.tasks, newTask]);
 
     return modifiedTasksCollection;
   }
 
-  TasksCollection addNewTaskCollectionEntry() {
+  TasksCollection _createNewTaskCollection() {
     final newTask = Task(
       title: addTaskTEC.text,
     );
@@ -102,45 +149,13 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     return newTaskCollection;
   }
 
-  // TasksCollection getMutatedTasksCollections() {
-  //   // final todayTasksCollection = getTaskCollectionForToday();
-
-  //   final newTask = Task(
-  //     title: addTaskTEC.text,
-  //   );
-
-  //   if (todayTasksCollection != null) {
-  //     final modifiedTasksCollection = todayTasksCollection
-  //         .copyWith(tasks: [...todayTasksCollection.tasks, newTask]);
-
-  //     tasksCollections = tasksCollections!
-  //         .map((e) => e == todayTasksCollection ? modifiedTasksCollection : e)
-  //         .toList();
-
-  //     return modifiedTasksCollection;
-
-  //     // taskRepository.saveTask(tasksCollection: modifiedTasksCollection);
-  //     //save it back to the storage
-
-  //   } else {
-  //     // final newTaskCollection =
-  //     //     TasksCollection(dateTime: DateTime.now(), tasks: [newTask]);
-  //     // tasksCollections = [...tasksCollections!, newTaskCollection];
-
-  //     // return newTaskCollection;
-
-  //     //save the new task collection to storage.
-  //     // taskRepository.saveTask(tasksCollection: newTaskCollection);
-  //   }
-  // }
-
-  List<TasksCollection>? tasksCollections;
+  List<TasksCollection>? _allTasksCollections;
 
   TextEditingController addTaskTEC = TextEditingController();
 
   TasksCollection? getTaskCollectionForToday() {
     try {
-      return tasksCollections!.firstWhere(
+      return _allTasksCollections!.firstWhere(
         (element) =>
             element.dateTime.whichDay.toString().toLowerCase() == 'today',
       );
