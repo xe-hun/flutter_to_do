@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
 import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+import 'package:flutter_to_do/presentation/tasks_page/widgets.dart';
 
 class AllTasksCollectionsDisplayWidget extends StatelessWidget {
   const AllTasksCollectionsDisplayWidget(
@@ -12,23 +13,39 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return allTasksCollections.isEmpty
-        ? noTaskWidget(context)
-        : SingleChildScrollView(
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: allTasksCollections
-                      .map((tasksCollection) =>
-                          _tasksCollectionWidget(tasksCollection.id!))
-                      .toList(),
+    return BlocListener<TaskPageBloc, TaskPageState>(
+      listener: (context, state) {
+        //initialize the animatedListKeys for the first time.
+        state.whenOrNull(
+          displayTasksCollections: (allTasksCollections, _) {
+            //this condition only happen once when the app is started.
+            if (animatedListKeys.isEmpty && allTasksCollections.isNotEmpty) {
+              for (final i in allTasksCollections) {
+                //very sure this exists
+                animatedListKeys[i.id!] = GlobalKey<AnimatedListState>();
+              }
+            }
+          },
+        );
+      },
+      child: allTasksCollections.isEmpty
+          ? noTaskWidget(context)
+          : SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: allTasksCollections
+                        .map((tasksCollection) =>
+                            _tasksCollectionWidget(tasksCollection.id!))
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          );
+    );
   }
 
   Widget _tasksCollectionWidget(int tasksCollectionId) {
@@ -40,31 +57,48 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
               displayTasksCollections: ((allTasksCollections, _) =>
                   allTasksCollections
                       .findById(tasksCollectionId)
-                      .tasks
+                      ?.tasks
                       .length)) !=
           current.whenOrNull(
               displayTasksCollections: ((allTasksCollections, _) =>
                   allTasksCollections
                       .findById(tasksCollectionId)
-                      .tasks
+                      ?.tasks
                       .length)),
       builder: (context, state) {
         return state.maybeWhen(
             orElse: () => Container(),
             displayTasksCollections: (allTasksCollections, addTaskTEC) {
-              final tasksCollection = allTasksCollections.findById(
+              TasksCollection tasksCollection = allTasksCollections.findById(
                 tasksCollectionId,
               );
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   headerStyle(context, tasksCollection.dateTime),
-                  ...tasksCollection.tasks.asMap().entries.map(
-                        (entry) => bodyStyle(
-                            context: context,
-                            tasksCollection: tasksCollection,
-                            taskIndex: entry.key),
-                      )
+
+                  AnimatedList(
+                    key: animatedListKeys[tasksCollection.id],
+                    shrinkWrap: true,
+                    initialItemCount: tasksCollection.tasks.length,
+                    itemBuilder: (context, index, animation) {
+                      return rowRemoveAndAddAnimation(
+                        animation,
+                        buildTaskBodyWidget(
+                          context: context,
+                          tasksCollection: tasksCollection,
+                          taskIndex: index,
+                        ),
+                      );
+                    },
+                  )
+
+                  // ...tasksCollection.tasks.asMap().entries.map(
+                  //       (entry) => bodyStyle(
+                  //           context: context,
+                  //           tasksCollection: tasksCollection,
+                  //           taskIndex: entry.key),
+                  //     )
                 ],
               );
             });
@@ -72,7 +106,7 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 
-  Widget bodyStyle(
+  Widget buildTaskBodyWidget(
       {required BuildContext context,
       required TasksCollection tasksCollection,
       required int taskIndex}) {
@@ -140,9 +174,9 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        child: deleteButton(allTasksCollections,
+                        child: deleteButtonWidget(
                             context: context,
-                            tasksCollectionId: tasksCollection.id,
+                            tasksCollectionId: tasksCollection.id!,
                             taskIndex: taskIndex),
                       ),
                     )
@@ -156,14 +190,17 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 
-  IconButton deleteButton(List<TasksCollection> allTasksCollection,
-      {required BuildContext context,
-      required tasksCollectionId,
-      required taskIndex}) {
+  IconButton deleteButtonWidget({
+    required BuildContext context,
+    required int tasksCollectionId,
+    required taskIndex,
+  }) {
     return IconButton(
         onPressed: () {
-          BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.deleteTask(
-              tasksCollectionId: tasksCollectionId, taskIndex: taskIndex));
+          BlocProvider.of<TaskPageBloc>(context).add(
+              TaskPageEvent.deleteTask(
+                  tasksCollectionId: tasksCollectionId, taskIndex: taskIndex),
+              onDelete: onDelete);
         },
         icon: Icon(
           Icons.cancel,
@@ -205,10 +242,25 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
       ),
     );
   }
+
+  void onDelete(
+      {required tasksCollection, required taskIndex, bool deleted = false}) {
+    if (deleted == true) {
+      animatedListKeys.remove(tasksCollection.id);
+    } else {
+      final taskBodyWidget = buildTaskBodyWidget(
+        context: animatedListKeys[tasksCollection.id]!.currentState!.context,
+        tasksCollection: tasksCollection,
+        taskIndex: taskIndex,
+      );
+
+      animateRowRemoval(
+          index: taskIndex,
+          key: animatedListKeys[tasksCollection.id]!,
+          child: taskBodyWidget);
+    }
+  }
 }
-
-
-
 
 // AnimatedList(
 //                                           key: myListKey,
@@ -235,60 +287,6 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
 //                                           },
 //                                         ),
 
-
-
-
-
-
-
-// Widget rowRemoveAndAddAnimation(Animation<double> animation, Widget child) {
-//   return SlideTransition(
-//     position: CurvedAnimation(parent: animation, curve: Curves.easeIn).drive(
-//       Tween<Offset>(
-//         begin: const Offset(-1, 0),
-//         end: Offset.zero,
-//       ),
-//     ),
-//     child: SizeTransition(
-//       sizeFactor: CurvedAnimation(curve: Curves.easeOutQuad, parent: animation),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(
-//           vertical: 2,
-//         ),
-//         child: child,
-//       ),
-//     ),
-//   );
-// }
-
-
-
-
-// void animateRowInsertion(int index) {
-//     myListKey.currentState
-//         ?.insertItem(index, duration: const Duration(milliseconds: 600));
-//   }
-
-//   void animateRowRemoval(int index) {
-//     // very important to copy these values first
-//     final pickedNumbersRow = List<int>.from(
-//       game1Provider.getPickedNumbersRowAt(
-//         index,
-//       ),
-//     );
-
-//     myListKey.currentState?.removeItem(
-//       index,
-//       duration: const Duration(milliseconds: 600),
-//       (context, animation) => rowRemoveAndAddAnimation(
-//         animation,
-//         _card(
-//           pickedNumbersRow,
-//           0,
-//         ),
-//       ),
-//     );
-//   }
 
 
 

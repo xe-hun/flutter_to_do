@@ -21,7 +21,11 @@ mixin _$TaskPageEvent {
     required TResult Function() loadTasks,
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
-    required TResult Function() addTask,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
     required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,7 +33,11 @@ mixin _$TaskPageEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult? Function()? addTask,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,7 +45,11 @@ mixin _$TaskPageEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult Function()? addTask,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) =>
@@ -128,7 +140,11 @@ class _$_LoadTasks implements _LoadTasks {
     required TResult Function() loadTasks,
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
-    required TResult Function() addTask,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
     required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return loadTasks();
@@ -139,7 +155,11 @@ class _$_LoadTasks implements _LoadTasks {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult? Function()? addTask,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return loadTasks?.call();
@@ -150,7 +170,11 @@ class _$_LoadTasks implements _LoadTasks {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult Function()? addTask,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
@@ -280,7 +304,11 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     required TResult Function() loadTasks,
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
-    required TResult Function() addTask,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
     required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return toggleTaskStatus(tasksCollectionId, taskIndex);
@@ -291,7 +319,11 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult? Function()? addTask,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return toggleTaskStatus?.call(tasksCollectionId, taskIndex);
@@ -302,7 +334,11 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult Function()? addTask,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
@@ -367,6 +403,11 @@ abstract class _$$_AddTaskCopyWith<$Res> {
   factory _$$_AddTaskCopyWith(
           _$_AddTask value, $Res Function(_$_AddTask) then) =
       __$$_AddTaskCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {dynamic Function(
+              {required int taskIndex, required int tasksCollectionId})
+          onAdd});
 }
 
 /// @nodoc
@@ -375,26 +416,52 @@ class __$$_AddTaskCopyWithImpl<$Res>
     implements _$$_AddTaskCopyWith<$Res> {
   __$$_AddTaskCopyWithImpl(_$_AddTask _value, $Res Function(_$_AddTask) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? onAdd = null,
+  }) {
+    return _then(_$_AddTask(
+      null == onAdd
+          ? _value.onAdd
+          : onAdd // ignore: cast_nullable_to_non_nullable
+              as dynamic Function(
+                  {required int taskIndex, required int tasksCollectionId}),
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_AddTask implements _AddTask {
-  const _$_AddTask();
+  const _$_AddTask(this.onAdd);
+
+  @override
+  final dynamic Function(
+      {required int taskIndex, required int tasksCollectionId}) onAdd;
 
   @override
   String toString() {
-    return 'TaskPageEvent.addTask()';
+    return 'TaskPageEvent.addTask(onAdd: $onAdd)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AddTask);
+        (other.runtimeType == runtimeType &&
+            other is _$_AddTask &&
+            (identical(other.onAdd, onAdd) || other.onAdd == onAdd));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, onAdd);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AddTaskCopyWith<_$_AddTask> get copyWith =>
+      __$$_AddTaskCopyWithImpl<_$_AddTask>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -402,10 +469,14 @@ class _$_AddTask implements _AddTask {
     required TResult Function() loadTasks,
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
-    required TResult Function() addTask,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
     required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
-    return addTask();
+    return addTask(onAdd);
   }
 
   @override
@@ -413,10 +484,14 @@ class _$_AddTask implements _AddTask {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult? Function()? addTask,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
-    return addTask?.call();
+    return addTask?.call(onAdd);
   }
 
   @override
@@ -424,12 +499,16 @@ class _$_AddTask implements _AddTask {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult Function()? addTask,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
-      return addTask();
+      return addTask(onAdd);
     }
     return orElse();
   }
@@ -473,7 +552,16 @@ class _$_AddTask implements _AddTask {
 }
 
 abstract class _AddTask implements TaskPageEvent {
-  const factory _AddTask() = _$_AddTask;
+  const factory _AddTask(
+      final dynamic Function(
+              {required int taskIndex, required int tasksCollectionId})
+          onAdd) = _$_AddTask;
+
+  dynamic Function({required int taskIndex, required int tasksCollectionId})
+      get onAdd;
+  @JsonKey(ignore: true)
+  _$$_AddTaskCopyWith<_$_AddTask> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -554,7 +642,11 @@ class _$_DeleteTask implements _DeleteTask {
     required TResult Function() loadTasks,
     required TResult Function(int tasksCollectionId, int taskIndex)
         toggleTaskStatus,
-    required TResult Function() addTask,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
     required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
   }) {
     return deleteTask(tasksCollectionId, taskIndex);
@@ -565,7 +657,11 @@ class _$_DeleteTask implements _DeleteTask {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
     TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult? Function()? addTask,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
   }) {
     return deleteTask?.call(tasksCollectionId, taskIndex);
@@ -576,7 +672,11 @@ class _$_DeleteTask implements _DeleteTask {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
     TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
-    TResult Function()? addTask,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
     TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
     required TResult orElse(),
   }) {

@@ -14,18 +14,15 @@ class TasksPage extends StatelessWidget {
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       //build when the alltasksCollection.length changes
       //i.e new tasksCollection is added or removed.
-      buildWhen: (previous, current) {
-        final r = previous.whenOrNull(
-          displayTasksCollections: (allTasksCollections, _) =>
-              allTasksCollections.length,
-        );
-        final j = current.whenOrNull(
-          displayTasksCollections: (allTasksCollections, _) =>
-              allTasksCollections.length,
-        );
-        final k = r != j;
-        return k;
-      },
+      buildWhen: (previous, current) =>
+          previous.whenOrNull(
+            displayTasksCollections: (allTasksCollections, _) =>
+                allTasksCollections.length,
+          ) !=
+          current.whenOrNull(
+            displayTasksCollections: (allTasksCollections, _) =>
+                allTasksCollections.length,
+          ),
 
       builder: (context, state) {
         return state.map(

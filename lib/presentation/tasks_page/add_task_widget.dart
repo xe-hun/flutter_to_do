@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
+import 'package:flutter_to_do/presentation/tasks_page/widgets.dart';
 
 class AddTaskWidget extends StatelessWidget {
   const AddTaskWidget({super.key});
@@ -26,7 +27,7 @@ class AddTaskWidget extends StatelessWidget {
             child: IconButton(
                 onPressed: () {
                   BlocProvider.of<TaskPageBloc>(context)
-                      .add(const TaskPageEvent.addTask());
+                      .add(TaskPageEvent.addTask(_onAddSuccess));
                   FocusScope.of(context).unfocus();
                 },
                 icon: FittedBox(
@@ -40,5 +41,16 @@ class AddTaskWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onAddSuccess({required int tasksCollectionId, required int taskIndex}) {
+    //add a new entry to animatedListsKey if a new tasksCollection has been added.
+    if (animatedListKeys.containsKey(tasksCollectionId) == false) {
+      animatedListKeys[tasksCollectionId] = GlobalKey<AnimatedListState>();
+    }
+    animateRowInsertion(
+        //very sure the key exists
+        key: animatedListKeys[tasksCollectionId]!,
+        index: taskIndex);
   }
 }

@@ -66,10 +66,16 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           final updatedTasksCollection =
               _addTaskToExistingTasksCollection(todayTasksCollection);
 
+          //this is an inplace function.
           await updateAllTaskCollections(
               taskRepository: taskRepository,
               newTasksCollection: updatedTasksCollection,
               oldTasksCollection: todayTasksCollection);
+
+          //UI function that needs to be called after a successful add!
+          e.onAdd(
+              tasksCollectionId: updatedTasksCollection.id!,
+              taskIndex: updatedTasksCollection.tasks.length - 1);
         } else {
           final newTasksCollection = _createNewTaskCollection();
           final saveNewTaskCollectionFailureOrSuccess = await taskRepository
@@ -78,6 +84,9 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               .fold((l) => print('failed to save'), (r) {
             _allTasksCollections = _addToTasksCollectionList(
                 allTasksCollections: _allTasksCollections!, whatToAdd: r);
+
+            //UI function that needs to be called after a successful add!
+            e.onAdd(tasksCollectionId: r.id!, taskIndex: 0);
           });
         }
 
