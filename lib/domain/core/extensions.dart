@@ -1,4 +1,5 @@
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 extension DateTimeX on DateTime {
   String get whichDay {
@@ -21,13 +22,25 @@ extension DateTimeX on DateTime {
   }
 }
 
-extension ListX<T> on List {
-  T findById(int id) {
-    const TasksCollection? t = null;
-    if (t is T) {
+extension ListX on List {
+  T? findById<T>(int id) {
+    try {
       return firstWhere((element) => element.id == id);
-    } else {
-      throw 'only Lists storing $TasksCollection can may access this extension';
+    } on NoSuchMethodError catch (_) {
+      throw 'Object contained in List must have property -> id';
+    } catch (e) {
+      return null;
+    }
+  }
+
+  T? getOrNull<T>(int index) {
+    try {
+      final s = this[index];
+      return s;
+    } on RangeError catch (_) {
+      return null;
+    } catch (e) {
+      rethrow;
     }
   }
 }

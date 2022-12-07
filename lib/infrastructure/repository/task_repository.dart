@@ -58,7 +58,8 @@ class TaskRepository implements ITaskRepository {
   Future<Either<Failure, Unit>> deleteTasksCollection(
       {required int tasksCollectionId}) async {
     try {
-      final success = await datasource.delete(key: tasksCollectionId);
+      final success = await datasource.delete<prefs.TasksCollection, int>(
+          key: tasksCollectionId);
 
       if (success == true) {
         return Future.value(const Right(unit));

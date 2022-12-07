@@ -17,7 +17,7 @@ class InitPage extends StatelessWidget {
           },
           orElse: () {
             Future.delayed(const Duration(milliseconds: 800),
-                () => context.router.replace(const LandingRoute()));
+                () => context.router.replace(LandingRoute()));
           },
         );
       },

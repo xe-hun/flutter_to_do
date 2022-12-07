@@ -83,13 +83,15 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
           current.whenOrNull(
               displayTasksCollections: (allTasksCollections, _) =>
                   allTasksCollections
-                      .findById(tasksCollection.id!)
-                      .tasks[taskIndex]) !=
+                      .findById<TasksCollection>(tasksCollection.id!)
+                      ?.tasks
+                      .getOrNull(taskIndex)) !=
           previous.whenOrNull(
               displayTasksCollections: (allTasksCollections, _) =>
                   allTasksCollections
-                      .findById(tasksCollection.id!)
-                      .tasks[taskIndex]),
+                      .findById<TasksCollection>(tasksCollection.id!)
+                      ?.tasks
+                      .getOrNull(taskIndex)),
 
       builder: (context, state) {
         return state.maybeWhen(
@@ -138,7 +140,7 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        child: deleteButton(
+                        child: deleteButton(allTasksCollections,
                             context: context,
                             tasksCollectionId: tasksCollection.id,
                             taskIndex: taskIndex),
@@ -154,7 +156,7 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 
-  IconButton deleteButton(
+  IconButton deleteButton(List<TasksCollection> allTasksCollection,
       {required BuildContext context,
       required tasksCollectionId,
       required taskIndex}) {

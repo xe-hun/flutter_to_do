@@ -5,6 +5,7 @@ import 'package:flutter_to_do/application/core/ui_objects.dart';
 import 'package:flutter_to_do/application/landing_page/landing_page_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
 import 'package:flutter_to_do/application/theme/theme_bloc.dart';
+import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/injectable.dart';
 import 'package:flutter_to_do/presentation/core/ui.dart';
 import 'package:flutter_to_do/presentation/router/app_router.gr.dart';
@@ -115,8 +116,10 @@ class LandingPage extends StatelessWidget {
     return PopupMenuItem(
       value: themeType,
       child: Text(label),
-      onTap: () => BlocProvider.of<ThemeBloc>(context)
-          .add(ThemeEvent.changeTheme(themeType)),
+      onTap: () {
+        BlocProvider.of<ThemeBloc>(context)
+            .add(ThemeEvent.changeTheme(themeType));
+      },
     );
   }
 }

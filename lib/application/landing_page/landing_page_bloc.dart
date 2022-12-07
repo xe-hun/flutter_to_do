@@ -11,10 +11,11 @@ class LandingPageBloc extends Bloc<LandingPageEvent, LandingPageState> {
   LandingPageBloc() : super(const _Initial()) {
     on<LandingPageEvent>((event, emit) async {
       event.map(
-          started: (_) {},
-          changeTab: (event) {
-            emit(LandingPageState.idle(currentIndex: event.index));
-          });
+        started: (_) {},
+        changeTab: (event) {
+          emit(LandingPageState.idle(currentIndex: event.index));
+        },
+      );
     });
   }
 }

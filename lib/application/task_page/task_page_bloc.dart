@@ -25,7 +25,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           getAllTasksFailureOrSuccess.fold(
             (l) => emit(const TaskPageState.loadFailure()),
             (r) {
-              _allTasksCollections = r;
+              _allTasksCollections = filterForEmptyTaskCollections(r);
 
               emit(TaskPageState.displayTasksCollections(
                   addTaskTEC: addTaskTEC,
@@ -34,8 +34,8 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           );
         }
       }, toggleTaskStatus: (e) async {
-        final tasksCollection =
-            _allTasksCollections!.findById(e.tasksCollectionId);
+        final tasksCollection = _allTasksCollections!
+            .findById<TasksCollection>(e.tasksCollectionId)!;
 
         final tasks = List.generate(tasksCollection.tasks.length, (i) {
           Task taskAtIndex = tasksCollection.tasks[i];
@@ -44,21 +44,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               : taskAtIndex;
         });
 
-        // final tasks = tasksCollection.tasks.map((task) {
-        //   return task == e.task
-        //       ? e.task.copyWith(completed: !e.task.completed)
-        //       : task;
-        // }).toList();
-
         final mutatedTasksCollection = tasksCollection.copyWith(tasks: tasks);
 
         final updateTasksCollectionFailureOrSuccess = await taskRepository
             .saveTask(tasksCollection: mutatedTasksCollection);
         updateTasksCollectionFailureOrSuccess
             .fold((l) => print('failed to save'), (r) {
-          //since we are mutating just the tasks, we dont need to replace
-          //allTasksCollection List, we need to just mutate it without changing it.
-          //so as not to trigger a rebuild of the whole list
           _allTasksCollections = _replaceInTasksCollectionList(
               allTasksCollections: _allTasksCollections!,
               idToReplace: mutatedTasksCollection.id!,
@@ -96,28 +87,54 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             addTaskTEC: addTaskTEC,
             allTasksCollections: _allTasksCollections!));
       }, deleteTask: (e) async {
-        final TasksCollection tasksCollectionToModify =
-            _allTasksCollections!.findById(e.tasksCollectionId);
+        final TasksCollection tasksCollectionToModify = _allTasksCollections!
+            .findById<TasksCollection>(e.tasksCollectionId)!;
+
         final taskToModify = List<Task>.from(tasksCollectionToModify.tasks);
         taskToModify.removeAt(e.taskIndex);
 
-        final TasksCollection modifiedTasksCollection =
-            tasksCollectionToModify.copyWith(tasks: taskToModify);
+        //handle if tasksCollection is empty
+        //and remove it
+        if (taskToModify.isEmpty) {
+          final deleteFailureOrSuccess = await taskRepository
+              .deleteTasksCollection(tasksCollectionId: e.tasksCollectionId);
 
-        await updateAllTaskCollections(
-            taskRepository: taskRepository,
-            newTasksCollection: modifiedTasksCollection,
-            oldTasksCollection: tasksCollectionToModify);
+          deleteFailureOrSuccess.fold(
+            (l) => null,
+            (r) {
+              _allTasksCollections =
+                  List<TasksCollection>.from(_allTasksCollections!)
+                    ..remove(tasksCollectionToModify);
+            },
+          );
+
+          emit(TaskPageState.displayTasksCollections(
+              addTaskTEC: addTaskTEC,
+              allTasksCollections: _allTasksCollections!));
+        } else {
+          final TasksCollection modifiedTasksCollection =
+              tasksCollectionToModify.copyWith(tasks: taskToModify);
+
+          await updateAllTaskCollections(
+              taskRepository: taskRepository,
+              newTasksCollection: modifiedTasksCollection,
+              oldTasksCollection: tasksCollectionToModify);
+          emit(TaskPageState.displayTasksCollections(
+              addTaskTEC: addTaskTEC,
+              allTasksCollections: _allTasksCollections!));
+        }
       });
     });
   }
 
+  //Note that this is an implace method!
   Future<void> updateAllTaskCollections(
       {required TasksCollection newTasksCollection,
       required TasksCollection oldTasksCollection,
       required ITaskRepository taskRepository}) async {
     final updateTasksCollectionFailureOrSuccess =
         await taskRepository.saveTask(tasksCollection: newTasksCollection);
+
     updateTasksCollectionFailureOrSuccess.fold((l) => print('failed to save'),
         (r) {
       _allTasksCollections = _replaceInTasksCollectionList(
@@ -177,5 +194,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     } catch (e) {
       return null;
     }
+  }
+
+  List<TasksCollection>? filterForEmptyTaskCollections(
+      List<TasksCollection> allTasksCollections) {
+    return allTasksCollections
+        .where((element) => element.tasks.isNotEmpty)
+        .toList();
   }
 }

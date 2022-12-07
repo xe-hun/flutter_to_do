@@ -33,17 +33,3 @@ class PrefsRepository implements IPrefsRepository {
     }
   }
 }
-
-
-
-
-  // void saveThemePref(
-  //     {required SaveBox saveBox, required SaveThemeType saveThemeType}) {
-  //   saveBox.save(object: Prefs(saveThemeType));
-  // }
-
-  // Future<SaveThemeType?> readThemePref({
-  //   required SaveBox saveBox,
-  // }) async {
-  //   return (await saveBox.read<Prefs, int>(key: 0))?.saveThemeType;
-  // }

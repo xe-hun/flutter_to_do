@@ -20,10 +20,7 @@ class SaveBoxImpl implements SaveBox {
   @override
   Future<bool> delete<T, X>({required X key}) {
     if (X == int) {
-      // return (await isar.collection<Prefs>().get(0))?.saveThemeType;
-
-      return isar.collection<T>().delete(key as int);
-      // return at;
+      return isar.writeTxn(() => isar.collection<T>().delete(key as int));
     }
     throw Exception('required Type:key must be of type int');
   }
