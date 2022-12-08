@@ -26,7 +26,15 @@ mixin _$TaskPageEvent {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+    required TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,7 +46,15 @@ mixin _$TaskPageEvent {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult? Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,7 +66,15 @@ mixin _$TaskPageEvent {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -145,7 +169,15 @@ class _$_LoadTasks implements _LoadTasks {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+    required TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
   }) {
     return loadTasks();
   }
@@ -160,7 +192,15 @@ class _$_LoadTasks implements _LoadTasks {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult? Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
   }) {
     return loadTasks?.call();
   }
@@ -175,7 +215,15 @@ class _$_LoadTasks implements _LoadTasks {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -309,7 +357,15 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+    required TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
   }) {
     return toggleTaskStatus(tasksCollectionId, taskIndex);
   }
@@ -324,7 +380,15 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult? Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
   }) {
     return toggleTaskStatus?.call(tasksCollectionId, taskIndex);
   }
@@ -339,7 +403,15 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
     required TResult orElse(),
   }) {
     if (toggleTaskStatus != null) {
@@ -474,7 +546,15 @@ class _$_AddTask implements _AddTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+    required TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
   }) {
     return addTask(onAdd);
   }
@@ -489,7 +569,15 @@ class _$_AddTask implements _AddTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult? Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
   }) {
     return addTask?.call(onAdd);
   }
@@ -504,7 +592,15 @@ class _$_AddTask implements _AddTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -570,7 +666,14 @@ abstract class _$$_DeleteTaskCopyWith<$Res> {
           _$_DeleteTask value, $Res Function(_$_DeleteTask) then) =
       __$$_DeleteTaskCopyWithImpl<$Res>;
   @useResult
-  $Res call({int tasksCollectionId, int taskIndex});
+  $Res call(
+      {int tasksCollectionId,
+      int taskIndex,
+      void Function(
+              {bool? deleted,
+              required int taskIndex,
+              required TasksCollection tasksCollection})
+          onDelete});
 }
 
 /// @nodoc
@@ -586,6 +689,7 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
   $Res call({
     Object? tasksCollectionId = null,
     Object? taskIndex = null,
+    Object? onDelete = null,
   }) {
     return _then(_$_DeleteTask(
       tasksCollectionId: null == tasksCollectionId
@@ -596,6 +700,13 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
           ? _value.taskIndex
           : taskIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      onDelete: null == onDelete
+          ? _value.onDelete
+          : onDelete // ignore: cast_nullable_to_non_nullable
+              as void Function(
+                  {bool? deleted,
+                  required int taskIndex,
+                  required TasksCollection tasksCollection}),
     ));
   }
 }
@@ -604,16 +715,23 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
 
 class _$_DeleteTask implements _DeleteTask {
   const _$_DeleteTask(
-      {required this.tasksCollectionId, required this.taskIndex});
+      {required this.tasksCollectionId,
+      required this.taskIndex,
+      required this.onDelete});
 
   @override
   final int tasksCollectionId;
   @override
   final int taskIndex;
+  @override
+  final void Function(
+      {bool? deleted,
+      required int taskIndex,
+      required TasksCollection tasksCollection}) onDelete;
 
   @override
   String toString() {
-    return 'TaskPageEvent.deleteTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPageEvent.deleteTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex, onDelete: $onDelete)';
   }
 
   @override
@@ -624,11 +742,14 @@ class _$_DeleteTask implements _DeleteTask {
             (identical(other.tasksCollectionId, tasksCollectionId) ||
                 other.tasksCollectionId == tasksCollectionId) &&
             (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex));
+                other.taskIndex == taskIndex) &&
+            (identical(other.onDelete, onDelete) ||
+                other.onDelete == onDelete));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+  int get hashCode =>
+      Object.hash(runtimeType, tasksCollectionId, taskIndex, onDelete);
 
   @JsonKey(ignore: true)
   @override
@@ -647,9 +768,17 @@ class _$_DeleteTask implements _DeleteTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) deleteTask,
+    required TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
   }) {
-    return deleteTask(tasksCollectionId, taskIndex);
+    return deleteTask(tasksCollectionId, taskIndex, onDelete);
   }
 
   @override
@@ -662,9 +791,17 @@ class _$_DeleteTask implements _DeleteTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult? Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
   }) {
-    return deleteTask?.call(tasksCollectionId, taskIndex);
+    return deleteTask?.call(tasksCollectionId, taskIndex, onDelete);
   }
 
   @override
@@ -677,11 +814,19 @@ class _$_DeleteTask implements _DeleteTask {
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? deleteTask,
+    TResult Function(
+            int tasksCollectionId,
+            int taskIndex,
+            void Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
     required TResult orElse(),
   }) {
     if (deleteTask != null) {
-      return deleteTask(tasksCollectionId, taskIndex);
+      return deleteTask(tasksCollectionId, taskIndex, onDelete);
     }
     return orElse();
   }
@@ -727,10 +872,19 @@ class _$_DeleteTask implements _DeleteTask {
 abstract class _DeleteTask implements TaskPageEvent {
   const factory _DeleteTask(
       {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_DeleteTask;
+      required final int taskIndex,
+      required final void Function(
+              {bool? deleted,
+              required int taskIndex,
+              required TasksCollection tasksCollection})
+          onDelete}) = _$_DeleteTask;
 
   int get tasksCollectionId;
   int get taskIndex;
+  void Function(
+      {bool? deleted,
+      required int taskIndex,
+      required TasksCollection tasksCollection}) get onDelete;
   @JsonKey(ignore: true)
   _$$_DeleteTaskCopyWith<_$_DeleteTask> get copyWith =>
       throw _privateConstructorUsedError;

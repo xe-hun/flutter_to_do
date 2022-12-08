@@ -13,39 +13,23 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TaskPageBloc, TaskPageState>(
-      listener: (context, state) {
-        //initialize the animatedListKeys for the first time.
-        state.whenOrNull(
-          displayTasksCollections: (allTasksCollections, _) {
-            //this condition only happen once when the app is started.
-            if (animatedListKeys.isEmpty && allTasksCollections.isNotEmpty) {
-              for (final i in allTasksCollections) {
-                //very sure this exists
-                animatedListKeys[i.id!] = GlobalKey<AnimatedListState>();
-              }
-            }
-          },
-        );
-      },
-      child: allTasksCollections.isEmpty
-          ? noTaskWidget(context)
-          : SingleChildScrollView(
-              child: SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: allTasksCollections
-                        .map((tasksCollection) =>
-                            _tasksCollectionWidget(tasksCollection.id!))
-                        .toList(),
-                  ),
+    return allTasksCollections.isEmpty
+        ? noTaskWidget(context)
+        : SingleChildScrollView(
+            child: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: allTasksCollections
+                      .map((tasksCollection) =>
+                          _tasksCollectionWidget(tasksCollection.id!))
+                      .toList(),
                 ),
               ),
             ),
-    );
+          );
   }
 
   Widget _tasksCollectionWidget(int tasksCollectionId) {
@@ -80,6 +64,7 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
                   AnimatedList(
                     key: animatedListKeys[tasksCollection.id],
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     initialItemCount: tasksCollection.tasks.length,
                     itemBuilder: (context, index, animation) {
                       return rowRemoveAndAddAnimation(
@@ -106,6 +91,47 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 
+  //if task was edited, then it would be replace
+  //therefore, checking the equality.
+  bool _checkIfThisTaskIsEdited(
+      {required TaskPageState current,
+      required TaskPageState previous,
+      required int tasksCollectionId,
+      required int taskIndex}) {
+    return current.whenOrNull(
+            displayTasksCollections: (allTasksCollections, _) =>
+                allTasksCollections
+                    .findById<TasksCollection>(tasksCollectionId)
+                    ?.tasks
+                    .getOrNull(taskIndex)) !=
+        previous.whenOrNull(
+            displayTasksCollections: (allTasksCollections, _) =>
+                allTasksCollections
+                    .findById<TasksCollection>(tasksCollectionId)
+                    ?.tasks
+                    .getOrNull(taskIndex));
+  }
+
+  bool _checkIfNoTaskWasAddedOrRemoved(
+      {required TaskPageState current,
+      required TaskPageState previous,
+      required int tasksCollectionId}) {
+    return current.whenOrNull(
+          displayTasksCollections: (allTasksCollections, _) =>
+              allTasksCollections
+                  .findById<TasksCollection>(tasksCollectionId)
+                  ?.tasks
+                  .length,
+        ) ==
+        previous.whenOrNull(
+          displayTasksCollections: (allTasksCollections, _) =>
+              allTasksCollections
+                  .findById<TasksCollection>(tasksCollectionId)
+                  ?.tasks
+                  .length,
+        );
+  }
+
   Widget buildTaskBodyWidget(
       {required BuildContext context,
       required TasksCollection tasksCollection,
@@ -114,18 +140,15 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
       //build when the individual task is replaced (changed).
 
       buildWhen: (previous, current) =>
-          current.whenOrNull(
-              displayTasksCollections: (allTasksCollections, _) =>
-                  allTasksCollections
-                      .findById<TasksCollection>(tasksCollection.id!)
-                      ?.tasks
-                      .getOrNull(taskIndex)) !=
-          previous.whenOrNull(
-              displayTasksCollections: (allTasksCollections, _) =>
-                  allTasksCollections
-                      .findById<TasksCollection>(tasksCollection.id!)
-                      ?.tasks
-                      .getOrNull(taskIndex)),
+          _checkIfThisTaskIsEdited(
+              current: current,
+              previous: previous,
+              tasksCollectionId: tasksCollection.id!,
+              taskIndex: taskIndex) &&
+          _checkIfNoTaskWasAddedOrRemoved(
+              tasksCollectionId: tasksCollection.id!,
+              current: current,
+              previous: previous),
 
       builder: (context, state) {
         return state.maybeWhen(
@@ -144,7 +167,8 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
                     Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          checkBox(task, context, tasksCollection, taskIndex),
+                          checkBox(
+                              task, context, tasksCollection.id!, taskIndex),
                           Expanded(
                               child: Padding(
                             padding: const EdgeInsets.only(right: 20),
@@ -160,16 +184,18 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Container(
+                        alignment: Alignment.centerRight,
                         height: double.infinity,
-                        width: 50,
+                        width: MediaQuery.of(context).size.width * .5,
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(10)),
+                              right: Radius.circular(1)),
                           gradient: LinearGradient(
+                            stops: const [.2, 1],
                             colors: [
                               Theme.of(context)
                                   .scaffoldBackgroundColor
-                                  .withOpacity(.8),
+                                  .withOpacity(.5),
                               Theme.of(context).backgroundColor,
                             ],
                           ),
@@ -197,10 +223,10 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
   }) {
     return IconButton(
         onPressed: () {
-          BlocProvider.of<TaskPageBloc>(context).add(
-              TaskPageEvent.deleteTask(
-                  tasksCollectionId: tasksCollectionId, taskIndex: taskIndex),
-              onDelete: onDelete);
+          BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.deleteTask(
+              tasksCollectionId: tasksCollectionId,
+              taskIndex: taskIndex,
+              onDelete: onDelete));
         },
         icon: Icon(
           Icons.cancel,
@@ -208,14 +234,14 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
         ));
   }
 
-  Widget checkBox(Task task, BuildContext context,
-      TasksCollection tasksCollection, int taskIndex) {
+  Widget checkBox(
+      Task task, BuildContext context, int tasksCollectionId, int taskIndex) {
     return Checkbox(
       value: task.completed,
       onChanged: (e) {
         BlocProvider.of<TaskPageBloc>(context).add(
             TaskPageEvent.toggleTaskStatus(
-                tasksCollectionId: tasksCollection.id!, taskIndex: taskIndex));
+                tasksCollectionId: tasksCollectionId, taskIndex: taskIndex));
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     );
@@ -244,7 +270,9 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
   }
 
   void onDelete(
-      {required tasksCollection, required taskIndex, bool deleted = false}) {
+      {required TasksCollection tasksCollection,
+      required int taskIndex,
+      bool? deleted}) {
     if (deleted == true) {
       animatedListKeys.remove(tasksCollection.id);
     } else {
@@ -261,6 +289,28 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     }
   }
 }
+
+
+
+
+
+//  listener: (context, state) {
+//         print('zamani');
+//         //initialize the animatedListKeys for the first time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // AnimatedList(
 //                                           key: myListKey,

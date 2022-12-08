@@ -117,6 +117,11 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             },
           );
 
+          e.onDelete(
+              taskIndex: e.taskIndex,
+              tasksCollection: tasksCollectionToModify,
+              deleted: true);
+
           emit(TaskPageState.displayTasksCollections(
               addTaskTEC: addTaskTEC,
               allTasksCollections: _allTasksCollections!));
@@ -128,6 +133,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               taskRepository: taskRepository,
               newTasksCollection: modifiedTasksCollection,
               oldTasksCollection: tasksCollectionToModify);
+
+          e.onDelete(
+              taskIndex: e.taskIndex,
+              tasksCollection: tasksCollectionToModify,
+              deleted: false);
+
           emit(TaskPageState.displayTasksCollections(
               addTaskTEC: addTaskTEC,
               allTasksCollections: _allTasksCollections!));
