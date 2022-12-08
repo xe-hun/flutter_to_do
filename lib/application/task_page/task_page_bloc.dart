@@ -50,7 +50,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             .saveTask(tasksCollection: mutatedTasksCollection);
         updateTasksCollectionFailureOrSuccess
             .fold((l) => print('failed to save'), (r) {
-          _allTasksCollections = _replaceInTasksCollectionList(
+          _allTasksCollections = _replaceInAllTasksCollectionList(
               allTasksCollections: _allTasksCollections!,
               idToReplace: mutatedTasksCollection.id!,
               whatToReplace: r);
@@ -64,7 +64,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
         if (todayTasksCollection != null) {
           final updatedTasksCollection =
-              _addTaskToExistingTasksCollection(todayTasksCollection);
+              _addNewTaskToTasksCollection(todayTasksCollection);
 
           //this is an inplace function.
           await updateAllTaskCollections(
@@ -157,7 +157,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
     updateTasksCollectionFailureOrSuccess.fold((l) => print('failed to save'),
         (r) {
-      _allTasksCollections = _replaceInTasksCollectionList(
+      _allTasksCollections = _replaceInAllTasksCollectionList(
           allTasksCollections: _allTasksCollections!,
           idToReplace: oldTasksCollection.id!,
           whatToReplace: r);
@@ -170,7 +170,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     return [...allTasksCollections, whatToAdd];
   }
 
-  List<TasksCollection> _replaceInTasksCollectionList(
+  List<TasksCollection> _replaceInAllTasksCollectionList(
       {required int idToReplace,
       required TasksCollection whatToReplace,
       required List<TasksCollection> allTasksCollections}) {
@@ -179,8 +179,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
         .toList();
   }
 
-  TasksCollection _addTaskToExistingTasksCollection(
-      TasksCollection whatToAddTo) {
+  TasksCollection _addNewTaskToTasksCollection(TasksCollection whatToAddTo) {
     final newTask = Task(
       title: addTaskTEC.text,
     );
