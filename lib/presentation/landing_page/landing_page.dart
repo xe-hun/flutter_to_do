@@ -79,13 +79,12 @@ class LandingPage extends StatelessWidget {
 
   AppBar appBar(BuildContext context) {
     return AppBar(
-      leading: const Icon(Icons.grid_3x3),
+      leading: const Icon(Icons.account_circle_outlined),
       title: const Text('ALL TASKS'),
       centerTitle: true,
       elevation: 0,
       backgroundColor: Theme.of(context).backgroundColor,
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.book)),
         themePopUpButton(context),
       ],
     );
@@ -93,15 +92,23 @@ class LandingPage extends StatelessWidget {
 
   PopupMenuButton<dynamic> themePopUpButton(BuildContext context) {
     return PopupMenuButton(
-        icon: const Icon(Icons.palette),
+        icon: const Icon(Icons.palette_outlined),
         itemBuilder: (_) {
           return [
             themeMenuItem(
                 label: 'Light Theme',
                 context: context,
+                icon: Icon(
+                  Icons.wb_sunny_outlined,
+                  color: Colors.grey.shade900,
+                ),
                 themeType: const AppThemeType.light()),
             themeMenuItem(
                 label: 'Dark Theme',
+                icon: Icon(
+                  Icons.dark_mode_outlined,
+                  color: Colors.grey.shade900,
+                ),
                 context: context,
                 themeType: const AppThemeType.dark()),
           ];
@@ -111,10 +118,16 @@ class LandingPage extends StatelessWidget {
   PopupMenuEntry themeMenuItem(
       {required BuildContext context,
       required String label,
+      required Icon icon,
       required AppThemeType themeType}) {
     return PopupMenuItem(
       value: themeType,
-      child: Text(label),
+      child: Row(
+        children: [
+          Padding(padding: const EdgeInsets.only(right: 10.0), child: icon),
+          Text(label),
+        ],
+      ),
       onTap: () {
         BlocProvider.of<ThemeBloc>(context)
             .add(ThemeEvent.changeTheme(themeType));
