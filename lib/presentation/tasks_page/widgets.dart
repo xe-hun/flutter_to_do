@@ -74,13 +74,13 @@ bool checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
     required int tasksCollectionId}) {
   return //get the tasksCollection.tasks length of the current taskCollection being rendered
       previous.whenOrNull(
-              displayTasksCollections: ((allTasksCollections, _) =>
+              displayTasksCollections: ((allTasksCollections, _, __) =>
                   allTasksCollections
                       .findById<TasksCollection>(tasksCollectionId)!
                       .tasks
                       .length)) !=
           current.whenOrNull(
-              displayTasksCollections: ((allTasksCollections, _) =>
+              displayTasksCollections: ((allTasksCollections, _, __) =>
                   allTasksCollections
                       .findById<TasksCollection>(tasksCollectionId)!
                       .tasks
@@ -90,11 +90,11 @@ bool checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
 bool checkIfANewTasksCollectionWasRemovedOrAdded(
     {required TaskPageState previous, required TaskPageState current}) {
   return previous.whenOrNull(
-        displayTasksCollections: (allTasksCollections, _) =>
+        displayTasksCollections: (allTasksCollections, _, __) =>
             allTasksCollections.length,
       ) !=
       current.whenOrNull(
-        displayTasksCollections: (allTasksCollections, _) =>
+        displayTasksCollections: (allTasksCollections, _, __) =>
             allTasksCollections.length,
       );
 }
@@ -107,13 +107,14 @@ bool checkIfThisTaskIsEdited(
     required int tasksCollectionId,
     required int taskIndex}) {
   Task? currentTask = current.whenOrNull(
-      displayTasksCollections: (allTasksCollections, _) => allTasksCollections
-          .findById<TasksCollection>(tasksCollectionId)
-          ?.tasks
-          .getOrNull(taskIndex));
+      displayTasksCollections: (allTasksCollections, _, __) =>
+          allTasksCollections
+              .findById<TasksCollection>(tasksCollectionId)
+              ?.tasks
+              .getOrNull(taskIndex));
 
   return previous.whenOrNull(
-              displayTasksCollections: (allTasksCollections, _) =>
+              displayTasksCollections: (allTasksCollections, _, __) =>
                   allTasksCollections
                       .findById<TasksCollection>(tasksCollectionId)!
                       .tasks

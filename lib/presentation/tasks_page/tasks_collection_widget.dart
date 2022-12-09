@@ -23,7 +23,7 @@ class TasksCollectionWidget extends StatelessWidget {
         print('task was removed or added');
         return state.maybeWhen(
             orElse: () => Container(),
-            displayTasksCollections: (allTasksCollections, addTaskTEC) {
+            displayTasksCollections: (allTasksCollections, addTaskTEC, _) {
               TasksCollection tasksCollection = allTasksCollections.findById(
                 tasksCollectionId,
               );

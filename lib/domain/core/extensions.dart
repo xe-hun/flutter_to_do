@@ -1,5 +1,4 @@
-import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 extension DateTimeX on DateTime {
   String get whichDay {
@@ -17,7 +16,7 @@ extension DateTimeX on DateTime {
         year == yesterday.year) {
       return 'yesterday';
     } else {
-      return toIso8601String();
+      return DateFormat('dd MMM yyyy').format(this);
     }
   }
 }

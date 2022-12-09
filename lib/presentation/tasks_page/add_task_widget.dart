@@ -4,7 +4,8 @@ import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
 import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 
 class AddTaskWidget extends StatelessWidget {
-  const AddTaskWidget({super.key});
+  const AddTaskWidget({super.key, required this.scrollController});
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,8 @@ class AddTaskWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                maxLines: 4,
+                minLines: 1,
                 controller: BlocProvider.of<TaskPageBloc>(context).addTaskTEC,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
@@ -43,7 +46,8 @@ class AddTaskWidget extends StatelessWidget {
     );
   }
 
-  void _onAddSuccess({required int tasksCollectionId, required int taskIndex}) {
+  Future<void> _onAddSuccess(
+      {required int tasksCollectionId, required int taskIndex}) async {
     //add a new entry to animatedListsKey if a new tasksCollection has been added.
     if (animatedListKeys.containsKey(tasksCollectionId) == false) {
       animatedListKeys[tasksCollectionId] = GlobalKey<AnimatedListState>();
@@ -52,5 +56,8 @@ class AddTaskWidget extends StatelessWidget {
         //very sure the key exists
         key: animatedListKeys[tasksCollectionId]!,
         index: taskIndex);
+    await Future.delayed(const Duration(milliseconds: 500));
+    scrollController.animateTo(scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 }

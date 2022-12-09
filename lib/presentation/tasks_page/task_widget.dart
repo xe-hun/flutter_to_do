@@ -33,13 +33,21 @@ class TaskWidget extends StatelessWidget {
       builder: (context, state) {
         return state.maybeWhen(
           orElse: () => Container(),
-          displayTasksCollections: (allTasksCollections, _) {
+          displayTasksCollections: (allTasksCollections, _, __) {
             //get the updated task from the state
             Task task = allTasksCollections
                 .findById(tasksCollection.id!)
                 .tasks[taskIndex];
 
-            return _buildTaskWidget(task: task);
+            return GestureDetector(
+                onLongPress: () {
+                  print('routing to edit');
+                  BlocProvider.of<TaskPageBloc>(context).add(
+                      TaskPageEvent.editTask(
+                          tasksCollectionId: tasksCollection.id!,
+                          taskIndex: taskIndex));
+                },
+                child: _buildTaskWidget(task: task));
           },
         );
       },
@@ -97,7 +105,7 @@ class TaskWidget extends StatelessWidget {
                         Theme.of(context)
                             .scaffoldBackgroundColor
                             .withOpacity(0),
-                        Theme.of(context).backgroundColor,
+                        Theme.of(context).primaryColor,
                       ],
                     ),
                   ),

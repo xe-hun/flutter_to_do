@@ -19,4 +19,9 @@ class TaskPageEvent with _$TaskPageEvent {
             bool? deleted})
         onDelete,
   }) = _DeleteTask;
+
+  const factory TaskPageEvent.editTask({
+    required int tasksCollectionId,
+    required int taskIndex,
+  }) = _EditTask;
 }

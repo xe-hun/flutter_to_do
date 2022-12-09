@@ -54,7 +54,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             .saveTask(tasksCollection: mutatedTasksCollection);
         updateTasksCollectionFailureOrSuccess
             .fold((l) => print('failed to save'), (r) {
-          _allTasksCollections = _replaceInAllTasksCollectionList(
+          _allTasksCollections = _replaceInTasksCollectionList(
               allTasksCollections: _allTasksCollections!,
               idToReplace: mutatedTasksCollection.id!,
               whatToReplace: r);
@@ -147,6 +147,20 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               addTaskTEC: addTaskTEC,
               allTasksCollections: _allTasksCollections!));
         }
+      }, editTask: (e) {
+        // final modifiedTasksCollection =
+        //     _allTasksCollections!.findById<TasksCollection>(e.tasksCollectionId);
+        // final modifiedTask = modifiedTasksCollection!.tasks[e.taskIndex];
+
+        // addTaskTEC.text = r;
+        // _allTasksCollections = _replaceInTasksCollectionList(
+        //     idToReplace: e.tasksCollectionId,
+        //     whatToReplace: modifiedTaskCollection,
+        //     allTasksCollections: _allTasksCollections!);
+        emit(TaskPageState.displayTasksCollections(
+            allTasksCollections: _allTasksCollections!,
+            addTaskTEC: addTaskTEC,
+            editing: true));
       });
     });
   }
@@ -161,7 +175,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
     updateTasksCollectionFailureOrSuccess.fold((l) => print('failed to save'),
         (r) {
-      _allTasksCollections = _replaceInAllTasksCollectionList(
+      _allTasksCollections = _replaceInTasksCollectionList(
           allTasksCollections: _allTasksCollections!,
           idToReplace: oldTasksCollection.id!,
           whatToReplace: r);
@@ -174,7 +188,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     return [...allTasksCollections, whatToAdd];
   }
 
-  List<TasksCollection> _replaceInAllTasksCollectionList(
+  List<TasksCollection> _replaceInTasksCollectionList(
       {required int idToReplace,
       required TasksCollection whatToReplace,
       required List<TasksCollection> allTasksCollections}) {

@@ -4,27 +4,27 @@ import 'package:flutter_to_do/presentation/tasks_page/tasks_collection_widget.da
 
 class AllTasksCollectionsDisplayWidget extends StatelessWidget {
   const AllTasksCollectionsDisplayWidget(
-      {super.key, required this.allTasksCollections});
+      {super.key,
+      required this.allTasksCollections,
+      required this.scrollController});
 
   final List<TasksCollection> allTasksCollections;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return allTasksCollections.isEmpty
         ? noTaskWidget(context)
-        : SingleChildScrollView(
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: allTasksCollections
-                      .map((tasksCollection) => TasksCollectionWidget(
-                          tasksCollectionId: tasksCollection.id!))
-                      .toList(),
-                ),
-              ),
+        : SizedBox(
+            width: double.infinity,
+            child: ListView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: allTasksCollections
+                  .map((tasksCollection) => TasksCollectionWidget(
+                      tasksCollectionId: tasksCollection.id!))
+                  .toList(),
             ),
           );
   }
@@ -41,69 +41,3 @@ class AllTasksCollectionsDisplayWidget extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-//  listener: (context, state) {
-//         print('zamani');
-//         //initialize the animatedListKeys for the first time.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// AnimatedList(
-//                                           key: myListKey,
-//                                           physics: _initialScrollValue != 0.3 &&
-//                                                   game1Provider.gamePlayCount >=
-//                                                       2
-//                                               ? const BouncingScrollPhysics()
-//                                               : const NeverScrollableScrollPhysics(),
-//                                           controller: cardRowsListController,
-//                                           initialItemCount:
-//                                               initialGamePlayCountSetter,
-//                                           itemBuilder:
-//                                               (context, index, animation) {
-//                                             return rowRemoveAndAddAnimation(
-//                                               animation,
-//                                               _card(
-//                                                 game1Provider
-//                                                     .getPickedNumbersRowAt(
-//                                                   index,
-//                                                 ),
-//                                                 index,
-//                                               ),
-//                                             );
-//                                           },
-//                                         ),
-
-
-
-
-
-  // void scrollAnimateToBallRow(double index) {
-  //   //delay required for smooth scrolling
-  //   Future.delayed(const Duration(milliseconds: 300)).then(
-  //     (value) => cardRowsListController.animateTo(
-  //       clampDouble(
-  //         index * cardRowHeight,
-  //         0,
-  //         cardRowsListController.position.maxScrollExtent,
-  //       ),
-  //       duration: const Duration(milliseconds: 100),
-  //       curve: Curves.easeInQuad,
-  //     ),
-  //   );
-  // }
