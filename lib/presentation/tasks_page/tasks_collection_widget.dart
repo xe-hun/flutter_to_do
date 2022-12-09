@@ -4,8 +4,7 @@ import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
 import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
 import 'package:flutter_to_do/presentation/tasks_page/task_widget.dart';
-
-import 'widgets.dart';
+import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 
 class TasksCollectionWidget extends StatelessWidget {
   const TasksCollectionWidget({super.key, required this.tasksCollectionId});
@@ -16,11 +15,10 @@ class TasksCollectionWidget extends StatelessWidget {
     //rebuilds only when we are add or removing a task.
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       buildWhen: (previous, current) =>
-          _checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
+          checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
               previous: previous,
               current: current,
-              tasksCollectionId: tasksCollectionId) ==
-          true,
+              tasksCollectionId: tasksCollectionId),
       builder: (context, state) {
         print('task was removed or added');
         return state.maybeWhen(
@@ -48,6 +46,11 @@ class TasksCollectionWidget extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                  Divider(
+                    thickness: 1,
+                    height: 0,
+                    color: Theme.of(context).primaryColor,
                   )
 
                   // ...tasksCollection.tasks.asMap().entries.map(
@@ -71,24 +74,5 @@ class TasksCollectionWidget extends StatelessWidget {
         style: Theme.of(context).textTheme.headline6,
       ),
     );
-  }
-
-  _checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
-      {required TaskPageState previous,
-      required TaskPageState current,
-      required int tasksCollectionId}) {
-    return //get the tasksCollection.tasks length of the current taskCollection being rendered
-        previous.whenOrNull(
-                displayTasksCollections: ((allTasksCollections, _) =>
-                    allTasksCollections
-                        .findById<TasksCollection>(tasksCollectionId)!
-                        .tasks
-                        .length)) !=
-            current.whenOrNull(
-                displayTasksCollections: ((allTasksCollections, _) =>
-                    allTasksCollections
-                        .findById<TasksCollection>(tasksCollectionId)!
-                        .tasks
-                        .length));
   }
 }

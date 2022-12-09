@@ -1,14 +1,18 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_to_do/domain/core/extensions.dart';
-import 'package:flutter_to_do/domain/i_repository/i_task_repository.dart';
-import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:flutter_to_do/domain/core/extensions.dart';
+import 'package:flutter_to_do/domain/i_repository/i_task_repository.dart';
+import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+
+part 'task_page_bloc.freezed.dart';
 part 'task_page_event.dart';
 part 'task_page_state.dart';
-part 'task_page_bloc.freezed.dart';
 
 @lazySingleton
 class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
@@ -99,12 +103,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
         final TasksCollection tasksCollectionToModify = _allTasksCollections!
             .findById<TasksCollection>(e.tasksCollectionId)!;
 
-        final taskToModify = List<Task>.from(tasksCollectionToModify.tasks);
-        taskToModify.removeAt(e.taskIndex);
+        final modifiedTasks = List<Task>.from(tasksCollectionToModify.tasks)
+          ..removeAt(e.taskIndex);
 
         //handle if tasksCollection is empty
         //and remove it
-        if (taskToModify.isEmpty) {
+        if (modifiedTasks.isEmpty) {
           final deleteFailureOrSuccess = await taskRepository
               .deleteTasksCollection(tasksCollectionId: e.tasksCollectionId);
 
@@ -117,7 +121,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             },
           );
 
-          e.onDelete(
+          await e.onDelete(
               taskIndex: e.taskIndex,
               tasksCollection: tasksCollectionToModify,
               deleted: true);
@@ -127,7 +131,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               allTasksCollections: _allTasksCollections!));
         } else {
           final TasksCollection modifiedTasksCollection =
-              tasksCollectionToModify.copyWith(tasks: taskToModify);
+              tasksCollectionToModify.copyWith(tasks: modifiedTasks);
 
           await updateAllTaskCollections(
               taskRepository: taskRepository,
@@ -181,7 +185,9 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
   TasksCollection _addNewTaskToTasksCollection(TasksCollection whatToAddTo) {
     final newTask = Task(
-      title: addTaskTEC.text,
+      title: addTaskTEC.text.isEmpty
+          ? lorem(paragraphs: 1, words: 5 + Random().nextInt(20))
+          : addTaskTEC.text,
     );
     final modifiedTasksCollection =
         whatToAddTo.copyWith(tasks: [...whatToAddTo.tasks, newTask]);

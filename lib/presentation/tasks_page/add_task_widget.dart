@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
-import 'package:flutter_to_do/presentation/tasks_page/widgets.dart';
+import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 
 class AddTaskWidget extends StatelessWidget {
   const AddTaskWidget({super.key});

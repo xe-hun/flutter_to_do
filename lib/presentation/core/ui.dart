@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightThemeData(BuildContext context) {
@@ -42,4 +43,23 @@ OutlineInputBorder inputBorder(BuildContext context) {
     borderSide: BorderSide(width: .5, color: Theme.of(context).backgroundColor),
     borderRadius: const BorderRadius.all(Radius.circular(5)),
   );
+}
+
+enum InCurvePosition {
+  first,
+  last,
+}
+
+class InCurve extends Curve {
+  const InCurve(this.inCurvePosition);
+  final InCurvePosition inCurvePosition;
+
+  @override
+  double transformInternal(double t) {
+    if (inCurvePosition == InCurvePosition.first) {
+      return clampDouble(t, 0, .5) * 2;
+    } else {
+      return (clampDouble(t, 0.5, 1) - 0.5) * 2;
+    }
+  }
 }

@@ -1,12 +1,15 @@
-library task_page;
+library tasks_page;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
+import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
+import 'package:flutter_to_do/presentation/core/ui.dart';
 import 'package:flutter_to_do/presentation/tasks_page/add_task_widget.dart';
 import 'package:flutter_to_do/presentation/tasks_page/all_tasks_display_widget.dart';
-import 'package:flutter_to_do/presentation/tasks_page/widgets.dart';
+
+part 'widgets.dart';
 
 class TasksPage extends StatelessWidget {
   const TasksPage({super.key});
@@ -26,9 +29,8 @@ class TasksPage extends StatelessWidget {
       //build when the alltasksCollection.length changes
       //i.e new tasksCollection is added or removed.
       buildWhen: (previous, current) =>
-          _checkIfANewTasksCollectionWasRemovedOrAdded(
-              previous: previous, current: current) ==
-          true,
+          checkIfANewTasksCollectionWasRemovedOrAdded(
+              previous: previous, current: current),
 
       builder: (context, state) {
         return state.map(
@@ -55,17 +57,5 @@ class TasksPage extends StatelessWidget {
         animatedListKeys[i.id!] = GlobalKey<AnimatedListState>();
       }
     }
-  }
-
-  bool _checkIfANewTasksCollectionWasRemovedOrAdded(
-      {required TaskPageState previous, required TaskPageState current}) {
-    return previous.whenOrNull(
-          displayTasksCollections: (allTasksCollections, _) =>
-              allTasksCollections.length,
-        ) !=
-        current.whenOrNull(
-          displayTasksCollections: (allTasksCollections, _) =>
-              allTasksCollections.length,
-        );
   }
 }

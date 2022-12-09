@@ -13,7 +13,7 @@ class TaskPageEvent with _$TaskPageEvent {
   const factory TaskPageEvent.deleteTask({
     required int tasksCollectionId,
     required int taskIndex,
-    required void Function(
+    required Function(
             {required TasksCollection tasksCollection,
             required int taskIndex,
             bool? deleted})

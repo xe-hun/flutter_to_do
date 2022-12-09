@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
+import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
-import 'package:flutter_to_do/presentation/tasks_page/widgets.dart';
 
 class TaskWidget extends StatelessWidget {
   const TaskWidget({
@@ -20,13 +20,15 @@ class TaskWidget extends StatelessWidget {
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       //build when the individual task is replaced (changed).
 
-      buildWhen: (previous, current) =>
-          _checkIfThisTaskIsEdited(
+      buildWhen: (previous, current) => (checkIfThisTaskIsEdited(
               current: current,
               previous: previous,
               tasksCollectionId: tasksCollection.id!,
-              taskIndex: taskIndex) ==
-          true,
+              taskIndex: taskIndex) ||
+          checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
+              previous: previous,
+              current: current,
+              tasksCollectionId: tasksCollection.id!)),
 
       builder: (context, state) {
         return state.maybeWhen(
@@ -37,61 +39,79 @@ class TaskWidget extends StatelessWidget {
                 .findById(tasksCollection.id!)
                 .tasks[taskIndex];
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: IntrinsicHeight(
-                child: Stack(
-                  children: [
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          checkBox(
-                              task, context, tasksCollection.id!, taskIndex),
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              task.title,
-                              style: TextStyle(
-                                  decoration: task.completed
-                                      ? TextDecoration.lineThrough
-                                      : null),
-                            ),
-                          ))
-                        ]),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        height: double.infinity,
-                        width: MediaQuery.of(context).size.width * .5,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(1)),
-                          gradient: LinearGradient(
-                            stops: const [.2, 1],
-                            colors: [
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withOpacity(.5),
-                              Theme.of(context).backgroundColor,
-                            ],
-                          ),
-                        ),
-                        child: deleteButtonWidget(
-                            context: context,
-                            tasksCollectionId: tasksCollection.id!,
-                            taskIndex: taskIndex),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
+            return _buildTaskWidget(task: task);
           },
         );
       },
     );
+  }
+
+  Widget _buildTaskWidget({required Task task}) {
+    return Builder(builder: (context) {
+      Color borderColor = Theme.of(context).primaryColor;
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          border: Border(
+            top: BorderSide(color: borderColor),
+            // bottom: BorderSide(color: borderColor),
+          ),
+        ),
+        child: IntrinsicHeight(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          height: double.infinity,
+                          child: checkBoxWidget(
+                              task, context, tasksCollection.id!, taskIndex)),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          task.title,
+                          style: TextStyle(
+                              decoration: task.completed
+                                  ? TextDecoration.lineThrough
+                                  : null),
+                        ),
+                      )),
+                    ]),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  height: double.infinity,
+                  width: MediaQuery.of(context).size.width * .5,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(1)),
+                    gradient: LinearGradient(
+                      stops: const [.2, 1],
+                      colors: [
+                        Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(0),
+                        Theme.of(context).backgroundColor,
+                      ],
+                    ),
+                  ),
+                  child: deleteButtonWidget(
+                      context: context,
+                      tasksCollectionId: tasksCollection.id!,
+                      taskIndex: taskIndex),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   IconButton deleteButtonWidget({
@@ -119,9 +139,10 @@ class TaskWidget extends StatelessWidget {
     if (deleted == true) {
       animatedListKeys.remove(tasksCollection.id);
     } else {
-      final taskBodyWidget = TaskWidget(
-        tasksCollection: tasksCollection,
-        taskIndex: taskIndex,
+      final taskBodyWidget = IgnorePointer(
+        child: _buildTaskWidget(
+          task: tasksCollection.tasks[taskIndex],
+        ),
       );
 
       animateRowRemoval(
@@ -131,7 +152,7 @@ class TaskWidget extends StatelessWidget {
     }
   }
 
-  Widget checkBox(
+  Widget checkBoxWidget(
       Task task, BuildContext context, int tasksCollectionId, int taskIndex) {
     return Checkbox(
       value: task.completed,
@@ -143,48 +164,4 @@ class TaskWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     );
   }
-
-  //if task was edited, then it would be replace
-  //therefore, checking the equality.
-  bool _checkIfThisTaskIsEdited(
-      {required TaskPageState current,
-      required TaskPageState previous,
-      required int tasksCollectionId,
-      required int taskIndex}) {
-    Task? currentTask = current.whenOrNull(
-        displayTasksCollections: (allTasksCollections, _) => allTasksCollections
-            .findById<TasksCollection>(tasksCollectionId)
-            ?.tasks
-            .getOrNull(taskIndex));
-
-    return previous.whenOrNull(
-                displayTasksCollections: (allTasksCollections, _) =>
-                    allTasksCollections
-                        .findById<TasksCollection>(tasksCollectionId)!
-                        .tasks
-                        .getOrNull(taskIndex)) !=
-            currentTask &&
-        //check in the case when a task was removed. do not rebuild.
-        currentTask != null;
-  }
-
-  // bool _checkIfNoTaskWasAddedOrRemoved(
-  //     {required TaskPageState current,
-  //     required TaskPageState previous,
-  //     required int tasksCollectionId}) {
-  //   return current.whenOrNull(
-  //         displayTasksCollections: (allTasksCollections, _) =>
-  //             allTasksCollections
-  //                 .findById<TasksCollection>(tasksCollectionId)
-  //                 ?.tasks
-  //                 .length,
-  //       ) ==
-  //       previous.whenOrNull(
-  //         displayTasksCollections: (allTasksCollections, _) =>
-  //             allTasksCollections
-  //                 .findById<TasksCollection>(tasksCollectionId)
-  //                 ?.tasks
-  //                 .length,
-  //       );
-  // }
 }

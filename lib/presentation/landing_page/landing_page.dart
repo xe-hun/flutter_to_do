@@ -5,7 +5,6 @@ import 'package:flutter_to_do/application/core/ui_objects.dart';
 import 'package:flutter_to_do/application/landing_page/landing_page_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
 import 'package:flutter_to_do/application/theme/theme_bloc.dart';
-import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/injectable.dart';
 import 'package:flutter_to_do/presentation/core/ui.dart';
 import 'package:flutter_to_do/presentation/router/app_router.gr.dart';
@@ -17,9 +16,9 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        textTheme: textTheme(context),
-        inputDecorationTheme: inputDecoration(context),
-      ),
+          textTheme: textTheme(context),
+          inputDecorationTheme: inputDecoration(context),
+          errorColor: Colors.red.shade300),
       child: MultiBlocProvider(
         providers: [
           BlocProvider<LandingPageBloc>(

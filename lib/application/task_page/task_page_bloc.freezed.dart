@@ -29,7 +29,7 @@ mixin _$TaskPageEvent {
     required TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -49,7 +49,7 @@ mixin _$TaskPageEvent {
     TResult? Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -69,7 +69,7 @@ mixin _$TaskPageEvent {
     TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -172,7 +172,7 @@ class _$_LoadTasks implements _LoadTasks {
     required TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -195,7 +195,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult? Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -218,7 +218,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -360,7 +360,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     required TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -383,7 +383,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult? Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -406,7 +406,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -549,7 +549,7 @@ class _$_AddTask implements _AddTask {
     required TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -572,7 +572,7 @@ class _$_AddTask implements _AddTask {
     TResult? Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -595,7 +595,7 @@ class _$_AddTask implements _AddTask {
     TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -669,7 +669,7 @@ abstract class _$$_DeleteTaskCopyWith<$Res> {
   $Res call(
       {int tasksCollectionId,
       int taskIndex,
-      void Function(
+      dynamic Function(
               {bool? deleted,
               required int taskIndex,
               required TasksCollection tasksCollection})
@@ -703,7 +703,7 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
       onDelete: null == onDelete
           ? _value.onDelete
           : onDelete // ignore: cast_nullable_to_non_nullable
-              as void Function(
+              as dynamic Function(
                   {bool? deleted,
                   required int taskIndex,
                   required TasksCollection tasksCollection}),
@@ -724,7 +724,7 @@ class _$_DeleteTask implements _DeleteTask {
   @override
   final int taskIndex;
   @override
-  final void Function(
+  final dynamic Function(
       {bool? deleted,
       required int taskIndex,
       required TasksCollection tasksCollection}) onDelete;
@@ -771,7 +771,7 @@ class _$_DeleteTask implements _DeleteTask {
     required TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -794,7 +794,7 @@ class _$_DeleteTask implements _DeleteTask {
     TResult? Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -817,7 +817,7 @@ class _$_DeleteTask implements _DeleteTask {
     TResult Function(
             int tasksCollectionId,
             int taskIndex,
-            void Function(
+            dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
@@ -873,7 +873,7 @@ abstract class _DeleteTask implements TaskPageEvent {
   const factory _DeleteTask(
       {required final int tasksCollectionId,
       required final int taskIndex,
-      required final void Function(
+      required final dynamic Function(
               {bool? deleted,
               required int taskIndex,
               required TasksCollection tasksCollection})
@@ -881,7 +881,7 @@ abstract class _DeleteTask implements TaskPageEvent {
 
   int get tasksCollectionId;
   int get taskIndex;
-  void Function(
+  dynamic Function(
       {bool? deleted,
       required int taskIndex,
       required TasksCollection tasksCollection}) get onDelete;
