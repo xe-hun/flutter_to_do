@@ -148,22 +148,112 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
               allTasksCollections: _allTasksCollections!));
         }
       }, editTask: (e) {
-        // final modifiedTasksCollection =
-        //     _allTasksCollections!.findById<TasksCollection>(e.tasksCollectionId);
-        // final modifiedTask = modifiedTasksCollection!.tasks[e.taskIndex];
+        final tasksCollection = _allTasksCollections!
+            .findById<TasksCollection>(e.tasksCollectionId);
+        final task = tasksCollection!.tasks[e.taskIndex];
 
-        // addTaskTEC.text = r;
-        // _allTasksCollections = _replaceInTasksCollectionList(
-        //     idToReplace: e.tasksCollectionId,
-        //     whatToReplace: modifiedTaskCollection,
-        //     allTasksCollections: _allTasksCollections!);
+        if (getEditingStatus() == false) {
+          addTaskTEC.text = task.title;
+          //store the task
+          storeTask(task);
+        }
+
+        final modifiedTask = task.copyWith(title: addTaskTEC.text);
+        final List<Task> tasks = List.from(tasksCollection.tasks);
+        tasks[e.taskIndex] = modifiedTask;
+
+        final modifiedTasksCollection = tasksCollection.copyWith(tasks: tasks);
+
+        _allTasksCollections = _replaceInTasksCollectionList(
+            allTasksCollections: _allTasksCollections!,
+            idToReplace: tasksCollection.id!,
+            whatToReplace: modifiedTasksCollection);
+
+        //editing must br true.
         emit(TaskPageState.displayTasksCollections(
             allTasksCollections: _allTasksCollections!,
             addTaskTEC: addTaskTEC,
-            editing: true));
+            editPayload: EditPayload(
+                taskIndex: e.taskIndex,
+                tasksCollectionId: e.tasksCollectionId)));
+
+        assert(getEditingStatus() == true,
+            'editPayload must not be null after editTask is called');
+      }, cancelEditTask: (e) {
+        bool? editing = getEditingStatus();
+        //editing has to be true before calling this.
+        assert(editing == true && taskStore != null,
+            'editPayload and taskStore must not be null when calling cancelEditTask');
+
+        final tasksCollection = _allTasksCollections!
+            .findById<TasksCollection>(e.tasksCollectionId);
+        final List<Task> tasks = List.from(tasksCollection!.tasks);
+        tasks[e.taskIndex] = taskStore!;
+        final modifiedTasksCollection = tasksCollection.copyWith(tasks: tasks);
+
+        updateAllTaskCollections(
+            newTasksCollection: modifiedTasksCollection,
+            oldTasksCollection: tasksCollection,
+            taskRepository: taskRepository);
+
+        emit(TaskPageState.displayTasksCollections(
+            addTaskTEC: addTaskTEC,
+            allTasksCollections: _allTasksCollections!,
+            editPayload: null));
+
+        clearTaskStore();
+
+        assert(getEditingStatus() == false,
+            'editPayload must be null after calling cancelEditTask');
+      }, saveEditTask: (e) async {
+        bool? editing = getEditingStatus();
+
+        assert(
+            editing == true, 'Editing must not be null to call saveEditTask');
+
+        final tasksCollection = _allTasksCollections!
+            .findById<TasksCollection>(e.tasksCollectionId);
+        final List<Task> tasks = List.from(tasksCollection!.tasks);
+        tasks[e.taskIndex] =
+            tasks[e.taskIndex].copyWith(title: addTaskTEC.text);
+        final modifiedTasksCollection = tasksCollection.copyWith(tasks: tasks);
+
+        final saveNewTaskCollectionFailureOrSuccess = await taskRepository
+            .saveTask(tasksCollection: modifiedTasksCollection);
+        saveNewTaskCollectionFailureOrSuccess
+            .fold((l) => print('failed to save'), (r) {
+          updateAllTaskCollections(
+              newTasksCollection: modifiedTasksCollection,
+              oldTasksCollection: tasksCollection,
+              taskRepository: taskRepository);
+
+          emit(TaskPageState.displayTasksCollections(
+              addTaskTEC: addTaskTEC,
+              allTasksCollections: _allTasksCollections!,
+              editPayload: null));
+
+          clearTaskStore();
+          addTaskTEC.clear();
+          assert(getEditingStatus() == false,
+              'editPayload must be null after calling saveEditTask');
+
+          assert(taskStore == null,
+              'tasksStore must be set to null before after calling saveEditTask');
+        });
       });
     });
   }
+
+  void clearTaskStore() => taskStore = null;
+
+  bool getEditingStatus() {
+    return state.whenOrNull(
+            displayTasksCollections: (_, __, editPayload) =>
+                editPayload != null) ??
+        false;
+  }
+
+  void storeTask(Task task) => taskStore = task;
 
   //Note that this is an implace method!
   Future<void> updateAllTaskCollections(
@@ -223,6 +313,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
   List<TasksCollection>? _allTasksCollections;
 
   TextEditingController addTaskTEC = TextEditingController();
+  Task? taskStore;
 
   TasksCollection? getTaskCollectionForToday() {
     try {

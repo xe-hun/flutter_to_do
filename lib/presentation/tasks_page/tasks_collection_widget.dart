@@ -15,53 +15,49 @@ class TasksCollectionWidget extends StatelessWidget {
     //rebuilds only when we are add or removing a task.
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       buildWhen: (previous, current) =>
-          checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
+          checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
               previous: previous,
               current: current,
               tasksCollectionId: tasksCollectionId),
       builder: (context, state) {
-        print('task was removed or added');
-        return state.maybeWhen(
-            orElse: () => Container(),
-            displayTasksCollections: (allTasksCollections, addTaskTEC, _) {
-              TasksCollection tasksCollection = allTasksCollections.findById(
-                tasksCollectionId,
-              );
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  headerText(context, tasksCollection.dateTime),
+        TasksCollection tasksCollection = state.mapOrNull(
+            displayTasksCollections: (e) =>
+                e.allTasksCollections.findById(tasksCollectionId))!;
 
-                  AnimatedList(
-                    key: animatedListKeys[tasksCollection.id],
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    initialItemCount: tasksCollection.tasks.length,
-                    itemBuilder: (context, index, animation) {
-                      return rowRemoveAndAddAnimation(
-                        animation,
-                        TaskWidget(
-                          tasksCollection: tasksCollection,
-                          taskIndex: index,
-                        ),
-                      );
-                    },
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            headerText(context, tasksCollection.dateTime),
+
+            AnimatedList(
+              key: animatedListKeys[tasksCollection.id],
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              initialItemCount: tasksCollection.tasks.length,
+              itemBuilder: (context, index, animation) {
+                return rowRemoveAndAddAnimation(
+                  animation,
+                  TaskWidget(
+                    tasksCollection: tasksCollection,
+                    taskIndex: index,
                   ),
-                  Divider(
-                    thickness: 1,
-                    height: 0,
-                    color: Theme.of(context).primaryColor,
-                  )
+                );
+              },
+            ),
+            Divider(
+              thickness: 1,
+              height: 0,
+              color: Theme.of(context).primaryColor,
+            )
 
-                  // ...tasksCollection.tasks.asMap().entries.map(
-                  //       (entry) => bodyStyle(
-                  //           context: context,
-                  //           tasksCollection: tasksCollection,
-                  //           taskIndex: entry.key),
-                  //     )
-                ],
-              );
-            });
+            // ...tasksCollection.tasks.asMap().entries.map(
+            //       (entry) => bodyStyle(
+            //           context: context,
+            //           tasksCollection: tasksCollection,
+            //           taskIndex: entry.key),
+            //     )
+          ],
+        );
       },
     );
   }

@@ -1,30 +1,44 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-ThemeData lightThemeData(BuildContext context) {
+ThemeData lightThemeData() {
   return ThemeData(
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
-      elevatedButtonTheme: elevatedButtonStyle());
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
+    highlightColor: Colors.grey.shade400,
+
+    //  Colors.grey.shade400,
+    textTheme: TextTheme(
+      bodyText1: TextStyle(color: Colors.grey.shade900, fontSize: 18),
+      bodyText2: TextStyle(
+          color: Colors.grey.shade800,
+          fontSize: 14,
+          letterSpacing: 1.2,
+          height: 1.5),
+      headline4: TextStyle(color: Colors.grey.shade900, fontSize: 32),
+    ),
+  );
 }
 
-ThemeData darkThemeData(BuildContext context) {
+ThemeData darkThemeData() {
   return ThemeData.dark().copyWith(
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green));
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey),
+    highlightColor: Colors.grey.shade600,
+    textTheme: TextTheme(
+        bodyText1: TextStyle(color: Colors.grey.shade200, fontSize: 18),
+        bodyText2: TextStyle(
+            color: Colors.grey.shade200,
+            fontSize: 14,
+            letterSpacing: 1.2,
+            height: 1.5),
+        headline4: TextStyle(color: Colors.grey.shade100, fontSize: 32)),
+  );
 }
 
-elevatedButtonStyle() => ElevatedButtonThemeData(
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-      ),
-    );
-
-TextTheme textTheme(BuildContext context) {
-  return Theme.of(context).textTheme.copyWith(
-        bodyText1: Theme.of(context).textTheme.bodyText2!.copyWith(
-            fontSize: 18, wordSpacing: .2, fontWeight: FontWeight.w300),
-      );
-}
+// data: Theme.of(context).copyWith(
+//         textTheme: Theme.of(context).textTheme.copyWith(
+//             bodyText1: Theme.of(context).textTheme.headline4!.copyWith(
+//                   fontSize: 20,
+//                 ))),
 
 InputDecorationTheme inputDecoration(BuildContext context) {
   return InputDecorationTheme(

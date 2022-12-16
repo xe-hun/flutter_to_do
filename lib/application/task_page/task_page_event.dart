@@ -24,4 +24,14 @@ class TaskPageEvent with _$TaskPageEvent {
     required int tasksCollectionId,
     required int taskIndex,
   }) = _EditTask;
+
+  const factory TaskPageEvent.cancelEditTask({
+    required int tasksCollectionId,
+    required int taskIndex,
+  }) = _CancelEditTask;
+
+  const factory TaskPageEvent.saveEditTask({
+    required int tasksCollectionId,
+    required int taskIndex,
+  }) = _SaveEditTask;
 }

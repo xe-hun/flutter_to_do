@@ -16,6 +16,7 @@ part of tasks_page;
 
 final animatedListKeys = <int, GlobalKey<AnimatedListState>>{};
 const kTaskAddAndRemovalUIAnimationDurationInMilliSeconds = 800;
+const kEditingWidgetSwitchDurationInMilliseconds = 1000;
 
 Widget rowRemoveAndAddAnimation(Animation<double> animation, Widget child) {
   return Builder(builder: (context) {
@@ -68,7 +69,7 @@ void animateRowRemoval(
   );
 }
 
-bool checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
+bool checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
     {required TaskPageState previous,
     required TaskPageState current,
     required int tasksCollectionId}) {
@@ -123,3 +124,11 @@ bool checkIfThisTaskIsEdited(
       //check in the case when a task was removed. do not rebuild.
       currentTask != null;
 }
+
+//check if isEditing
+bool stateIsEditing(TaskPageState state) =>
+    state.mapOrNull(displayTasksCollections: (e) => e.editPayload != null) ??
+    false;
+
+bool checkIfEditStateChanges(TaskPageState previous, TaskPageState current) =>
+    stateIsEditing(previous) != stateIsEditing(current);

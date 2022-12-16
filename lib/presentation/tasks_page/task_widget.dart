@@ -20,41 +20,53 @@ class TaskWidget extends StatelessWidget {
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       //build when the individual task is replaced (changed).
 
-      buildWhen: (previous, current) => (checkIfThisTaskIsEdited(
-              current: current,
+      buildWhen: (previous, current) =>
+          // (checkIfThisTaskIsEdited(
+          //         current: current,
+          //         previous: previous,
+          //         tasksCollectionId: tasksCollection.id!,
+          //         taskIndex: taskIndex) ||
+          checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
               previous: previous,
-              tasksCollectionId: tasksCollection.id!,
-              taskIndex: taskIndex) ||
-          checkIfTasksWithinATasksCollectionWasAddedOrRemoved(
-              previous: previous,
               current: current,
-              tasksCollectionId: tasksCollection.id!)),
+              tasksCollectionId: tasksCollection.id!) ||
+          // checkIfEditStateChanges(previous, current),
+          checkIfEditStateChanges(previous, current),
 
       builder: (context, state) {
-        return state.maybeWhen(
-          orElse: () => Container(),
-          displayTasksCollections: (allTasksCollections, _, __) {
-            //get the updated task from the state
-            Task task = allTasksCollections
+        //get the updated task from the state
+        Task task = state.mapOrNull(
+            displayTasksCollections: (e) => e.allTasksCollections
                 .findById(tasksCollection.id!)
-                .tasks[taskIndex];
+                .tasks[taskIndex])!;
 
-            return GestureDetector(
-                onLongPress: () {
-                  print('routing to edit');
-                  BlocProvider.of<TaskPageBloc>(context).add(
-                      TaskPageEvent.editTask(
-                          tasksCollectionId: tasksCollection.id!,
-                          taskIndex: taskIndex));
-                },
-                child: _buildTaskWidget(task: task));
+        EditPayload? editPayload =
+            state.mapOrNull(displayTasksCollections: (e) => e.editPayload);
+
+        return GestureDetector(
+          onLongPress: () {
+            print('routing to edit');
+            BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.editTask(
+                tasksCollectionId: tasksCollection.id!, taskIndex: taskIndex));
           },
+          child: _buildTaskWidget(
+            task: task,
+            isEditing: stateIsEditing(state),
+            editPayload: editPayload,
+          ),
         );
       },
     );
   }
 
-  Widget _buildTaskWidget({required Task task}) {
+  bool _isEditingThisTask(EditPayload? editPayload) {
+    return (editPayload != null &&
+        editPayload.tasksCollectionId == tasksCollection.id &&
+        editPayload.taskIndex == taskIndex);
+  }
+
+  Widget _buildTaskWidget(
+      {required Task task, required bool isEditing, EditPayload? editPayload}) {
     return Builder(builder: (context) {
       Color borderColor = Theme.of(context).primaryColor;
       return Container(
@@ -75,8 +87,23 @@ class TaskWidget extends StatelessWidget {
                     children: [
                       SizedBox(
                           height: double.infinity,
-                          child: checkBoxWidget(
-                              task, context, tasksCollection.id!, taskIndex)),
+                          child: AnimatedCrossFade(
+                              firstChild: Container(
+                                width: 40,
+                              ),
+                              secondChild: checkBoxWidget(
+                                task: task,
+                                context: context,
+                                tasksCollectionId: tasksCollection.id!,
+                                taskIndex: taskIndex,
+                                stateIsEditing: isEditing,
+                              ),
+                              duration: const Duration(
+                                  milliseconds:
+                                      kEditingWidgetSwitchDurationInMilliseconds),
+                              crossFadeState: _isEditingThisTask(editPayload)
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond)),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(right: 20),
@@ -109,10 +136,18 @@ class TaskWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  child: deleteButtonWidget(
-                      context: context,
-                      tasksCollectionId: tasksCollection.id!,
-                      taskIndex: taskIndex),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(
+                        milliseconds:
+                            kEditingWidgetSwitchDurationInMilliseconds),
+                    child: _isEditingThisTask(editPayload)
+                        ? Container()
+                        : deleteButtonWidget(
+                            context: context,
+                            tasksCollectionId: tasksCollection.id!,
+                            stateIsEditing: isEditing,
+                            taskIndex: taskIndex),
+                  ),
                 ),
               )
             ],
@@ -125,18 +160,24 @@ class TaskWidget extends StatelessWidget {
   IconButton deleteButtonWidget({
     required BuildContext context,
     required int tasksCollectionId,
+    required bool stateIsEditing,
     required taskIndex,
   }) {
     return IconButton(
-        onPressed: () {
-          BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.deleteTask(
-              tasksCollectionId: tasksCollectionId,
-              taskIndex: taskIndex,
-              onDelete: onDelete));
-        },
+        onPressed: stateIsEditing == true
+            ? null
+            : () {
+                BlocProvider.of<TaskPageBloc>(context).add(
+                    TaskPageEvent.deleteTask(
+                        tasksCollectionId: tasksCollectionId,
+                        taskIndex: taskIndex,
+                        onDelete: onDelete));
+              },
         icon: Icon(
           Icons.cancel,
-          color: Theme.of(context).errorColor,
+          color: stateIsEditing == true
+              ? Theme.of(context).disabledColor
+              : Theme.of(context).errorColor,
         ));
   }
 
@@ -148,7 +189,9 @@ class TaskWidget extends StatelessWidget {
       animatedListKeys.remove(tasksCollection.id);
     } else {
       final taskBodyWidget = IgnorePointer(
+        //tasks can't be removed when in editing state
         child: _buildTaskWidget(
+          isEditing: false,
           task: tasksCollection.tasks[taskIndex],
         ),
       );
@@ -160,16 +203,27 @@ class TaskWidget extends StatelessWidget {
     }
   }
 
-  Widget checkBoxWidget(
-      Task task, BuildContext context, int tasksCollectionId, int taskIndex) {
-    return Checkbox(
-      value: task.completed,
-      onChanged: (e) {
-        BlocProvider.of<TaskPageBloc>(context).add(
-            TaskPageEvent.toggleTaskStatus(
-                tasksCollectionId: tasksCollectionId, taskIndex: taskIndex));
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+  Widget checkBoxWidget({
+    required Task task,
+    required BuildContext context,
+    required int tasksCollectionId,
+    required int taskIndex,
+    required bool stateIsEditing,
+  }) {
+    return SizedBox(
+      width: 50,
+      child: Checkbox(
+        value: task.completed,
+        onChanged: stateIsEditing
+            ? null
+            : (e) {
+                BlocProvider.of<TaskPageBloc>(context).add(
+                    TaskPageEvent.toggleTaskStatus(
+                        tasksCollectionId: tasksCollectionId,
+                        taskIndex: taskIndex));
+              },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      ),
     );
   }
 }

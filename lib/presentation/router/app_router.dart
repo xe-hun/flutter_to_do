@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_to_do/presentation/landing_page/landing_page.dart';
 import 'package:flutter_to_do/presentation/init_page/init_page.dart';
+import 'package:flutter_to_do/presentation/settings_page/about_me/about_me_page.dart';
 import 'package:flutter_to_do/presentation/settings_page/settings_page.dart';
+import 'package:flutter_to_do/presentation/settings_page/view_settings_page.dart';
 import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 
 @MaterialAutoRouter(
@@ -13,10 +15,13 @@ import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
       durationInMilliseconds: 400,
       children: [
         AutoRoute(page: TasksPage),
-        AutoRoute(page: SettingsPage),
+        AutoRoute(page: SettingsPage, children: <AutoRoute>[
+          AutoRoute(page: ViewSettingsPage, initial: true),
+          AutoRoute(page: AboutMePage)
+        ]),
       ],
     ),
-    AutoRoute(page: InitPage, initial: true)
+    AutoRoute(page: InitPage, initial: true),
   ],
 )
 class $AppRouter {}

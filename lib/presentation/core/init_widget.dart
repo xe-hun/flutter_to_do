@@ -19,15 +19,17 @@ class InitWidget extends StatelessWidget {
             routeInformationParser: appRouter.defaultRouteParser(),
             routerDelegate: appRouter.delegate(),
             debugShowCheckedModeBanner: false,
-            theme: state
-                .map(
-                  initial: (value) => lightThemeData(context),
-                  light: (value) => lightThemeData(context),
-                  dark: (value) => darkThemeData(context),
-                )
-                .copyWith(
-                  elevatedButtonTheme: elevatedButtonStyle(),
-                ),
+            theme: state.map(
+              initial: (value) => lightThemeData(),
+              light: (value) => lightThemeData(),
+              dark: (value) => darkThemeData(),
+            ),
+            builder: (context, child) => Theme(
+                data: Theme.of(context).copyWith(
+                    // textTheme: textTheme(context),
+                    inputDecorationTheme: inputDecoration(context),
+                    errorColor: Colors.red.shade300),
+                child: child!),
           );
         },
       ),
