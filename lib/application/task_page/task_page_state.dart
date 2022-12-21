@@ -7,18 +7,18 @@ class TaskPageState with _$TaskPageState {
 
   const factory TaskPageState.displayTasksCollections({
     required List<TasksCollection> allTasksCollections,
-    TextEditingController? addTaskTEC,
 
-    ///if editPayload is not null, the user is editing
-    EditPayload? editPayload,
+    ///if taskPayload is not null, the user is editing
+    TaskPayload? taskPayload,
+    @Default(false) bool editing,
   }) = _DisplayTasksCollections;
   const factory TaskPageState.loadFailure() = _LoadFailure;
 }
 
 @freezed
-class EditPayload with _$EditPayload {
-  const factory EditPayload({
+class TaskPayload with _$TaskPayload {
+  const factory TaskPayload({
     required int tasksCollectionId,
     required int taskIndex,
-  }) = _EditPayload;
+  }) = _TaskPayload;
 }

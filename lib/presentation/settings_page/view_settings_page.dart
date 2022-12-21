@@ -21,7 +21,7 @@ class ViewSettingsPage extends StatelessWidget {
                     horizontal: kHorizontalPad, vertical: 20),
                 child: Text(
                   'SETTINGS',
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                 ),

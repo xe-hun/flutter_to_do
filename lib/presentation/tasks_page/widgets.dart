@@ -74,61 +74,114 @@ bool checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
     required TaskPageState current,
     required int tasksCollectionId}) {
   return //get the tasksCollection.tasks length of the current taskCollection being rendered
-      previous.whenOrNull(
-              displayTasksCollections: ((allTasksCollections, _, __) =>
-                  allTasksCollections
-                      .findById<TasksCollection>(tasksCollectionId)!
-                      .tasks
-                      .length)) !=
-          current.whenOrNull(
-              displayTasksCollections: ((allTasksCollections, _, __) =>
-                  allTasksCollections
-                      .findById<TasksCollection>(tasksCollectionId)!
-                      .tasks
-                      .length));
+      previous.mapOrNull(
+              displayTasksCollections: ((e) => e.allTasksCollections
+                  .findById<TasksCollection>(tasksCollectionId)!
+                  .tasks
+                  .length)) !=
+          current.mapOrNull(
+              displayTasksCollections: ((e) => e.allTasksCollections
+                  .findById<TasksCollection>(tasksCollectionId)
+                  ?.tasks
+                  .length));
 }
 
 bool checkIfANewTasksCollectionWasRemovedOrAdded(
     {required TaskPageState previous, required TaskPageState current}) {
-  return previous.whenOrNull(
-        displayTasksCollections: (allTasksCollections, _, __) =>
-            allTasksCollections.length,
+  return previous.mapOrNull(
+        displayTasksCollections: (e) => e.allTasksCollections.length,
       ) !=
-      current.whenOrNull(
-        displayTasksCollections: (allTasksCollections, _, __) =>
-            allTasksCollections.length,
+      current.mapOrNull(
+        displayTasksCollections: (e) => e.allTasksCollections.length,
       );
 }
 
 //if task was edited, then it would be replace
 //therefore, checking the equality.
-bool checkIfThisTaskIsEdited(
-    {required TaskPageState current,
-    required TaskPageState previous,
-    required int tasksCollectionId,
-    required int taskIndex}) {
-  Task? currentTask = current.whenOrNull(
-      displayTasksCollections: (allTasksCollections, _, __) =>
-          allTasksCollections
-              .findById<TasksCollection>(tasksCollectionId)
-              ?.tasks
-              .getOrNull(taskIndex));
+bool checkIfThisTaskIsEdited({
+  required TaskPageState current,
+  required TaskPageState previous,
+  required int taskIndex,
+  required int tasksCollectionId,
+}) {
+  Task? currentTask = current.mapOrNull(
+      displayTasksCollections: (e) => e.allTasksCollections
+          .findById<TasksCollection>(tasksCollectionId)
+          ?.tasks
+          .getOrNull(taskIndex));
+  Task? previousTask = previous.mapOrNull(
+      displayTasksCollections: (e) => e.allTasksCollections
+          .findById<TasksCollection>(tasksCollectionId)
+          ?.tasks
+          .getOrNull(taskIndex));
 
-  return previous.whenOrNull(
-              displayTasksCollections: (allTasksCollections, _, __) =>
-                  allTasksCollections
-                      .findById<TasksCollection>(tasksCollectionId)!
-                      .tasks
-                      .getOrNull(taskIndex)) !=
-          currentTask &&
-      //check in the case when a task was removed. do not rebuild.
-      currentTask != null;
+  return currentTask != null &&
+      previousTask != null &&
+      previousTask != currentTask;
+  //check in the case when a task was removed. do not rebuild.
 }
 
 //check if isEditing
-bool stateIsEditing(TaskPageState state) =>
-    state.mapOrNull(displayTasksCollections: (e) => e.editPayload != null) ??
-    false;
+bool _stateIsEditing(TaskPageState state) =>
+    state.mapOrNull(displayTasksCollections: (e) => e.editing) ?? false;
 
-bool checkIfEditStateChanges(TaskPageState previous, TaskPageState current) =>
-    stateIsEditing(previous) != stateIsEditing(current);
+bool checkIfEditStateChanges(
+        {required TaskPageState previous, required TaskPageState current}) =>
+    _stateIsEditing(previous) != _stateIsEditing(current);
+
+AppBar appBar2({required BuildContext context, required String title}) {
+  return AppBar(
+    leading: const Icon(Icons.account_circle_outlined),
+    title: const Text('ALL TASKS'),
+    centerTitle: true,
+    elevation: 0,
+    actions: [
+      themePopUpButton(context),
+    ],
+  );
+}
+
+PopupMenuButton<dynamic> themePopUpButton(BuildContext context) {
+  return PopupMenuButton(
+      icon: const Icon(Icons.palette_outlined),
+      itemBuilder: (_) {
+        return [
+          themeMenuItem(
+              label: 'Light Theme',
+              context: context,
+              icon: Icon(
+                Icons.wb_sunny_outlined,
+                color: Colors.grey.shade900,
+              ),
+              themeType: const AppThemeType.light()),
+          themeMenuItem(
+              label: 'Dark Theme',
+              icon: Icon(
+                Icons.dark_mode_outlined,
+                color: Colors.grey.shade900,
+              ),
+              context: context,
+              themeType: const AppThemeType.dark()),
+        ];
+      });
+}
+
+PopupMenuEntry themeMenuItem(
+    {required BuildContext context,
+    required String label,
+    required Icon icon,
+    required AppThemeType themeType}) {
+  return PopupMenuItem(
+    value: themeType,
+    child: Row(
+      children: [
+        Padding(padding: const EdgeInsets.only(right: 10.0), child: icon),
+        Text(label),
+      ],
+    ),
+    onTap: () {
+      BlocProvider.of<ThemeBloc>(context)
+          .add(ThemeEvent.changeTheme(themeType));
+    },
+  );
+}

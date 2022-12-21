@@ -19,73 +19,70 @@ mixin _$TaskPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -96,6 +93,7 @@ mixin _$TaskPageEvent {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) =>
@@ -107,6 +105,7 @@ mixin _$TaskPageEvent {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) =>
@@ -118,6 +117,7 @@ mixin _$TaskPageEvent {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -182,27 +182,24 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
     return loadTasks();
   }
@@ -211,24 +208,24 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
     return loadTasks?.call();
   }
@@ -237,24 +234,24 @@ class _$_LoadTasks implements _LoadTasks {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (loadTasks != null) {
@@ -271,6 +268,7 @@ class _$_LoadTasks implements _LoadTasks {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -285,6 +283,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -299,6 +298,7 @@ class _$_LoadTasks implements _LoadTasks {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -320,7 +320,9 @@ abstract class _$$_ToggleTaskStatusCopyWith<$Res> {
           _$_ToggleTaskStatus value, $Res Function(_$_ToggleTaskStatus) then) =
       __$$_ToggleTaskStatusCopyWithImpl<$Res>;
   @useResult
-  $Res call({int tasksCollectionId, int taskIndex});
+  $Res call({TaskPayload taskPayload});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
 }
 
 /// @nodoc
@@ -334,36 +336,36 @@ class __$$_ToggleTaskStatusCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tasksCollectionId = null,
-    Object? taskIndex = null,
+    Object? taskPayload = null,
   }) {
     return _then(_$_ToggleTaskStatus(
-      tasksCollectionId: null == tasksCollectionId
-          ? _value.tasksCollectionId
-          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-      taskIndex: null == taskIndex
-          ? _value.taskIndex
-          : taskIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$_ToggleTaskStatus implements _ToggleTaskStatus {
-  const _$_ToggleTaskStatus(
-      {required this.tasksCollectionId, required this.taskIndex});
+  const _$_ToggleTaskStatus({required this.taskPayload});
 
   @override
-  final int tasksCollectionId;
-  @override
-  final int taskIndex;
+  final TaskPayload taskPayload;
 
   @override
   String toString() {
-    return 'TaskPageEvent.toggleTaskStatus(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPageEvent.toggleTaskStatus(taskPayload: $taskPayload)';
   }
 
   @override
@@ -371,14 +373,12 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ToggleTaskStatus &&
-            (identical(other.tasksCollectionId, tasksCollectionId) ||
-                other.tasksCollectionId == tasksCollectionId) &&
-            (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex));
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+  int get hashCode => Object.hash(runtimeType, taskPayload);
 
   @JsonKey(ignore: true)
   @override
@@ -390,83 +390,80 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
-    return toggleTaskStatus(tasksCollectionId, taskIndex);
+    return toggleTaskStatus(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
-    return toggleTaskStatus?.call(tasksCollectionId, taskIndex);
+    return toggleTaskStatus?.call(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (toggleTaskStatus != null) {
-      return toggleTaskStatus(tasksCollectionId, taskIndex);
+      return toggleTaskStatus(taskPayload);
     }
     return orElse();
   }
@@ -479,6 +476,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -493,6 +491,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -507,6 +506,7 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -519,12 +519,10 @@ class _$_ToggleTaskStatus implements _ToggleTaskStatus {
 }
 
 abstract class _ToggleTaskStatus implements TaskPageEvent {
-  const factory _ToggleTaskStatus(
-      {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_ToggleTaskStatus;
+  const factory _ToggleTaskStatus({required final TaskPayload taskPayload}) =
+      _$_ToggleTaskStatus;
 
-  int get tasksCollectionId;
-  int get taskIndex;
+  TaskPayload get taskPayload;
   @JsonKey(ignore: true)
   _$$_ToggleTaskStatusCopyWith<_$_ToggleTaskStatus> get copyWith =>
       throw _privateConstructorUsedError;
@@ -599,27 +597,24 @@ class _$_AddTask implements _AddTask {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
     return addTask(onAdd);
   }
@@ -628,24 +623,24 @@ class _$_AddTask implements _AddTask {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
     return addTask?.call(onAdd);
   }
@@ -654,24 +649,24 @@ class _$_AddTask implements _AddTask {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -688,6 +683,7 @@ class _$_AddTask implements _AddTask {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -702,6 +698,7 @@ class _$_AddTask implements _AddTask {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -716,6 +713,7 @@ class _$_AddTask implements _AddTask {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -747,13 +745,14 @@ abstract class _$$_DeleteTaskCopyWith<$Res> {
       __$$_DeleteTaskCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {int tasksCollectionId,
-      int taskIndex,
+      {TaskPayload taskPayload,
       dynamic Function(
               {bool? deleted,
               required int taskIndex,
               required TasksCollection tasksCollection})
           onDelete});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
 }
 
 /// @nodoc
@@ -767,19 +766,14 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tasksCollectionId = null,
-    Object? taskIndex = null,
+    Object? taskPayload = null,
     Object? onDelete = null,
   }) {
     return _then(_$_DeleteTask(
-      tasksCollectionId: null == tasksCollectionId
-          ? _value.tasksCollectionId
-          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-      taskIndex: null == taskIndex
-          ? _value.taskIndex
-          : taskIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
       onDelete: null == onDelete
           ? _value.onDelete
           : onDelete // ignore: cast_nullable_to_non_nullable
@@ -789,20 +783,23 @@ class __$$_DeleteTaskCopyWithImpl<$Res>
                   required TasksCollection tasksCollection}),
     ));
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$_DeleteTask implements _DeleteTask {
-  const _$_DeleteTask(
-      {required this.tasksCollectionId,
-      required this.taskIndex,
-      required this.onDelete});
+  const _$_DeleteTask({required this.taskPayload, required this.onDelete});
 
   @override
-  final int tasksCollectionId;
-  @override
-  final int taskIndex;
+  final TaskPayload taskPayload;
   @override
   final dynamic Function(
       {bool? deleted,
@@ -811,7 +808,7 @@ class _$_DeleteTask implements _DeleteTask {
 
   @override
   String toString() {
-    return 'TaskPageEvent.deleteTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex, onDelete: $onDelete)';
+    return 'TaskPageEvent.deleteTask(taskPayload: $taskPayload, onDelete: $onDelete)';
   }
 
   @override
@@ -819,17 +816,14 @@ class _$_DeleteTask implements _DeleteTask {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DeleteTask &&
-            (identical(other.tasksCollectionId, tasksCollectionId) ||
-                other.tasksCollectionId == tasksCollectionId) &&
-            (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex) &&
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload) &&
             (identical(other.onDelete, onDelete) ||
                 other.onDelete == onDelete));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, tasksCollectionId, taskIndex, onDelete);
+  int get hashCode => Object.hash(runtimeType, taskPayload, onDelete);
 
   @JsonKey(ignore: true)
   @override
@@ -841,83 +835,80 @@ class _$_DeleteTask implements _DeleteTask {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
-    return deleteTask(tasksCollectionId, taskIndex, onDelete);
+    return deleteTask(taskPayload, onDelete);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
-    return deleteTask?.call(tasksCollectionId, taskIndex, onDelete);
+    return deleteTask?.call(taskPayload, onDelete);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (deleteTask != null) {
-      return deleteTask(tasksCollectionId, taskIndex, onDelete);
+      return deleteTask(taskPayload, onDelete);
     }
     return orElse();
   }
@@ -930,6 +921,7 @@ class _$_DeleteTask implements _DeleteTask {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -944,6 +936,7 @@ class _$_DeleteTask implements _DeleteTask {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -958,6 +951,7 @@ class _$_DeleteTask implements _DeleteTask {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -971,16 +965,14 @@ class _$_DeleteTask implements _DeleteTask {
 
 abstract class _DeleteTask implements TaskPageEvent {
   const factory _DeleteTask(
-      {required final int tasksCollectionId,
-      required final int taskIndex,
+      {required final TaskPayload taskPayload,
       required final dynamic Function(
               {bool? deleted,
               required int taskIndex,
               required TasksCollection tasksCollection})
           onDelete}) = _$_DeleteTask;
 
-  int get tasksCollectionId;
-  int get taskIndex;
+  TaskPayload get taskPayload;
   dynamic Function(
       {bool? deleted,
       required int taskIndex,
@@ -996,7 +988,9 @@ abstract class _$$_EditTaskCopyWith<$Res> {
           _$_EditTask value, $Res Function(_$_EditTask) then) =
       __$$_EditTaskCopyWithImpl<$Res>;
   @useResult
-  $Res call({int tasksCollectionId, int taskIndex});
+  $Res call({TaskPayload taskPayload});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
 }
 
 /// @nodoc
@@ -1010,35 +1004,36 @@ class __$$_EditTaskCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tasksCollectionId = null,
-    Object? taskIndex = null,
+    Object? taskPayload = null,
   }) {
     return _then(_$_EditTask(
-      tasksCollectionId: null == tasksCollectionId
-          ? _value.tasksCollectionId
-          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-      taskIndex: null == taskIndex
-          ? _value.taskIndex
-          : taskIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$_EditTask implements _EditTask {
-  const _$_EditTask({required this.tasksCollectionId, required this.taskIndex});
+  const _$_EditTask({required this.taskPayload});
 
   @override
-  final int tasksCollectionId;
-  @override
-  final int taskIndex;
+  final TaskPayload taskPayload;
 
   @override
   String toString() {
-    return 'TaskPageEvent.editTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPageEvent.editTask(taskPayload: $taskPayload)';
   }
 
   @override
@@ -1046,14 +1041,12 @@ class _$_EditTask implements _EditTask {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_EditTask &&
-            (identical(other.tasksCollectionId, tasksCollectionId) ||
-                other.tasksCollectionId == tasksCollectionId) &&
-            (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex));
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+  int get hashCode => Object.hash(runtimeType, taskPayload);
 
   @JsonKey(ignore: true)
   @override
@@ -1065,83 +1058,80 @@ class _$_EditTask implements _EditTask {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
-    return editTask(tasksCollectionId, taskIndex);
+    return editTask(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
-    return editTask?.call(tasksCollectionId, taskIndex);
+    return editTask?.call(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (editTask != null) {
-      return editTask(tasksCollectionId, taskIndex);
+      return editTask(taskPayload);
     }
     return orElse();
   }
@@ -1154,6 +1144,7 @@ class _$_EditTask implements _EditTask {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -1168,6 +1159,7 @@ class _$_EditTask implements _EditTask {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -1182,6 +1174,7 @@ class _$_EditTask implements _EditTask {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -1194,14 +1187,226 @@ class _$_EditTask implements _EditTask {
 }
 
 abstract class _EditTask implements TaskPageEvent {
-  const factory _EditTask(
-      {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_EditTask;
+  const factory _EditTask({required final TaskPayload taskPayload}) =
+      _$_EditTask;
 
-  int get tasksCollectionId;
-  int get taskIndex;
+  TaskPayload get taskPayload;
   @JsonKey(ignore: true)
   _$$_EditTaskCopyWith<_$_EditTask> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_ViewTaskCopyWith<$Res> {
+  factory _$$_ViewTaskCopyWith(
+          _$_ViewTask value, $Res Function(_$_ViewTask) then) =
+      __$$_ViewTaskCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TaskPayload taskPayload});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
+}
+
+/// @nodoc
+class __$$_ViewTaskCopyWithImpl<$Res>
+    extends _$TaskPageEventCopyWithImpl<$Res, _$_ViewTask>
+    implements _$$_ViewTaskCopyWith<$Res> {
+  __$$_ViewTaskCopyWithImpl(
+      _$_ViewTask _value, $Res Function(_$_ViewTask) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? taskPayload = null,
+  }) {
+    return _then(_$_ViewTask(
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_ViewTask implements _ViewTask {
+  const _$_ViewTask({required this.taskPayload});
+
+  @override
+  final TaskPayload taskPayload;
+
+  @override
+  String toString() {
+    return 'TaskPageEvent.viewTask(taskPayload: $taskPayload)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_ViewTask &&
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, taskPayload);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ViewTaskCopyWith<_$_ViewTask> get copyWith =>
+      __$$_ViewTaskCopyWithImpl<_$_ViewTask>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadTasks,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
+    required TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)
+        addTask,
+    required TResult Function(
+            TaskPayload taskPayload,
+            dynamic Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)
+        deleteTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
+  }) {
+    return viewTask(taskPayload);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadTasks,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
+    TResult? Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
+    TResult? Function(
+            TaskPayload taskPayload,
+            dynamic Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
+  }) {
+    return viewTask?.call(taskPayload);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadTasks,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
+    TResult Function(
+            dynamic Function(
+                    {required int taskIndex, required int tasksCollectionId})
+                onAdd)?
+        addTask,
+    TResult Function(
+            TaskPayload taskPayload,
+            dynamic Function(
+                    {bool? deleted,
+                    required int taskIndex,
+                    required TasksCollection tasksCollection})
+                onDelete)?
+        deleteTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
+    required TResult orElse(),
+  }) {
+    if (viewTask != null) {
+      return viewTask(taskPayload);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadTasks value) loadTasks,
+    required TResult Function(_ToggleTaskStatus value) toggleTaskStatus,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_DeleteTask value) deleteTask,
+    required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
+    required TResult Function(_CancelEditTask value) cancelEditTask,
+    required TResult Function(_SaveEditTask value) saveEditTask,
+  }) {
+    return viewTask(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadTasks value)? loadTasks,
+    TResult? Function(_ToggleTaskStatus value)? toggleTaskStatus,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_DeleteTask value)? deleteTask,
+    TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
+    TResult? Function(_CancelEditTask value)? cancelEditTask,
+    TResult? Function(_SaveEditTask value)? saveEditTask,
+  }) {
+    return viewTask?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadTasks value)? loadTasks,
+    TResult Function(_ToggleTaskStatus value)? toggleTaskStatus,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_DeleteTask value)? deleteTask,
+    TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
+    TResult Function(_CancelEditTask value)? cancelEditTask,
+    TResult Function(_SaveEditTask value)? saveEditTask,
+    required TResult orElse(),
+  }) {
+    if (viewTask != null) {
+      return viewTask(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ViewTask implements TaskPageEvent {
+  const factory _ViewTask({required final TaskPayload taskPayload}) =
+      _$_ViewTask;
+
+  TaskPayload get taskPayload;
+  @JsonKey(ignore: true)
+  _$$_ViewTaskCopyWith<_$_ViewTask> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1211,7 +1416,9 @@ abstract class _$$_CancelEditTaskCopyWith<$Res> {
           _$_CancelEditTask value, $Res Function(_$_CancelEditTask) then) =
       __$$_CancelEditTaskCopyWithImpl<$Res>;
   @useResult
-  $Res call({int tasksCollectionId, int taskIndex});
+  $Res call({TaskPayload taskPayload});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
 }
 
 /// @nodoc
@@ -1225,36 +1432,36 @@ class __$$_CancelEditTaskCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tasksCollectionId = null,
-    Object? taskIndex = null,
+    Object? taskPayload = null,
   }) {
     return _then(_$_CancelEditTask(
-      tasksCollectionId: null == tasksCollectionId
-          ? _value.tasksCollectionId
-          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-      taskIndex: null == taskIndex
-          ? _value.taskIndex
-          : taskIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$_CancelEditTask implements _CancelEditTask {
-  const _$_CancelEditTask(
-      {required this.tasksCollectionId, required this.taskIndex});
+  const _$_CancelEditTask({required this.taskPayload});
 
   @override
-  final int tasksCollectionId;
-  @override
-  final int taskIndex;
+  final TaskPayload taskPayload;
 
   @override
   String toString() {
-    return 'TaskPageEvent.cancelEditTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPageEvent.cancelEditTask(taskPayload: $taskPayload)';
   }
 
   @override
@@ -1262,14 +1469,12 @@ class _$_CancelEditTask implements _CancelEditTask {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CancelEditTask &&
-            (identical(other.tasksCollectionId, tasksCollectionId) ||
-                other.tasksCollectionId == tasksCollectionId) &&
-            (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex));
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+  int get hashCode => Object.hash(runtimeType, taskPayload);
 
   @JsonKey(ignore: true)
   @override
@@ -1281,83 +1486,80 @@ class _$_CancelEditTask implements _CancelEditTask {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
-    return cancelEditTask(tasksCollectionId, taskIndex);
+    return cancelEditTask(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
-    return cancelEditTask?.call(tasksCollectionId, taskIndex);
+    return cancelEditTask?.call(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (cancelEditTask != null) {
-      return cancelEditTask(tasksCollectionId, taskIndex);
+      return cancelEditTask(taskPayload);
     }
     return orElse();
   }
@@ -1370,6 +1572,7 @@ class _$_CancelEditTask implements _CancelEditTask {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -1384,6 +1587,7 @@ class _$_CancelEditTask implements _CancelEditTask {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -1398,6 +1602,7 @@ class _$_CancelEditTask implements _CancelEditTask {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -1410,12 +1615,10 @@ class _$_CancelEditTask implements _CancelEditTask {
 }
 
 abstract class _CancelEditTask implements TaskPageEvent {
-  const factory _CancelEditTask(
-      {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_CancelEditTask;
+  const factory _CancelEditTask({required final TaskPayload taskPayload}) =
+      _$_CancelEditTask;
 
-  int get tasksCollectionId;
-  int get taskIndex;
+  TaskPayload get taskPayload;
   @JsonKey(ignore: true)
   _$$_CancelEditTaskCopyWith<_$_CancelEditTask> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1427,7 +1630,9 @@ abstract class _$$_SaveEditTaskCopyWith<$Res> {
           _$_SaveEditTask value, $Res Function(_$_SaveEditTask) then) =
       __$$_SaveEditTaskCopyWithImpl<$Res>;
   @useResult
-  $Res call({int tasksCollectionId, int taskIndex});
+  $Res call({TaskPayload taskPayload});
+
+  $TaskPayloadCopyWith<$Res> get taskPayload;
 }
 
 /// @nodoc
@@ -1441,36 +1646,36 @@ class __$$_SaveEditTaskCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tasksCollectionId = null,
-    Object? taskIndex = null,
+    Object? taskPayload = null,
   }) {
     return _then(_$_SaveEditTask(
-      tasksCollectionId: null == tasksCollectionId
-          ? _value.tasksCollectionId
-          : tasksCollectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-      taskIndex: null == taskIndex
-          ? _value.taskIndex
-          : taskIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      taskPayload: null == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskPayloadCopyWith<$Res> get taskPayload {
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload, (value) {
+      return _then(_value.copyWith(taskPayload: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$_SaveEditTask implements _SaveEditTask {
-  const _$_SaveEditTask(
-      {required this.tasksCollectionId, required this.taskIndex});
+  const _$_SaveEditTask({required this.taskPayload});
 
   @override
-  final int tasksCollectionId;
-  @override
-  final int taskIndex;
+  final TaskPayload taskPayload;
 
   @override
   String toString() {
-    return 'TaskPageEvent.saveEditTask(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPageEvent.saveEditTask(taskPayload: $taskPayload)';
   }
 
   @override
@@ -1478,14 +1683,12 @@ class _$_SaveEditTask implements _SaveEditTask {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SaveEditTask &&
-            (identical(other.tasksCollectionId, tasksCollectionId) ||
-                other.tasksCollectionId == tasksCollectionId) &&
-            (identical(other.taskIndex, taskIndex) ||
-                other.taskIndex == taskIndex));
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tasksCollectionId, taskIndex);
+  int get hashCode => Object.hash(runtimeType, taskPayload);
 
   @JsonKey(ignore: true)
   @override
@@ -1497,83 +1700,80 @@ class _$_SaveEditTask implements _SaveEditTask {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadTasks,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        toggleTaskStatus,
+    required TResult Function(TaskPayload taskPayload) toggleTaskStatus,
     required TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)
         addTask,
     required TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)
         deleteTask,
-    required TResult Function(int tasksCollectionId, int taskIndex) editTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        cancelEditTask,
-    required TResult Function(int tasksCollectionId, int taskIndex)
-        saveEditTask,
+    required TResult Function(TaskPayload taskPayload) editTask,
+    required TResult Function(TaskPayload taskPayload) viewTask,
+    required TResult Function(TaskPayload taskPayload) cancelEditTask,
+    required TResult Function(TaskPayload taskPayload) saveEditTask,
   }) {
-    return saveEditTask(tasksCollectionId, taskIndex);
+    return saveEditTask(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadTasks,
-    TResult? Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult? Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult? Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult? Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult? Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult? Function(TaskPayload taskPayload)? editTask,
+    TResult? Function(TaskPayload taskPayload)? viewTask,
+    TResult? Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult? Function(TaskPayload taskPayload)? saveEditTask,
   }) {
-    return saveEditTask?.call(tasksCollectionId, taskIndex);
+    return saveEditTask?.call(taskPayload);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadTasks,
-    TResult Function(int tasksCollectionId, int taskIndex)? toggleTaskStatus,
+    TResult Function(TaskPayload taskPayload)? toggleTaskStatus,
     TResult Function(
             dynamic Function(
                     {required int taskIndex, required int tasksCollectionId})
                 onAdd)?
         addTask,
     TResult Function(
-            int tasksCollectionId,
-            int taskIndex,
+            TaskPayload taskPayload,
             dynamic Function(
                     {bool? deleted,
                     required int taskIndex,
                     required TasksCollection tasksCollection})
                 onDelete)?
         deleteTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? editTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? cancelEditTask,
-    TResult Function(int tasksCollectionId, int taskIndex)? saveEditTask,
+    TResult Function(TaskPayload taskPayload)? editTask,
+    TResult Function(TaskPayload taskPayload)? viewTask,
+    TResult Function(TaskPayload taskPayload)? cancelEditTask,
+    TResult Function(TaskPayload taskPayload)? saveEditTask,
     required TResult orElse(),
   }) {
     if (saveEditTask != null) {
-      return saveEditTask(tasksCollectionId, taskIndex);
+      return saveEditTask(taskPayload);
     }
     return orElse();
   }
@@ -1586,6 +1786,7 @@ class _$_SaveEditTask implements _SaveEditTask {
     required TResult Function(_AddTask value) addTask,
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_EditTask value) editTask,
+    required TResult Function(_ViewTask value) viewTask,
     required TResult Function(_CancelEditTask value) cancelEditTask,
     required TResult Function(_SaveEditTask value) saveEditTask,
   }) {
@@ -1600,6 +1801,7 @@ class _$_SaveEditTask implements _SaveEditTask {
     TResult? Function(_AddTask value)? addTask,
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_EditTask value)? editTask,
+    TResult? Function(_ViewTask value)? viewTask,
     TResult? Function(_CancelEditTask value)? cancelEditTask,
     TResult? Function(_SaveEditTask value)? saveEditTask,
   }) {
@@ -1614,6 +1816,7 @@ class _$_SaveEditTask implements _SaveEditTask {
     TResult Function(_AddTask value)? addTask,
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_EditTask value)? editTask,
+    TResult Function(_ViewTask value)? viewTask,
     TResult Function(_CancelEditTask value)? cancelEditTask,
     TResult Function(_SaveEditTask value)? saveEditTask,
     required TResult orElse(),
@@ -1626,12 +1829,10 @@ class _$_SaveEditTask implements _SaveEditTask {
 }
 
 abstract class _SaveEditTask implements TaskPageEvent {
-  const factory _SaveEditTask(
-      {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_SaveEditTask;
+  const factory _SaveEditTask({required final TaskPayload taskPayload}) =
+      _$_SaveEditTask;
 
-  int get tasksCollectionId;
-  int get taskIndex;
+  TaskPayload get taskPayload;
   @JsonKey(ignore: true)
   _$$_SaveEditTaskCopyWith<_$_SaveEditTask> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1643,7 +1844,7 @@ mixin _$TaskPageState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)
+            TaskPayload? taskPayload, bool editing)
         displayTasksCollections,
     required TResult Function() loadFailure,
   }) =>
@@ -1652,7 +1853,7 @@ mixin _$TaskPageState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult? Function()? loadFailure,
   }) =>
@@ -1661,7 +1862,7 @@ mixin _$TaskPageState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
@@ -1749,7 +1950,7 @@ class _$_Initial extends _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)
+            TaskPayload? taskPayload, bool editing)
         displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
@@ -1761,7 +1962,7 @@ class _$_Initial extends _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
@@ -1773,7 +1974,7 @@ class _$_Initial extends _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
@@ -1833,10 +2034,10 @@ abstract class _$$_DisplayTasksCollectionsCopyWith<$Res> {
   @useResult
   $Res call(
       {List<TasksCollection> allTasksCollections,
-      TextEditingController? addTaskTEC,
-      EditPayload? editPayload});
+      TaskPayload? taskPayload,
+      bool editing});
 
-  $EditPayloadCopyWith<$Res>? get editPayload;
+  $TaskPayloadCopyWith<$Res>? get taskPayload;
 }
 
 /// @nodoc
@@ -1851,34 +2052,34 @@ class __$$_DisplayTasksCollectionsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? allTasksCollections = null,
-    Object? addTaskTEC = freezed,
-    Object? editPayload = freezed,
+    Object? taskPayload = freezed,
+    Object? editing = null,
   }) {
     return _then(_$_DisplayTasksCollections(
       allTasksCollections: null == allTasksCollections
           ? _value._allTasksCollections
           : allTasksCollections // ignore: cast_nullable_to_non_nullable
               as List<TasksCollection>,
-      addTaskTEC: freezed == addTaskTEC
-          ? _value.addTaskTEC
-          : addTaskTEC // ignore: cast_nullable_to_non_nullable
-              as TextEditingController?,
-      editPayload: freezed == editPayload
-          ? _value.editPayload
-          : editPayload // ignore: cast_nullable_to_non_nullable
-              as EditPayload?,
+      taskPayload: freezed == taskPayload
+          ? _value.taskPayload
+          : taskPayload // ignore: cast_nullable_to_non_nullable
+              as TaskPayload?,
+      editing: null == editing
+          ? _value.editing
+          : editing // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $EditPayloadCopyWith<$Res>? get editPayload {
-    if (_value.editPayload == null) {
+  $TaskPayloadCopyWith<$Res>? get taskPayload {
+    if (_value.taskPayload == null) {
       return null;
     }
 
-    return $EditPayloadCopyWith<$Res>(_value.editPayload!, (value) {
-      return _then(_value.copyWith(editPayload: value));
+    return $TaskPayloadCopyWith<$Res>(_value.taskPayload!, (value) {
+      return _then(_value.copyWith(taskPayload: value));
     });
   }
 }
@@ -1888,8 +2089,8 @@ class __$$_DisplayTasksCollectionsCopyWithImpl<$Res>
 class _$_DisplayTasksCollections extends _DisplayTasksCollections {
   const _$_DisplayTasksCollections(
       {required final List<TasksCollection> allTasksCollections,
-      this.addTaskTEC,
-      this.editPayload})
+      this.taskPayload,
+      this.editing = false})
       : _allTasksCollections = allTasksCollections,
         super._();
 
@@ -1902,16 +2103,16 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
     return EqualUnmodifiableListView(_allTasksCollections);
   }
 
+  ///if taskPayload is not null, the user is editing
   @override
-  final TextEditingController? addTaskTEC;
-
-  ///if editPayload is not null, the user is editing
+  final TaskPayload? taskPayload;
   @override
-  final EditPayload? editPayload;
+  @JsonKey()
+  final bool editing;
 
   @override
   String toString() {
-    return 'TaskPageState.displayTasksCollections(allTasksCollections: $allTasksCollections, addTaskTEC: $addTaskTEC, editPayload: $editPayload)';
+    return 'TaskPageState.displayTasksCollections(allTasksCollections: $allTasksCollections, taskPayload: $taskPayload, editing: $editing)';
   }
 
   @override
@@ -1921,18 +2122,17 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
             other is _$_DisplayTasksCollections &&
             const DeepCollectionEquality()
                 .equals(other._allTasksCollections, _allTasksCollections) &&
-            (identical(other.addTaskTEC, addTaskTEC) ||
-                other.addTaskTEC == addTaskTEC) &&
-            (identical(other.editPayload, editPayload) ||
-                other.editPayload == editPayload));
+            (identical(other.taskPayload, taskPayload) ||
+                other.taskPayload == taskPayload) &&
+            (identical(other.editing, editing) || other.editing == editing));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_allTasksCollections),
-      addTaskTEC,
-      editPayload);
+      taskPayload,
+      editing);
 
   @JsonKey(ignore: true)
   @override
@@ -1947,12 +2147,11 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)
+            TaskPayload? taskPayload, bool editing)
         displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
-    return displayTasksCollections(
-        allTasksCollections, addTaskTEC, editPayload);
+    return displayTasksCollections(allTasksCollections, taskPayload, editing);
   }
 
   @override
@@ -1960,12 +2159,12 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
     return displayTasksCollections?.call(
-        allTasksCollections, addTaskTEC, editPayload);
+        allTasksCollections, taskPayload, editing);
   }
 
   @override
@@ -1973,14 +2172,13 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
   }) {
     if (displayTasksCollections != null) {
-      return displayTasksCollections(
-          allTasksCollections, addTaskTEC, editPayload);
+      return displayTasksCollections(allTasksCollections, taskPayload, editing);
     }
     return orElse();
   }
@@ -2024,15 +2222,15 @@ class _$_DisplayTasksCollections extends _DisplayTasksCollections {
 abstract class _DisplayTasksCollections extends TaskPageState {
   const factory _DisplayTasksCollections(
       {required final List<TasksCollection> allTasksCollections,
-      final TextEditingController? addTaskTEC,
-      final EditPayload? editPayload}) = _$_DisplayTasksCollections;
+      final TaskPayload? taskPayload,
+      final bool editing}) = _$_DisplayTasksCollections;
   const _DisplayTasksCollections._() : super._();
 
   List<TasksCollection> get allTasksCollections;
-  TextEditingController? get addTaskTEC;
 
-  ///if editPayload is not null, the user is editing
-  EditPayload? get editPayload;
+  ///if taskPayload is not null, the user is editing
+  TaskPayload? get taskPayload;
+  bool get editing;
   @JsonKey(ignore: true)
   _$$_DisplayTasksCollectionsCopyWith<_$_DisplayTasksCollections>
       get copyWith => throw _privateConstructorUsedError;
@@ -2078,7 +2276,7 @@ class _$_LoadFailure extends _LoadFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)
+            TaskPayload? taskPayload, bool editing)
         displayTasksCollections,
     required TResult Function() loadFailure,
   }) {
@@ -2090,7 +2288,7 @@ class _$_LoadFailure extends _LoadFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult? Function()? loadFailure,
   }) {
@@ -2102,7 +2300,7 @@ class _$_LoadFailure extends _LoadFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<TasksCollection> allTasksCollections,
-            TextEditingController? addTaskTEC, EditPayload? editPayload)?
+            TaskPayload? taskPayload, bool editing)?
         displayTasksCollections,
     TResult Function()? loadFailure,
     required TResult orElse(),
@@ -2155,28 +2353,28 @@ abstract class _LoadFailure extends TaskPageState {
 }
 
 /// @nodoc
-mixin _$EditPayload {
+mixin _$TaskPayload {
   int get tasksCollectionId => throw _privateConstructorUsedError;
   int get taskIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $EditPayloadCopyWith<EditPayload> get copyWith =>
+  $TaskPayloadCopyWith<TaskPayload> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EditPayloadCopyWith<$Res> {
-  factory $EditPayloadCopyWith(
-          EditPayload value, $Res Function(EditPayload) then) =
-      _$EditPayloadCopyWithImpl<$Res, EditPayload>;
+abstract class $TaskPayloadCopyWith<$Res> {
+  factory $TaskPayloadCopyWith(
+          TaskPayload value, $Res Function(TaskPayload) then) =
+      _$TaskPayloadCopyWithImpl<$Res, TaskPayload>;
   @useResult
   $Res call({int tasksCollectionId, int taskIndex});
 }
 
 /// @nodoc
-class _$EditPayloadCopyWithImpl<$Res, $Val extends EditPayload>
-    implements $EditPayloadCopyWith<$Res> {
-  _$EditPayloadCopyWithImpl(this._value, this._then);
+class _$TaskPayloadCopyWithImpl<$Res, $Val extends TaskPayload>
+    implements $TaskPayloadCopyWith<$Res> {
+  _$TaskPayloadCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2203,22 +2401,22 @@ class _$EditPayloadCopyWithImpl<$Res, $Val extends EditPayload>
 }
 
 /// @nodoc
-abstract class _$$_EditPayloadCopyWith<$Res>
-    implements $EditPayloadCopyWith<$Res> {
-  factory _$$_EditPayloadCopyWith(
-          _$_EditPayload value, $Res Function(_$_EditPayload) then) =
-      __$$_EditPayloadCopyWithImpl<$Res>;
+abstract class _$$_TaskPayloadCopyWith<$Res>
+    implements $TaskPayloadCopyWith<$Res> {
+  factory _$$_TaskPayloadCopyWith(
+          _$_TaskPayload value, $Res Function(_$_TaskPayload) then) =
+      __$$_TaskPayloadCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int tasksCollectionId, int taskIndex});
 }
 
 /// @nodoc
-class __$$_EditPayloadCopyWithImpl<$Res>
-    extends _$EditPayloadCopyWithImpl<$Res, _$_EditPayload>
-    implements _$$_EditPayloadCopyWith<$Res> {
-  __$$_EditPayloadCopyWithImpl(
-      _$_EditPayload _value, $Res Function(_$_EditPayload) _then)
+class __$$_TaskPayloadCopyWithImpl<$Res>
+    extends _$TaskPayloadCopyWithImpl<$Res, _$_TaskPayload>
+    implements _$$_TaskPayloadCopyWith<$Res> {
+  __$$_TaskPayloadCopyWithImpl(
+      _$_TaskPayload _value, $Res Function(_$_TaskPayload) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2227,7 +2425,7 @@ class __$$_EditPayloadCopyWithImpl<$Res>
     Object? tasksCollectionId = null,
     Object? taskIndex = null,
   }) {
-    return _then(_$_EditPayload(
+    return _then(_$_TaskPayload(
       tasksCollectionId: null == tasksCollectionId
           ? _value.tasksCollectionId
           : tasksCollectionId // ignore: cast_nullable_to_non_nullable
@@ -2242,8 +2440,8 @@ class __$$_EditPayloadCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EditPayload implements _EditPayload {
-  const _$_EditPayload(
+class _$_TaskPayload implements _TaskPayload {
+  const _$_TaskPayload(
       {required this.tasksCollectionId, required this.taskIndex});
 
   @override
@@ -2253,14 +2451,14 @@ class _$_EditPayload implements _EditPayload {
 
   @override
   String toString() {
-    return 'EditPayload(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
+    return 'TaskPayload(tasksCollectionId: $tasksCollectionId, taskIndex: $taskIndex)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EditPayload &&
+            other is _$_TaskPayload &&
             (identical(other.tasksCollectionId, tasksCollectionId) ||
                 other.tasksCollectionId == tasksCollectionId) &&
             (identical(other.taskIndex, taskIndex) ||
@@ -2273,14 +2471,14 @@ class _$_EditPayload implements _EditPayload {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EditPayloadCopyWith<_$_EditPayload> get copyWith =>
-      __$$_EditPayloadCopyWithImpl<_$_EditPayload>(this, _$identity);
+  _$$_TaskPayloadCopyWith<_$_TaskPayload> get copyWith =>
+      __$$_TaskPayloadCopyWithImpl<_$_TaskPayload>(this, _$identity);
 }
 
-abstract class _EditPayload implements EditPayload {
-  const factory _EditPayload(
+abstract class _TaskPayload implements TaskPayload {
+  const factory _TaskPayload(
       {required final int tasksCollectionId,
-      required final int taskIndex}) = _$_EditPayload;
+      required final int taskIndex}) = _$_TaskPayload;
 
   @override
   int get tasksCollectionId;
@@ -2288,6 +2486,6 @@ abstract class _EditPayload implements EditPayload {
   int get taskIndex;
   @override
   @JsonKey(ignore: true)
-  _$$_EditPayloadCopyWith<_$_EditPayload> get copyWith =>
+  _$$_TaskPayloadCopyWith<_$_TaskPayload> get copyWith =>
       throw _privateConstructorUsedError;
 }

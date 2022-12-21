@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightThemeData() {
@@ -34,12 +33,6 @@ ThemeData darkThemeData() {
   );
 }
 
-// data: Theme.of(context).copyWith(
-//         textTheme: Theme.of(context).textTheme.copyWith(
-//             bodyText1: Theme.of(context).textTheme.headline4!.copyWith(
-//                   fontSize: 20,
-//                 ))),
-
 InputDecorationTheme inputDecoration(BuildContext context) {
   return InputDecorationTheme(
     contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
@@ -71,9 +64,11 @@ class InCurve extends Curve {
   @override
   double transformInternal(double t) {
     if (inCurvePosition == InCurvePosition.first) {
-      return clampDouble(t, 0, .5) * 2;
+      return t.clamp(0, .5) * 2;
+      // clambDouble(t, 0, .5) * 2;
     } else {
-      return (clampDouble(t, 0.5, 1) - 0.5) * 2;
+      return (t.clamp(0.5, 1) - 0.5) * 2;
+      // return (clampDouble(t, 0.5, 1) - 0.5) * 2;
     }
   }
 }

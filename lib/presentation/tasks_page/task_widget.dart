@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
+import 'package:flutter_to_do/presentation/router/app_router.gr.dart';
 import 'package:flutter_to_do/presentation/tasks_page/tasks_page.dart';
 import 'package:flutter_to_do/domain/core/extensions.dart';
 import 'package:flutter_to_do/domain/tasks/tasks_collection.dart';
@@ -20,53 +22,59 @@ class TaskWidget extends StatelessWidget {
     return BlocBuilder<TaskPageBloc, TaskPageState>(
       //build when the individual task is replaced (changed).
 
-      buildWhen: (previous, current) =>
-          // (checkIfThisTaskIsEdited(
-          //         current: current,
-          //         previous: previous,
-          //         tasksCollectionId: tasksCollection.id!,
-          //         taskIndex: taskIndex) ||
-          checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
-              previous: previous,
-              current: current,
-              tasksCollectionId: tasksCollection.id!) ||
-          // checkIfEditStateChanges(previous, current),
-          checkIfEditStateChanges(previous, current),
+      buildWhen: (previous, current) => (checkIfThisTaskIsEdited(
+                  current: current,
+                  previous: previous,
+                  tasksCollectionId: tasksCollection.id!,
+                  taskIndex: taskIndex) ||
+              checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
+                  previous: previous,
+                  current: current,
+                  tasksCollectionId: tasksCollection.id!)
+          // ||
 
-      builder: (context, state) {
+          //temporary fix.
+          // (!checkIfANewTasksCollectionWasRemovedOrAdded(
+          //         previous: previous, current: current) &&
+          //     checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
+          //         previous: previous,
+          //         current: current,
+          //         tasksCollectionId: tasksCollection.id!))
+
+          ),
+
+      builder: (BuildContext context, state) {
         //get the updated task from the state
         Task task = state.mapOrNull(
             displayTasksCollections: (e) => e.allTasksCollections
                 .findById(tasksCollection.id!)
                 .tasks[taskIndex])!;
 
-        EditPayload? editPayload =
-            state.mapOrNull(displayTasksCollections: (e) => e.editPayload);
+        TaskPayload? taskPayload =
+            state.mapOrNull(displayTasksCollections: (e) => e.taskPayload);
 
         return GestureDetector(
-          onLongPress: () {
-            print('routing to edit');
-            BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.editTask(
-                tasksCollectionId: tasksCollection.id!, taskIndex: taskIndex));
+          onLongPress: () async {
+            final taskPageBloc = BlocProvider.of<TaskPageBloc>(context);
+
+            taskPageBloc.add(TaskPageEvent.viewTask(
+                taskPayload: TaskPayload(
+                    tasksCollectionId: tasksCollection.id!,
+                    taskIndex: taskIndex)));
+
+            await AutoRouter.of(context).push(const ViewTaskRoute());
+            // taskPageBloc.add(const TaskPageEvent.loadTasks());
           },
           child: _buildTaskWidget(
             task: task,
-            isEditing: stateIsEditing(state),
-            editPayload: editPayload,
+            taskPayload: taskPayload,
           ),
         );
       },
     );
   }
 
-  bool _isEditingThisTask(EditPayload? editPayload) {
-    return (editPayload != null &&
-        editPayload.tasksCollectionId == tasksCollection.id &&
-        editPayload.taskIndex == taskIndex);
-  }
-
-  Widget _buildTaskWidget(
-      {required Task task, required bool isEditing, EditPayload? editPayload}) {
+  Widget _buildTaskWidget({required Task task, TaskPayload? taskPayload}) {
     return Builder(builder: (context) {
       Color borderColor = Theme.of(context).primaryColor;
       return Container(
@@ -86,24 +94,14 @@ class TaskWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                          height: double.infinity,
-                          child: AnimatedCrossFade(
-                              firstChild: Container(
-                                width: 40,
-                              ),
-                              secondChild: checkBoxWidget(
-                                task: task,
-                                context: context,
-                                tasksCollectionId: tasksCollection.id!,
-                                taskIndex: taskIndex,
-                                stateIsEditing: isEditing,
-                              ),
-                              duration: const Duration(
-                                  milliseconds:
-                                      kEditingWidgetSwitchDurationInMilliseconds),
-                              crossFadeState: _isEditingThisTask(editPayload)
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond)),
+                        height: double.infinity,
+                        child: checkBoxWidget(
+                          task: task,
+                          context: context,
+                          tasksCollectionId: tasksCollection.id!,
+                          taskIndex: taskIndex,
+                        ),
+                      ),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(right: 20),
@@ -136,18 +134,10 @@ class TaskWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(
-                        milliseconds:
-                            kEditingWidgetSwitchDurationInMilliseconds),
-                    child: _isEditingThisTask(editPayload)
-                        ? Container()
-                        : deleteButtonWidget(
-                            context: context,
-                            tasksCollectionId: tasksCollection.id!,
-                            stateIsEditing: isEditing,
-                            taskIndex: taskIndex),
-                  ),
+                  child: deleteButtonWidget(
+                      context: context,
+                      tasksCollectionId: tasksCollection.id!,
+                      taskIndex: taskIndex),
                 ),
               )
             ],
@@ -160,24 +150,18 @@ class TaskWidget extends StatelessWidget {
   IconButton deleteButtonWidget({
     required BuildContext context,
     required int tasksCollectionId,
-    required bool stateIsEditing,
     required taskIndex,
   }) {
     return IconButton(
-        onPressed: stateIsEditing == true
-            ? null
-            : () {
-                BlocProvider.of<TaskPageBloc>(context).add(
-                    TaskPageEvent.deleteTask(
-                        tasksCollectionId: tasksCollectionId,
-                        taskIndex: taskIndex,
-                        onDelete: onDelete));
-              },
+        onPressed: () {
+          BlocProvider.of<TaskPageBloc>(context).add(TaskPageEvent.deleteTask(
+              taskPayload: TaskPayload(
+                  tasksCollectionId: tasksCollectionId, taskIndex: taskIndex),
+              onDelete: onDelete));
+        },
         icon: Icon(
           Icons.cancel,
-          color: stateIsEditing == true
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).errorColor,
+          color: Theme.of(context).errorColor,
         ));
   }
 
@@ -189,9 +173,7 @@ class TaskWidget extends StatelessWidget {
       animatedListKeys.remove(tasksCollection.id);
     } else {
       final taskBodyWidget = IgnorePointer(
-        //tasks can't be removed when in editing state
         child: _buildTaskWidget(
-          isEditing: false,
           task: tasksCollection.tasks[taskIndex],
         ),
       );
@@ -208,20 +190,18 @@ class TaskWidget extends StatelessWidget {
     required BuildContext context,
     required int tasksCollectionId,
     required int taskIndex,
-    required bool stateIsEditing,
   }) {
     return SizedBox(
       width: 50,
       child: Checkbox(
         value: task.completed,
-        onChanged: stateIsEditing
-            ? null
-            : (e) {
-                BlocProvider.of<TaskPageBloc>(context).add(
-                    TaskPageEvent.toggleTaskStatus(
-                        tasksCollectionId: tasksCollectionId,
-                        taskIndex: taskIndex));
-              },
+        onChanged: (e) {
+          BlocProvider.of<TaskPageBloc>(context).add(
+              TaskPageEvent.toggleTaskStatus(
+                  taskPayload: TaskPayload(
+                      tasksCollectionId: tasksCollectionId,
+                      taskIndex: taskIndex)));
+        },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
     );

@@ -12,8 +12,8 @@ class TasksCollectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //rebuilds only when we are add or removing a task.
     return BlocBuilder<TaskPageBloc, TaskPageState>(
+      //rebuilds only when we are add or removing a task to this tasksCollection.
       buildWhen: (previous, current) =>
           checkIfTasksWithinThisTasksCollectionWasAddedOrRemoved(
               previous: previous,
@@ -28,7 +28,6 @@ class TasksCollectionWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             headerText(context, tasksCollection.dateTime),
-
             AnimatedList(
               key: animatedListKeys[tasksCollection.id],
               shrinkWrap: true,
@@ -49,13 +48,6 @@ class TasksCollectionWidget extends StatelessWidget {
               height: 0,
               color: Theme.of(context).primaryColor,
             )
-
-            // ...tasksCollection.tasks.asMap().entries.map(
-            //       (entry) => bodyStyle(
-            //           context: context,
-            //           tasksCollection: tasksCollection,
-            //           taskIndex: entry.key),
-            //     )
           ],
         );
       },

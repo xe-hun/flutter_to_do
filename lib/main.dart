@@ -10,4 +10,6 @@ void main() async {
   runApp(const InitWidget());
 }
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 final AppRouter appRouter = AppRouter();

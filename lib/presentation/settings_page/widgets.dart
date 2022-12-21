@@ -4,7 +4,6 @@ const double kHorizontalPad = 20;
 
 AppBar appBar({required String title}) {
   return AppBar(
-    // leading: const Icon(Icons.account_circle_outlined),
     title: Text(title),
     centerTitle: true,
     elevation: 0,
