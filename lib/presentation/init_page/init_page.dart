@@ -4,8 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_to_do/application/theme/theme_bloc.dart';
 import 'package:flutter_to_do/presentation/router/app_router.gr.dart';
 
-class InitPage extends StatelessWidget {
+class InitPage extends StatefulWidget {
   const InitPage({super.key});
+
+  @override
+  State<InitPage> createState() => _InitPageState();
+}
+
+class _InitPageState extends State<InitPage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ThemeBloc>(context).add(const ThemeEvent.started());
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +30,7 @@ class InitPage extends StatelessWidget {
           },
           orElse: () {
             Future.delayed(const Duration(milliseconds: 800),
-                () => context.router.replace(LandingRoute()));
+                () => context.router.replace(const LandingRoute()));
           },
         );
       },

@@ -156,14 +156,14 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           editTask: (e) {
         //editing has to be true before calling this.
         assert(getEditingStatus() == false && taskCache == null,
-            'editing must be false and taskCache must be null when trigerring editTask');
+            'Editing must be false and taskCache must be null when trigerring editTask');
         final tasksCollection = _allTasksCollections!
             .findById<TasksCollection>(e.taskPayload.tasksCollectionId);
         final task = tasksCollection!.tasks[e.taskPayload.taskIndex];
 
         storeTask(task);
 
-        //editing must br true.
+        //Editing must br true.
         emit(TaskPageState.displayTasksCollections(
             allTasksCollections: _allTasksCollections!,
             editing: true,
@@ -172,13 +172,13 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                 tasksCollectionId: e.taskPayload.tasksCollectionId)));
 
         assert(getEditingStatus() == true && taskCache != null,
-            'editing must true and taskCache must not be null after trigerring editTask');
+            'Editing must true and taskCache must not be null after trigerring editTask');
       },
           // cancel editing tasks
           cancelEditTask: (e) {
         //editing has to be true before calling this.
         assert(getEditingStatus() == true && taskCache != null,
-            'editing must be true and taskCache must not be null when trigerring cancelEditTask');
+            'Editing must be true and taskCache must not be null when trigerring cancelEditTask');
 
         emit(TaskPageState.displayTasksCollections(
             allTasksCollections: _allTasksCollections!,
@@ -191,7 +191,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
         clearTaskStore();
 
         assert(getEditingStatus() == false && taskCache == null,
-            'editing must be true and taskCache must be null after trigerring cancelEditTask');
+            'Editing must be true and taskCache must be null after trigerring cancelEditTask');
       },
           // save editing task.
           saveEditTask: (e) async {
@@ -221,7 +221,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           clearTaskStore();
 
           assert(getEditingStatus() == false && taskCache == null,
-              'editing must be false and taskCache must be null after trigerring saveEditTask');
+              'Editing must be false and taskCache must be null after trigerring saveEditTask');
         });
       },
           //viewing task
