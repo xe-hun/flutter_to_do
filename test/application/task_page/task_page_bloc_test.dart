@@ -120,7 +120,7 @@ void main() {
     final id = Random().nextInt(200);
     final tasksCollection = TasksCollection(
         id: id,
-        dateTime: DateTime.now().subtract(const Duration(days: 1)),
+        dateTime: DateTime.now(),
         tasks: [const Task(title: taskTitle1)]);
 
     final mutatedTasksCollection = TasksCollection(
@@ -159,9 +159,6 @@ void main() {
         bloc.add(TaskPageEvent.addTask(onAdd));
 
         // assert
-
-        final taskPageState = TaskPageState.displayTasksCollections(
-            allTasksCollections: mutatedTasksCollectionList);
         expectLater(bloc.stream,
             emitsInOrder([isA<TaskPageState>(), taskPageState])).then((_) {
           verify(mockTaskRepository.saveTask(
