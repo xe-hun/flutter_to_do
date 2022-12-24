@@ -31,3 +31,6 @@ Packages used Were:
 
  - The essence of this app was to showcase an app design, with scalability in mind, while using adequately powerful packages published on pub.dev to achieve this.
  - The app is thoroughly unit tested.
+ 
+## Note
+ - the dependency Isar does not support x86 emulators, Therefore use an x64 emulator to run the code. [Issue](https://github.com/isar/isar/issues/943)
