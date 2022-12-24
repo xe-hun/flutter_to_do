@@ -32,7 +32,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           (await taskRepository.getAllTasks()).fold(
             (l) => emit(const TaskPageState.loadFailure()),
             (r) {
-              _allTasksCollections = filterForEmptyTaskCollections(r);
+              _allTasksCollections = _filterForEmptyTaskCollections(r);
 
               emit(TaskPageState.displayTasksCollections(
                   allTasksCollections: _allTasksCollections!));
@@ -54,7 +54,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
         final mutatedTasksCollection = tasksCollection.copyWith(tasks: tasks);
 
-        (await updateAllTasksCollections(
+        (await _updateAllTasksCollections(
                 newTasksCollection: mutatedTasksCollection,
                 oldTasksCollection: tasksCollection,
                 taskRepository: taskRepository))
@@ -65,14 +65,14 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
       },
           // add new task
           addTask: (e) async {
-        final todayTasksCollection = getTaskCollectionForToday();
+        final todayTasksCollection = _getTaskCollectionForToday();
 
         if (todayTasksCollection != null) {
           final updatedTasksCollection =
               _addNewTaskToTasksCollection(todayTasksCollection);
 
           //this is an inplace function.
-          (await updateAllTasksCollections(
+          (await _updateAllTasksCollections(
                   taskRepository: taskRepository,
                   newTasksCollection: updatedTasksCollection,
                   oldTasksCollection: todayTasksCollection))
@@ -88,7 +88,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
         } else {
           final newTasksCollection = _createNewTaskCollection();
 
-          (await addToAllTasksCollections(
+          (await _addToAllTasksCollections(
                   taskRepository: taskRepository,
                   newTasksCollection: newTasksCollection))
               .fold(
@@ -120,12 +120,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                   tasksCollectionId: e.taskPayload.tasksCollectionId))
               .fold(
             (l) => null,
-            (r) async {
+            (r) {
               _allTasksCollections =
                   List<TasksCollection>.from(_allTasksCollections!)
                     ..remove(tasksCollectionToModify);
 
-              await e.onDelete(
+              e.onDelete(
                   taskIndex: e.taskPayload.taskIndex,
                   tasksCollection: tasksCollectionToModify,
                   deleted: true);
@@ -137,7 +137,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           final TasksCollection modifiedTasksCollection =
               tasksCollectionToModify.copyWith(tasks: modifiedTasks);
 
-          (await updateAllTasksCollections(
+          (await _updateAllTasksCollections(
                   taskRepository: taskRepository,
                   newTasksCollection: modifiedTasksCollection,
                   oldTasksCollection: tasksCollectionToModify))
@@ -155,13 +155,13 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
           // edit Task
           editTask: (e) {
         //editing has to be true before calling this.
-        assert(getEditingStatus() == false && taskCache == null,
+        assert(_getEditingStatus() == false && _taskCache == null,
             'Editing must be false and taskCache must be null when trigerring editTask');
         final tasksCollection = _allTasksCollections!
             .findById<TasksCollection>(e.taskPayload.tasksCollectionId);
         final task = tasksCollection!.tasks[e.taskPayload.taskIndex];
 
-        storeTask(task);
+        _storeTask(task);
 
         //Editing must br true.
         emit(TaskPageState.displayTasksCollections(
@@ -171,13 +171,13 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                 taskIndex: e.taskPayload.taskIndex,
                 tasksCollectionId: e.taskPayload.tasksCollectionId)));
 
-        assert(getEditingStatus() == true && taskCache != null,
+        assert(_getEditingStatus() == true && _taskCache != null,
             'Editing must true and taskCache must not be null after trigerring editTask');
       },
           // cancel editing tasks
           cancelEditTask: (e) {
         //editing has to be true before calling this.
-        assert(getEditingStatus() == true && taskCache != null,
+        assert(_getEditingStatus() == true && _taskCache != null,
             'Editing must be true and taskCache must not be null when trigerring cancelEditTask');
 
         emit(TaskPageState.displayTasksCollections(
@@ -187,15 +187,15 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                 tasksCollectionId: e.taskPayload.tasksCollectionId,
                 taskIndex: e.taskPayload.taskIndex)));
 
-        viewTaskTEC.text = taskCache!.title;
-        clearTaskStore();
+        viewTaskTEC.text = _taskCache!.title;
+        _clearTaskStore();
 
-        assert(getEditingStatus() == false && taskCache == null,
+        assert(_getEditingStatus() == false && _taskCache == null,
             'Editing must be true and taskCache must be null after trigerring cancelEditTask');
       },
           // save editing task.
           saveEditTask: (e) async {
-        assert(getEditingStatus() == true && taskCache != null,
+        assert(_getEditingStatus() == true && _taskCache != null,
             'Editing must be true and taskCache must not be null after trigerring saveEditTask');
 
         final tasksCollection = _getTasksCollectionById(
@@ -206,7 +206,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
             tasks[e.taskPayload.taskIndex].copyWith(title: viewTaskTEC.text);
         final modifiedTasksCollection = tasksCollection.copyWith(tasks: tasks);
 
-        (await updateAllTasksCollections(
+        (await _updateAllTasksCollections(
                 newTasksCollection: modifiedTasksCollection,
                 oldTasksCollection: tasksCollection,
                 taskRepository: taskRepository))
@@ -218,15 +218,15 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                   taskIndex: e.taskPayload.taskIndex,
                   tasksCollectionId: e.taskPayload.tasksCollectionId)));
 
-          clearTaskStore();
+          _clearTaskStore();
 
-          assert(getEditingStatus() == false && taskCache == null,
+          assert(_getEditingStatus() == false && _taskCache == null,
               'Editing must be false and taskCache must be null after trigerring saveEditTask');
         });
       },
           //viewing task
           viewTask: (e) {
-        assert(getEditingStatus() == false && taskCache == null,
+        assert(_getEditingStatus() == false && _taskCache == null,
             'Editing must be false and taskCache must not be null before trigerring viewTask');
 
         final tasksCollection = _getTasksCollectionById(
@@ -244,22 +244,22 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
                 tasksCollectionId: e.taskPayload.tasksCollectionId),
           ),
         );
-        assert(getEditingStatus() == false && taskCache == null,
+        assert(_getEditingStatus() == false && _taskCache == null,
             'Editing must be false and taskCache must not be null after trigerring viewTask');
       });
     });
   }
 
-  void clearTaskStore() => taskCache = null;
+  void _clearTaskStore() => _taskCache = null;
 
-  bool getEditingStatus() {
+  bool _getEditingStatus() {
     return state.mapOrNull(displayTasksCollections: (e) => e.editing) ?? false;
   }
 
-  void storeTask(Task task) => taskCache = task;
+  void _storeTask(Task task) => _taskCache = task;
 
   //Note that this is an implace method!
-  Future<Either> updateAllTasksCollections(
+  Future<Either> _updateAllTasksCollections(
       {required TasksCollection newTasksCollection,
       required TasksCollection oldTasksCollection,
       required ITaskRepository taskRepository}) async {
@@ -320,9 +320,9 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
   TextEditingController viewTaskTEC = TextEditingController();
   TextEditingController addTaskTEC = TextEditingController();
 
-  Task? taskCache;
+  Task? _taskCache;
 
-  TasksCollection? getTaskCollectionForToday() {
+  TasksCollection? _getTaskCollectionForToday() {
     try {
       return _allTasksCollections!.firstWhere(
         (element) =>
@@ -333,14 +333,14 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
     }
   }
 
-  List<TasksCollection>? filterForEmptyTaskCollections(
+  List<TasksCollection>? _filterForEmptyTaskCollections(
       List<TasksCollection> allTasksCollections) {
     return allTasksCollections
         .where((element) => element.tasks.isNotEmpty)
         .toList();
   }
 
-  Future<Either> addToAllTasksCollections(
+  Future<Either> _addToAllTasksCollections(
       {required ITaskRepository taskRepository,
       required TasksCollection newTasksCollection}) async {
     final saveNewTaskCollectionFailureOrSuccess =

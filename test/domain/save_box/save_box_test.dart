@@ -90,9 +90,10 @@ void main() {
       //arrange
 
       //act
-      final result = saveBoxImpl.read<PrefsTest, String>(key: '');
+      // result;
       //assert
-      expect(() => result, throwsException);
+      expect(() => saveBoxImpl.read<PrefsTest, String>(key: ''),
+          throwsA(isA<Exception>()));
     });
   });
 }
