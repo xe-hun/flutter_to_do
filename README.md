@@ -6,6 +6,8 @@ A todo flutter mobile application.
 - would be updated as more features are added.
 - dynamically change theme.
 - can view all todo tasks.
+- view a single todo.
+- edit todo.
 - can add todo tasks.
 - show cases a buttom tab navigation.
 - complete and uncomplete todo (tick and untick).
@@ -23,8 +25,9 @@ Packages used Were:
  - **[Isar](https://pub.dev/packages/isar) :** A highspeed database storage used in storing persistent data.
  - **[build runner](https://pub.dev/packages/build_runner) :** Most packages require code generation and are therefore dependent on build runner
  - **[Mockito](https://pub.dev/packages/mockito) :** For mocking third party dependencies when testin the app.
+ - **[responsive_framework](https://pub.dev/packages/responsive_framework) :** For rescaling and resizing the app to fit different screen sizes
 
 ## Conclusion
 
  - The essence of this app was to showcase an app design, with scalability in mind, while using adequately powerful packages published on pub.dev to achieve this.
- - The app was also design to be testable with unit testing, and is being tested.
+ - The app is thoroughly unit tested.
