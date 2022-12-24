@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_to_do/application/task_page/task_page_bloc.dart';
+import 'package:flutter_to_do/domain/core/utils.dart';
+import 'package:flutter_to_do/presentation/core/custom_hooks.dart';
 
 class TextFieldWidget extends HookWidget {
   const TextFieldWidget(
@@ -12,6 +14,7 @@ class TextFieldWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final debounce = useDebounce();
     final focusNode = useFocusNode();
     final enableTextField = useState(false);
 
@@ -55,7 +58,9 @@ class TextFieldWidget extends HookWidget {
                   ),
                 ),
               ),
-              Center(child: _buildAddIconButton(context: context, icon: icon))
+              Center(
+                  child: _buildAddIconButton(
+                      context: context, icon: icon, debounce: debounce))
             ],
           ),
         ),
@@ -64,7 +69,9 @@ class TextFieldWidget extends HookWidget {
   }
 
   Widget _buildAddIconButton(
-      {required BuildContext context, required Icon icon}) {
+      {required BuildContext context,
+      required Icon icon,
+      required DebounceTimer debounce}) {
     return IconTheme(
       data: IconThemeData(
         size: 40,
@@ -74,7 +81,8 @@ class TextFieldWidget extends HookWidget {
           context: context,
           icon: icon,
           onPressed: () {
-            onAction();
+            debounce.delayActionMethod(
+                action: onAction, delayInMilliseconds: 1000);
           }),
     );
   }
